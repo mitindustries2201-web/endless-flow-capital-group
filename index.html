@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endless Flow Capital Group</title>
+  <meta name="description" content="Endless Flow Capital Group helps businesses capture leads, automate follow-up, route conversations, book appointments, and build AI-powered business systems." />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #030712;
+      color: white;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    #efcg-site {
+      --bg: #030712;
+      --panel: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: #94a3b8;
+      --soft: #cbd5e1;
+      --blue: #2563eb;
+      --cyan: #22d3ee;
+      --cyan-soft: #67e8f9;
+      --danger: #f87171;
+
+      background:
+        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.3), transparent 32%),
+        radial-gradient(circle at 85% 20%, rgba(34, 211, 238, 0.18), transparent 35%),
+        radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.14), transparent 38%),
+        var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    #efcg-site * {
+      box-sizing: border-box;
+    }
+
+    #efcg-site a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .ef-container {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .ef-section {
+      padding: 110px 0;
+      position: relative;
+    }
+
+    .ef-glass {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
+    }
+
+    .ef-gradient-text {
+      background: linear-gradient(135deg, #ffffff, #bfdbfe, #22d3ee, #e2e8f0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ef-eyebrow {
+      color: var(--cyan-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .ef-section-header {
+      max-width: 820px;
+      margin: 0 auto 58px;
+      text-align: center;
+    }
+
+    .ef-section-header h2 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      margin: 0;
+      font-weight: 900;
+    }
+
+    .ef-section-header p {
+      color: var(--soft);
+      font-size: 18px;
+      line-height: 1.75;
+      margin: 22px 0 0;
+    }
+
+    .ef-btn-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .ef-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 0 24px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 14px;
+      transition: 0.28s ease;
+      cursor: pointer;
+    }
+
+    .ef-btn-primary {
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #0891b2, #67e8f9);
+      box-shadow: 0 18px 52px rgba(14, 165, 233, 0.32);
+    }
+
+    .ef-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 28px 75px rgba(14, 165, 233, 0.48);
+    }
+
+    .ef-btn-secondary {
+      color: white;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .ef-btn-secondary:hover {
+      transform: translateY(-3px);
+      border-color: rgba(103,232,249,0.6);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .ef-card {
+      border-radius: 28px;
+      padding: 28px;
+      transition: 0.35s ease;
+    }
+
+    .ef-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(103, 232, 249, 0.45);
+      box-shadow: 0 35px 90px rgba(37, 99, 235, 0.16);
+    }
+
+    .ef-nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(3, 7, 18, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .ef-nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ef-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ef-logo-mark {
+      height: 44px;
+      width: 44px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      box-shadow: 0 0 30px rgba(34,211,238,0.25);
+    }
+
+    .ef-logo-title {
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .ef-logo-sub {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .ef-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .ef-nav-links a:hover {
+      color: var(--cyan-soft);
+    }
+
+    .ef-menu-btn {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: white;
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-weight: 900;
+    }
+
+    .ef-mobile-menu {
+      display: none;
+      padding: 0 0 18px;
+    }
+
+    .ef-mobile-menu a {
+      display: block;
+      padding: 12px 0;
+      color: #cbd5e1;
+      font-weight: 800;
+    }
+
+    .ef-hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 95px 0 90px;
+      position: relative;
+    }
+
+    .ef-grid-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.42;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    .ef-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(24px);
+      pointer-events: none;
+    }
+
+    .ef-orb-one {
+      width: 560px;
+      height: 560px;
+      left: -260px;
+      top: 120px;
+      background: radial-gradient(circle, rgba(37,99,235,0.38), transparent 70%);
+      animation: efFloat 8s ease-in-out infinite;
+    }
+
+    .ef-orb-two {
+      width: 440px;
+      height: 440px;
+      right: -190px;
+      bottom: -120px;
+      background: radial-gradient(circle, rgba(34,211,238,0.22), transparent 70%);
+      animation: efFloatReverse 10s ease-in-out infinite;
+    }
+
+    @keyframes efFloat {
+      0%, 100% { transform: translate(0,0); }
+      50% { transform: translate(18px,-28px); }
+    }
+
+    @keyframes efFloatReverse {
+      0%, 100% { transform: translate(0,0); }
+      50% { transform: translate(-18px,24px); }
+    }
+
+    .ef-hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.03fr 0.97fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .ef-hero-badge {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid rgba(103,232,249,0.22);
+      background: rgba(103,232,249,0.1);
+      color: #a5f3fc;
+      padding: 10px 16px;
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .ef-hero h1 {
+      font-size: clamp(46px, 7vw, 86px);
+      line-height: 0.96;
+      letter-spacing: -0.075em;
+      margin: 0;
+      font-weight: 900;
+    }
+
+    .ef-hero-copy {
+      color: var(--soft);
+      font-size: 19px;
+      line-height: 1.75;
+      max-width: 650px;
+      margin: 28px 0 34px;
+    }
+
+    .ef-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 560px;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .ef-stat {
+      text-align: center;
+      border-radius: 22px;
+      padding: 18px 14px;
+    }
+
+    .ef-stat strong {
+      display: block;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .ef-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 5px;
+    }
+
+    .ef-dashboard-wrap {
+      position: relative;
+    }
+
+    .ef-dashboard-glow {
+      position: absolute;
+      inset: -35px;
+      border-radius: 50px;
+      background: rgba(34,211,238,0.16);
+      filter: blur(40px);
+    }
+
+    .ef-dashboard {
+      position: relative;
+      border-radius: 34px;
+      padding: 24px;
+    }
+
+    .ef-dashboard-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .ef-dashboard-label {
+      color: var(--cyan-soft);
+      letter-spacing: 0.28em;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .ef-dashboard h3 {
+      margin: 8px 0 0;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .ef-live {
+      border-radius: 999px;
+      border: 1px solid rgba(74,222,128,0.28);
+      background: rgba(74,222,128,0.1);
+      color: #86efac;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 7px 12px;
+      white-space: nowrap;
+    }
+
+    .ef-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .ef-metric {
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+    }
+
+    .ef-metric span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ef-metric strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .ef-metric small {
+      color: var(--cyan-soft);
+      font-weight: 900;
+    }
+
+    .ef-flow-box {
+      margin-top: 18px;
+      border-radius: 26px;
+      background: rgba(3,7,18,0.62);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 20px;
+    }
+
+    .ef-flow-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: white;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .ef-flow-title span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .ef-activity {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.045);
+      padding: 13px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .ef-activity:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-110%);
+      background: linear-gradient(90deg, transparent, rgba(34,211,238,0.22), transparent);
+      animation: efScan 3s infinite;
+    }
+
+    @keyframes efScan {
+      to { transform: translateX(110%); }
+    }
+
+    .ef-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--cyan);
+      box-shadow: 0 0 28px rgba(34,211,238,0.7);
+      flex: 0 0 auto;
+    }
+
+    .ef-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .ef-mini {
+      border-radius: 24px;
+      border: 1px solid rgba(103,232,249,0.18);
+      background: rgba(103,232,249,0.08);
+      padding: 18px;
+    }
+
+    .ef-mini span {
+      color: #a5f3fc;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .ef-mini strong {
+      display: block;
+      font-size: 24px;
+      font-weight: 900;
+      margin-top: 7px;
+    }
+
+    .ef-trust {
+      padding: 26px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .ef-trust-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .ef-trust-item {
+      border-radius: 999px;
+      text-align: center;
+      color: #e2e8f0;
+      font-weight: 900;
+      font-size: 14px;
+      padding: 14px 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .ef-card-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .ef-grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ef-grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ef-grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .ef-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      margin-bottom: 20px;
+    }
+
+    .ef-card h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .ef-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 15px 0 0;
+    }
+
+    .ef-danger-icon {
+      display: grid;
+      place-items: center;
+      color: var(--danger);
+      background: rgba(248,113,113,0.1);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .ef-flowcore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .ef-orbit-box {
+      border-radius: 34px;
+      padding: 26px;
+    }
+
+    .ef-orbit {
+      height: 430px;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+
+    .ef-ring {
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .ef-ring-one {
+      width: 180px;
+      height: 180px;
+      border-color: rgba(103,232,249,0.22);
+    }
+
+    .ef-ring-two {
+      width: 285px;
+      height: 285px;
+    }
+
+    .ef-ring-three {
+      width: 390px;
+      height: 390px;
+    }
+
+    .ef-core {
+      position: relative;
+      width: 152px;
+      height: 152px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: rgba(34,211,238,0.1);
+      border: 1px solid rgba(103,232,249,0.38);
+      box-shadow: 0 0 62px rgba(34,211,238,0.26);
+    }
+
+    .ef-core strong {
+      display: block;
+      font-size: 40px;
+      font-weight: 900;
+    }
+
+    .ef-core span {
+      color: #a5f3fc;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .ef-node {
+      position: absolute;
+      border-radius: 17px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(18px);
+      padding: 10px 14px;
+      color: #e2e8f0;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .ef-node-1 { top: 12px; left: 50%; transform: translateX(-50%); }
+    .ef-node-2 { top: 58px; right: 14px; }
+    .ef-node-3 { bottom: 78px; right: 0; }
+    .ef-node-4 { bottom: 18px; left: 50%; transform: translateX(-50%); }
+    .ef-node-5 { bottom: 90px; left: 0; }
+    .ef-node-6 { top: 74px; left: 12px; }
+
+    .ef-ecosystem-box {
+      border-radius: 38px;
+      padding: 30px;
+    }
+
+    .ef-ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .ef-system-card {
+      border-radius: 26px;
+      background: rgba(3,7,18,0.58);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 24px;
+      transition: 0.32s ease;
+    }
+
+    .ef-system-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(103,232,249,0.45);
+    }
+
+    .ef-system-card span {
+      display: block;
+      color: var(--cyan-soft);
+      font-weight: 900;
+      font-size: 30px;
+      margin-bottom: 18px;
+    }
+
+    .ef-system-card h3 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .ef-line {
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      margin-top: 24px;
+    }
+
+    .ef-audit-box {
+      border-radius: 42px;
+      padding: 54px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ef-audit-box:before {
+      content: "";
+      position: absolute;
+      right: -120px;
+      top: -120px;
+      width: 380px;
+      height: 380px;
+      border-radius: 999px;
+      background: rgba(37,99,235,0.22);
+      filter: blur(48px);
+    }
+
+    .ef-audit-box:after {
+      content: "";
+      position: absolute;
+      left: -120px;
+      bottom: -120px;
+      width: 380px;
+      height: 380px;
+      border-radius: 999px;
+      background: rgba(34,211,238,0.16);
+      filter: blur(48px);
+    }
+
+    .ef-audit-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 44px;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .ef-audit-grid h2 {
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .ef-audit-grid p {
+      color: #cbd5e1;
+      font-size: 18px;
+      line-height: 1.75;
+      margin: 24px 0 32px;
+    }
+
+    .ef-question-box {
+      border-radius: 30px;
+      background: rgba(3,7,18,0.64);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 22px;
+    }
+
+    .ef-question {
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+      margin-bottom: 12px;
+      color: #e2e8f0;
+      font-weight: 800;
+    }
+
+    .ef-question:last-child {
+      margin-bottom: 0;
+    }
+
+    .ef-proof-card-visual {
+      height: 126px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background:
+        linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,64,175,0.42)),
+        radial-gradient(circle at 30% 20%, rgba(34,211,238,0.2), transparent 40%);
+      margin-bottom: 22px;
+    }
+
+    .ef-final {
+      background: linear-gradient(135deg, rgba(30,64,175,0.36), rgba(3,7,18,0.9), rgba(8,145,178,0.24));
+    }
+
+    .ef-final-box {
+      border-radius: 42px;
+      padding: 64px 42px;
+      text-align: center;
+    }
+
+    .ef-final-box h2 {
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      margin: 0;
+    }
+
+    .ef-final-box p {
+      color: #cbd5e1;
+      font-size: 18px;
+      line-height: 1.75;
+      max-width: 760px;
+      margin: 24px auto 34px;
+    }
+
+    .ef-footer {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      background: #020617;
+      padding: 52px 0 34px;
+    }
+
+    .ef-footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 34px;
+    }
+
+    .ef-footer p {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .ef-footer h4 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .ef-footer-links a {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .ef-footer-links a:hover {
+      color: var(--cyan-soft);
+    }
+
+    .ef-copyright {
+      margin-top: 36px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .ef-nav-links,
+      .ef-nav .ef-btn {
+        display: none;
+      }
+
+      .ef-menu-btn {
+        display: inline-flex;
+      }
+
+      .ef-mobile-menu.ef-open {
+        display: block;
+      }
+
+      .ef-hero-grid,
+      .ef-flowcore-grid,
+      .ef-audit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ef-trust-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ef-grid-2,
+      .ef-grid-3,
+      .ef-grid-4,
+      .ef-ecosystem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ef-footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .ef-container {
+        width: min(100% - 26px, 1180px);
+      }
+
+      .ef-section {
+        padding: 76px 0;
+      }
+
+      .ef-hero {
+        padding: 64px 0 72px;
+      }
+
+      .ef-btn-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .ef-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .ef-stats,
+      .ef-metrics,
+      .ef-mini-grid,
+      .ef-grid-2,
+      .ef-grid-3,
+      .ef-grid-4,
+      .ef-ecosystem-grid,
+      .ef-trust-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ef-dashboard,
+      .ef-audit-box,
+      .ef-final-box {
+        padding: 22px;
+      }
+
+      .ef-orbit {
+        height: 360px;
+      }
+
+      .ef-ring-three {
+        width: 310px;
+        height: 310px;
+      }
+
+      .ef-ring-two {
+        width: 235px;
+        height: 235px;
+      }
+
+      .ef-node {
+        font-size: 11px;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="efcg-site">
+    <div class="ef-grid-bg"></div>
+    <div class="ef-orb ef-orb-one"></div>
+    <div class="ef-orb ef-orb-two"></div>
+
+    <header class="ef-nav">
+      <div class="ef-container">
+        <div class="ef-nav-inner">
+          <a href="#home" class="ef-logo">
+            <div class="ef-logo-mark">EF</div>
+            <div>
+              <div class="ef-logo-title">Endless Flow</div>
+              <div class="ef-logo-sub">Capital Group</div>
+            </div>
+          </a>
+
+          <nav class="ef-nav-links">
+            <a href="#home">Home</a>
+            <a href="#flowcore">FlowCore AI</a>
+            <a href="#systems">Systems</a>
+            <a href="#services">Services</a>
+            <a href="#audit">Audit</a>
+            <a href="#contact">Contact</a>
+          </nav>
+
+          <a href="#audit" class="ef-btn ef-btn-primary">Book Free Audit</a>
+
+          <button class="ef-menu-btn" id="ef-menu-btn">Menu</button>
+        </div>
+
+        <div class="ef-mobile-menu" id="ef-mobile-menu">
+          <a href="#home">Home</a>
+          <a href="#flowcore">FlowCore AI</a>
+          <a href="#systems">Systems</a>
+          <a href="#services">Services</a>
+          <a href="#audit">Audit</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="ef-hero" id="home">
+        <div class="ef-container">
+          <div class="ef-hero-grid">
+            <div>
+              <div class="ef-hero-badge">AI-Powered Business Systems & Automation</div>
+
+              <h1 class="ef-gradient-text">
+                Build a Business That Flows Without the Chaos.
+              </h1>
+
+              <p class="ef-hero-copy">
+                Endless Flow Capital Group helps businesses capture leads, automate follow-up,
+                route conversations, book appointments, and turn scattered operations into one
+                intelligent growth system.
+              </p>
+
+              <div class="ef-btn-row">
+                <a href="#audit" class="ef-btn ef-btn-primary">Book Your Free AI Business Growth Audit</a>
+                <a href="#flowcore" class="ef-btn ef-btn-secondary">See How Endless Flow Works</a>
+              </div>
+
+              <div class="ef-stats">
+                <div class="ef-stat ef-glass">
+                  <strong>24/7</strong>
+                  <span>Lead Flow</span>
+                </div>
+                <div class="ef-stat ef-glass">
+                  <strong>AI</strong>
+                  <span>Routing</span>
+                </div>
+                <div class="ef-stat ef-glass">
+                  <strong>Zero</strong>
+                  <span>Dead Ends</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ef-dashboard-wrap">
+              <div class="ef-dashboard-glow"></div>
+
+              <div class="ef-dashboard ef-glass">
+                <div class="ef-dashboard-head">
+                  <div>
+                    <div class="ef-dashboard-label">FlowCore AI</div>
+                    <h3>Business Command Center</h3>
+                  </div>
+                  <div class="ef-live">Live Flow</div>
+                </div>
+
+                <div class="ef-metrics">
+                  <div class="ef-metric">
+                    <span>Leads</span>
+                    <strong>247</strong>
+                    <small>+31%</small>
+                  </div>
+                  <div class="ef-metric">
+                    <span>Booked</span>
+                    <strong>68</strong>
+                    <small>+18%</small>
+                  </div>
+                  <div class="ef-metric">
+                    <span>Follow-Up</span>
+                    <strong>1,420</strong>
+                    <small>Auto</small>
+                  </div>
+                </div>
+
+                <div class="ef-flow-box">
+                  <div class="ef-flow-title">
+                    Automation Flow
+                    <span>Routing active</span>
+                  </div>
+
+                  <div class="ef-activity">
+                    <div class="ef-dot"></div>
+                    Website visitor submitted audit form
+                  </div>
+
+                  <div class="ef-activity">
+                    <div class="ef-dot"></div>
+                    FlowCore detected service business intent
+                  </div>
+
+                  <div class="ef-activity">
+                    <div class="ef-dot"></div>
+                    Lead routed to booking calendar
+                  </div>
+
+                  <div class="ef-activity">
+                    <div class="ef-dot"></div>
+                    Automated follow-up sequence started
+                  </div>
+                </div>
+
+                <div class="ef-mini-grid">
+                  <div class="ef-mini">
+                    <span>Next Best Action</span>
+                    <strong>Book Audit</strong>
+                  </div>
+                  <div class="ef-mini">
+                    <span>System Health</span>
+                    <strong>Optimized</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-trust">
+        <div class="ef-container">
+          <div class="ef-trust-grid">
+            <div class="ef-trust-item">Lead Capture</div>
+            <div class="ef-trust-item">AI Follow-Up</div>
+            <div class="ef-trust-item">Smart Routing</div>
+            <div class="ef-trust-item">Automation</div>
+            <div class="ef-trust-item">Client Onboarding</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">The Real Problem</div>
+            <h2 class="ef-gradient-text">
+              Most Businesses Don’t Have a Lead Problem. They Have a Flow Problem.
+            </h2>
+            <p>
+              When every tool, message, lead, and follow-up lives in a different place,
+              opportunities disappear before they ever become revenue.
+            </p>
+          </div>
+
+          <div class="ef-card-grid ef-grid-3">
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Leads fall through the cracks</h3>
+              <p>When no system captures and organizes opportunities, money gets missed.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Follow-up is slow or inconsistent</h3>
+              <p>Most businesses lose prospects because the response process is not automatic.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Messages are scattered everywhere</h3>
+              <p>Facebook, Instagram, forms, calls, and texts need one connected flow.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Manual tasks waste valuable time</h3>
+              <p>Owners should not have to manually chase every lead and every next step.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Owners lack one connected system</h3>
+              <p>Disconnected tools create confusion, delays, and missed opportunities.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon ef-danger-icon">×</div>
+              <h3>Prospects are not routed correctly</h3>
+              <p>Every person should be guided to the right form, calendar, offer, or conversation.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section" id="flowcore">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">The Intelligent Front Door</div>
+            <h2 class="ef-gradient-text">Meet FlowCore AI</h2>
+            <p>
+              FlowCore AI helps route visitors, leads, messages, and prospects into the right journey.
+              It acts like a smart entry point that understands where people are coming from and guides
+              them toward the right action.
+            </p>
+          </div>
+
+          <div class="ef-flowcore-grid">
+            <div class="ef-orbit-box ef-glass">
+              <div class="ef-orbit">
+                <div class="ef-ring ef-ring-one"></div>
+                <div class="ef-ring ef-ring-two"></div>
+                <div class="ef-ring ef-ring-three"></div>
+
+                <div class="ef-core">
+                  <div>
+                    <strong>AI</strong>
+                    <span>FlowCore</span>
+                  </div>
+                </div>
+
+                <div class="ef-node ef-node-1">Lead</div>
+                <div class="ef-node ef-node-2">Message</div>
+                <div class="ef-node ef-node-3">Booking</div>
+                <div class="ef-node ef-node-4">CRM</div>
+                <div class="ef-node ef-node-5">Follow-Up</div>
+                <div class="ef-node ef-node-6">Audit</div>
+              </div>
+            </div>
+
+            <div class="ef-card-grid ef-grid-2">
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Detects Lead Intent</h3>
+                <p>Understands what the visitor needs and what action should happen next.</p>
+              </div>
+
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Routes Prospects</h3>
+                <p>Sends each prospect toward the right form, calendar, or follow-up path.</p>
+              </div>
+
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Triggers Automation</h3>
+                <p>Starts the correct backend workflow without needing manual chasing.</p>
+              </div>
+
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Organizes Conversations</h3>
+                <p>Keeps the business from losing track of messages across channels.</p>
+              </div>
+
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Supports Follow-Up</h3>
+                <p>Helps the business respond faster and stay consistent after the first touch.</p>
+              </div>
+
+              <div class="ef-card ef-glass">
+                <div class="ef-card-icon"></div>
+                <h3>Reduces Dead Ends</h3>
+                <p>Every click, form, and CTA should move the visitor somewhere meaningful.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section" id="systems">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">Connected Growth System</div>
+            <h2 class="ef-gradient-text">One Connected Ecosystem for Business Growth.</h2>
+            <p>
+              Endless Flow brings your website, forms, booking, CRM, AI messaging, onboarding,
+              and follow-up into a single operating flow.
+            </p>
+          </div>
+
+          <div class="ef-ecosystem-box ef-glass">
+            <div class="ef-ecosystem-grid">
+              <div class="ef-system-card">
+                <span>01</span>
+                <h3>Website Funnels</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>02</span>
+                <h3>Lead Forms</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>03</span>
+                <h3>Booking Calendars</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>04</span>
+                <h3>Automated Follow-Up</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>05</span>
+                <h3>CRM Organization</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>06</span>
+                <h3>AI Messaging</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>07</span>
+                <h3>Client Onboarding</h3>
+                <div class="ef-line"></div>
+              </div>
+
+              <div class="ef-system-card">
+                <span>08</span>
+                <h3>Sales Pipelines</h3>
+                <div class="ef-line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section" id="services">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">Premium System Architecture</div>
+            <h2 class="ef-gradient-text">Systems Built Around the Way Your Business Actually Grows.</h2>
+            <p>
+              Not basic services. Not random tools. Endless Flow designs business infrastructure
+              that captures, routes, follows up, and converts.
+            </p>
+          </div>
+
+          <div class="ef-card-grid ef-grid-3">
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>AI Business Audit</h3>
+              <p>Identify where your business is leaking leads, time, money, and momentum.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Lead Capture Systems</h3>
+              <p>Turn traffic, clicks, and conversations into organized business opportunities.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Automated Follow-Up</h3>
+              <p>Keep prospects moving with intelligent reminders, messages, and nurture flows.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>CRM & Pipeline Setup</h3>
+              <p>Organize every lead, deal, appointment, conversation, and opportunity.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Booking Automation</h3>
+              <p>Route interested prospects directly into the right calendar and next step.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Client Onboarding</h3>
+              <p>Create a cleaner experience after someone becomes a customer.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section" id="audit">
+        <div class="ef-container">
+          <div class="ef-audit-box ef-glass">
+            <div class="ef-audit-grid">
+              <div>
+                <div class="ef-eyebrow">Free Starting Point</div>
+                <h2 class="ef-gradient-text">
+                  Start With a Free AI Business Growth Audit.
+                </h2>
+                <p>
+                  Before we build anything, we identify where your business is leaking time,
+                  leads, money, and momentum. The audit helps us understand your current systems,
+                  your goals, your bottlenecks, and the best automation path for your business.
+                </p>
+
+                <a href="#audit" class="ef-btn ef-btn-primary">
+                  Book Your Free AI Business Growth Audit
+                </a>
+              </div>
+
+              <div class="ef-question-box">
+                <div class="ef-question">Where are leads currently coming from?</div>
+                <div class="ef-question">How fast is follow-up happening?</div>
+                <div class="ef-question">Where are prospects getting stuck?</div>
+                <div class="ef-question">What can be automated immediately?</div>
+                <div class="ef-question">What system should be built next?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">Preview the Flow</div>
+            <h2 class="ef-gradient-text">See the System Before You Commit.</h2>
+            <p>
+              Endless Flow Capital Group can demonstrate how lead capture, AI routing,
+              follow-up, booking, and onboarding work together before a business makes a full decision.
+            </p>
+          </div>
+
+          <div class="ef-card-grid ef-grid-4">
+            <div class="ef-card ef-glass">
+              <div class="ef-proof-card-visual"></div>
+              <h3>Live System Demo</h3>
+              <p>A guided preview of the complete Endless Flow ecosystem.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-proof-card-visual"></div>
+              <h3>Automation Walkthrough</h3>
+              <p>See how backend workflows move leads without manual chasing.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-proof-card-visual"></div>
+              <h3>Funnel Preview</h3>
+              <p>Preview the journey from visitor to lead to booked opportunity.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-proof-card-visual"></div>
+              <h3>Follow-Up Flow Preview</h3>
+              <p>See how prospects are nurtured after they show interest.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section">
+        <div class="ef-container">
+          <div class="ef-section-header">
+            <div class="ef-eyebrow">Who It Is Built For</div>
+            <h2 class="ef-gradient-text">
+              Built for Business Owners, Founders, Creators, and Educators.
+            </h2>
+            <p>
+              Endless Flow supports people who want to grow, teach, sell, serve,
+              and scale using smarter systems.
+            </p>
+          </div>
+
+          <div class="ef-card-grid ef-grid-3">
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Business Owner</h3>
+              <p>Capture attention, follow up faster, and keep opportunities organized.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Service Provider</h3>
+              <p>Turn inquiries into booked calls, quotes, consultations, and next steps.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Founder</h3>
+              <p>Build the operating foundation before scaling traffic, sales, and delivery.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Creator</h3>
+              <p>Convert attention into leads, conversations, offers, and automated follow-up.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Educator</h3>
+              <p>Organize interest, route students, and support learning-based offers.</p>
+            </div>
+
+            <div class="ef-card ef-glass">
+              <div class="ef-card-icon"></div>
+              <h3>Consultant</h3>
+              <p>Create a premium client journey from inquiry to booking to onboarding.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ef-section ef-final" id="contact">
+        <div class="ef-container">
+          <div class="ef-final-box ef-glass">
+            <h2 class="ef-gradient-text">
+              Your Business Does Not Need More Chaos. It Needs Flow.
+            </h2>
+
+            <p>
+              Let’s identify what is broken, what can be automated,
+              and what system your business needs next.
+            </p>
+
+            <a href="#audit" class="ef-btn ef-btn-primary">
+              Book Your Free AI Business Growth Audit
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ef-footer">
+      <div class="ef-container">
+        <div class="ef-footer-grid">
+          <div>
+            <a href="#home" class="ef-logo">
+              <div class="ef-logo-mark">EF</div>
+              <div>
+                <div class="ef-logo-title">Endless Flow</div>
+                <div class="ef-logo-sub">Capital Group</div>
+              </div>
+            </a>
+
+            <p>
+              AI-powered business systems, automation, lead capture, follow-up,
+              and growth infrastructure for modern businesses.
+            </p>
+          </div>
+
+          <div>
+            <h4>Explore</h4>
+            <div class="ef-footer-links">
+              <a href="#home">Home</a>
+              <a href="#services">Services</a>
+              <a href="#flowcore">FlowCore AI</a>
+              <a href="#audit">Audit</a>
+            </div>
+          </div>
+
+          <div>
+            <h4>Connect</h4>
+            <div class="ef-footer-links">
+              <a href="#audit">Book Free Audit</a>
+              <a href="#">Instagram</a>
+              <a href="#">Facebook</a>
+              <a href="#contact">Contact</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="ef-copyright">
+          © 2026 Endless Flow Capital Group. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var menuButton = document.getElementById("ef-menu-btn");
+      var mobileMenu = document.getElementById("ef-mobile-menu");
+
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("ef-open");
+        });
+      }
+    });
+  </script>
+</body>
+</html>
