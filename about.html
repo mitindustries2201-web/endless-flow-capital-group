@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Endless Flow Capital Group</title>
+  <meta name="description" content="Endless Flow Capital Group builds AI-powered business operating systems. Based in Marietta, GA. From scattered effort to structured flow." />
+  <meta property="og:title" content="About — Endless Flow Capital Group" />
+  <meta property="og:description" content="We build precision AI systems that replace scattered tools with structured, automated flow." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/about.html" />
+  <meta property="og:image" content="https://yourdomain.com/og-image.png" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-about-split { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+    .ef-values-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+    .ef-value-card { background:rgba(8,13,31,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px 24px; transition:all 0.25s ease; }
+    .ef-value-card:hover { border-color:rgba(119,215,255,0.18); transform:translateY(-3px); }
+    .ef-value-icon { font-size:1.8rem; margin-bottom:14px; display:block; }
+    .ef-value-title { font-size:1rem; font-weight:800; color:#eef3ff; margin-bottom:8px; }
+    .ef-value-desc  { font-size:0.87rem; color:#9aa9c9; line-height:1.68; }
+    .ef-eco-card  { background:rgba(8,13,31,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:28px 24px; transition:all 0.3s ease; }
+    .ef-eco-card:hover { border-color:rgba(119,215,255,0.18); transform:translateY(-4px); }
+    .ef-eco-icon  { font-size:2rem; margin-bottom:16px; display:block; }
+    .ef-eco-name  { font-size:1rem; font-weight:800; color:#eef3ff; margin-bottom:8px; }
+    .ef-eco-desc  { font-size:0.87rem; color:#9aa9c9; line-height:1.68; }
+    .ef-eco-grid  { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .ef-location-card { background:rgba(8,13,31,0.55); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:28px 32px; display:flex; align-items:center; gap:24px; }
+    .ef-location-icon { font-size:2.5rem; flex-shrink:0; }
+    .ef-location-info h4 { font-size:1rem; font-weight:800; color:#eef3ff; margin-bottom:6px; }
+    .ef-location-info p  { font-size:0.88rem; color:#9aa9c9; line-height:1.6; }
+    .ef-cta-section { position:relative; overflow:hidden; padding:100px 24px; background:linear-gradient(180deg,#040714 0%,#071126 50%,#040714 100%); }
+    .ef-cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:800px; height:600px; background:radial-gradient(ellipse,rgba(119,215,255,0.07) 0%,rgba(139,92,246,0.05) 40%,transparent 70%); pointer-events:none; }
+    .ef-cta-inner { position:relative; z-index:1; max-width:680px; margin:0 auto; text-align:center; }
+    .ef-cta-title { font-size:clamp(2rem,4vw,3rem); font-weight:900; letter-spacing:-0.02em; line-height:1.1; margin-bottom:18px; }
+    .ef-cta-sub   { font-size:1rem; color:#9aa9c9; line-height:1.72; margin-bottom:36px; }
+    @media(max-width:900px){
+      .ef-about-split { grid-template-columns:1fr; gap:40px; }
+      .ef-eco-grid    { grid-template-columns:1fr; }
+      .ef-values-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+
+  <div id="ef-nav-mount"></div>
+
+  <!-- HERO -->
+  <div class="ef-page-hero">
+    <div class="ef-badge ef-reveal"><span class="ef-badge-dot"></span>Our Story</div>
+    <h1 class="ef-page-hero-title ef-reveal ef-d1">
+      Built for the Business That<br>
+      <span class="ef-cyan">Refuses to Stay Small</span>
+    </h1>
+    <p class="ef-page-hero-sub ef-reveal ef-d2">
+      Endless Flow Capital Group exists because too many ambitious businesses are operating on infrastructure that can&rsquo;t support their ambitions. We built the fix.
+    </p>
+  </div>
+
+  <hr class="ef-divider" />
+
+  <!-- MISSION -->
+  <section class="ef-section">
+    <div class="ef-about-split">
+      <div class="ef-reveal">
+        <div class="ef-section-label">Our Mission</div>
+        <h2 class="ef-section-title">From Scattered Effort<br>to <span class="ef-cyan">Structured Flow</span></h2>
+        <p style="color:#9aa9c9;font-size:1rem;line-height:1.78;margin-bottom:24px;">
+          Endless Flow Capital Group was built on a simple observation: most businesses have big ambitions but operate on infrastructure that can&rsquo;t support them. Leads come in and disappear. Follow-up is inconsistent. Automation is a word that gets thrown around &mdash; but rarely built with precision.
+        </p>
+        <p style="color:#9aa9c9;font-size:1rem;line-height:1.78;margin-bottom:24px;">
+          We exist to close that gap. We build complete AI-powered business operating systems &mdash; designed to work together as one unified infrastructure &mdash; so you can stop managing tools and start running a real business.
+        </p>
+        <p style="color:#9aa9c9;font-size:1rem;line-height:1.78;">
+          Every system we build starts with the AI Business Audit. Because precision starts with understanding exactly where you are, not where a template assumes you should be.
+        </p>
+      </div>
+      <div class="ef-reveal ef-d2">
+        <div class="ef-glass-card">
+          <div style="font-size:0.72rem;font-weight:700;color:#77d7ff;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:20px;">What We Believe</div>
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div style="display:flex;gap:12px;">
+              <span style="color:#77d7ff;font-weight:700;flex-shrink:0;">01</span>
+              <div><div style="font-size:0.92rem;font-weight:700;color:#eef3ff;margin-bottom:4px;">Every business deserves enterprise-grade infrastructure</div><div style="font-size:0.84rem;color:#9aa9c9;line-height:1.6;">Not just the ones with large budgets or dedicated tech teams.</div></div>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <span style="color:#8b5cf6;font-weight:700;flex-shrink:0;">02</span>
+              <div><div style="font-size:0.92rem;font-weight:700;color:#eef3ff;margin-bottom:4px;">Systems should work even when you&rsquo;re not</div><div style="font-size:0.84rem;color:#9aa9c9;line-height:1.6;">Automation isn&rsquo;t a luxury. It&rsquo;s the foundation of a scalable business.</div></div>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <span style="color:#f8d27c;font-weight:700;flex-shrink:0;">03</span>
+              <div><div style="font-size:0.92rem;font-weight:700;color:#eef3ff;margin-bottom:4px;">Precision beats speed</div><div style="font-size:0.84rem;color:#9aa9c9;line-height:1.6;">We map before we build. The audit isn&rsquo;t a formality &mdash; it&rsquo;s the most important step.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <!-- WHAT WE BUILD -->
+  <section class="ef-section">
+    <div class="ef-section-label ef-center">Endless Flow Systems</div>
+    <h2 class="ef-section-title ef-center ef-reveal">What We <span class="ef-violet">Build</span></h2>
+    <p class="ef-section-sub ef-center ef-reveal">Three core systems that function as one unified operating layer &mdash; from customer acquisition to retention, all powered by FlowCore AI.</p>
+    <div class="ef-eco-grid">
+      <div class="ef-eco-card ef-reveal">
+        <span class="ef-eco-icon">&#128101;</span>
+        <div class="ef-eco-name">CRM + Pipeline System</div>
+        <p class="ef-eco-desc">Your complete contact management engine. Capture leads, segment audiences, manage deals, and track every interaction from first touch to closed client.</p>
+      </div>
+      <div class="ef-eco-card ef-reveal ef-d1">
+        <span class="ef-eco-icon">&#9889;</span>
+        <div class="ef-eco-name">FlowCore AI Routing</div>
+        <p class="ef-eco-desc">The intelligent command center of every system we build. Routes inbound leads, triggers workflows, and ensures every signal gets the right response at the right time.</p>
+      </div>
+      <div class="ef-eco-card ef-reveal ef-d2">
+        <span class="ef-eco-icon">&#128200;</span>
+        <div class="ef-eco-name">Automation Engine</div>
+        <p class="ef-eco-desc">Email sequences, SMS follow-ups, missed-call text-back, booking confirmations, onboarding flows, and review requests &mdash; all automated, all connected.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <!-- VALUES -->
+  <section class="ef-section">
+    <div class="ef-section-label ef-center">Our Approach</div>
+    <h2 class="ef-section-title ef-center ef-reveal">How We <span class="ef-gold">Think</span></h2>
+    <p class="ef-section-sub ef-center ef-reveal">Four principles that shape every system we build.</p>
+    <div class="ef-values-grid">
+      <div class="ef-value-card ef-reveal">
+        <span class="ef-value-icon">&#128269;</span>
+        <div class="ef-value-title">Precision Over Speed</div>
+        <p class="ef-value-desc">Every system is mapped through the AI Business Audit before we build a single workflow. We know what you have, what you need, and what will actually move the needle.</p>
+      </div>
+      <div class="ef-value-card ef-reveal ef-d1">
+        <span class="ef-value-icon">&#127959;</span>
+        <div class="ef-value-title">Infrastructure Over Templates</div>
+        <p class="ef-value-desc">We don&rsquo;t copy-paste generic setups. Every pipeline, automation, and AI routing configuration is built for your specific business stage, audience, and goals.</p>
+      </div>
+      <div class="ef-value-card ef-reveal ef-d2">
+        <span class="ef-value-icon">&#9889;</span>
+        <div class="ef-value-title">Automation Over Manual</div>
+        <p class="ef-value-desc">Your business should operate even when you&rsquo;re not watching. We build systems that run the follow-up, the bookings, the onboarding &mdash; so you can focus on growth.</p>
+      </div>
+      <div class="ef-value-card ef-reveal ef-d3">
+        <span class="ef-value-icon">&#127807;</span>
+        <div class="ef-value-title">Flow Over Friction</div>
+        <p class="ef-value-desc">Every touchpoint in your business should move your client closer to yes. We remove the gaps, dead ends, and manual handoffs that kill momentum and lose revenue.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <!-- LOCATION -->
+  <section class="ef-section" style="padding-top:48px;padding-bottom:48px;">
+    <div class="ef-location-card ef-reveal">
+      <div class="ef-location-icon">&#128205;</div>
+      <div class="ef-location-info">
+        <h4>Based in Marietta, GA &middot; Serving Businesses Everywhere</h4>
+        <p>Endless Flow Capital Group is headquartered in Marietta, Georgia. We serve founders, creators, service providers, and growing businesses across the US through our AI-powered remote build process.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <!-- CTA -->
+  <section class="ef-cta-section">
+    <div class="ef-cta-glow"></div>
+    <div class="ef-cta-inner ef-reveal">
+      <div class="ef-badge" style="margin:0 auto 24px;"><span class="ef-badge-dot"></span>Free &middot; No Obligation</div>
+      <h2 class="ef-cta-title">Ready to Build the System<br><span class="ef-cyan">Your Business Deserves?</span></h2>
+      <p class="ef-cta-sub">Start with the AI Business Audit. Tell us where you are, what you need, and where your flow is breaking. We&rsquo;ll map the right next step &mdash; package or service, precision-built for your stage.</p>
+      <a href="audit.html" class="ef-btn-primary" style="font-size:1.05rem;padding:18px 44px;">&#9889; Start Your AI Business Audit</a>
+    </div>
+  </section>
+
+  <div id="ef-footer-mount"></div>
+</div>
+<script src="nav.js"></script>
+<!-- GHL CHAT WIDGET -->
+</body>
+</html>
