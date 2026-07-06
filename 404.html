@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Endless Flow Capital Group</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-404-wrap {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 100px 24px 60px;
+    }
+    .ef-404-num {
+      font-size: clamp(6rem, 18vw, 14rem);
+      font-weight: 900; line-height: 1;
+      background: linear-gradient(135deg, #77d7ff 0%, #8b5cf6 50%, #f8d27c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 24px;
+      letter-spacing: -0.04em; opacity: 0.85;
+    }
+    .ef-404-title { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .ef-404-sub   { font-size: 1rem; color: #9aa9c9; line-height: 1.72; max-width: 480px; margin: 0 auto 40px; }
+    .ef-404-btns  { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .ef-404-icon  { font-size: 1.5rem; margin-bottom: 16px; display: block; opacity: 0.6; }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+
+  <div id="ef-nav-mount"></div>
+
+  <div class="ef-404-wrap">
+    <img src="logo.png" alt="Endless Flow Capital Group"
+      style="height:40px;width:auto;display:block;margin:0 auto 32px;"
+      onerror="this.style.display='none'" />
+
+    <span class="ef-404-icon">&#128404;</span>
+    <div class="ef-404-num">404</div>
+    <h1 class="ef-404-title">
+      This Page Went <span class="ef-cyan">Off-Grid</span>
+    </h1>
+    <p class="ef-404-sub">
+      The page you&rsquo;re looking for doesn&rsquo;t exist &mdash; but the system you need does.
+      Let&rsquo;s get you back on track.
+    </p>
+    <div class="ef-404-btns">
+      <a href="index.html" class="ef-btn-secondary">&larr; Back to Home</a>
+      <a href="audit.html" class="ef-btn-primary">&#9889; Start Your AI Business Audit</a>
+    </div>
+
+    <p style="font-size:0.72rem;color:rgba(119,215,255,0.3);text-transform:uppercase;letter-spacing:0.12em;margin-top:48px;">
+      &#9650; Powered by FlowCore AI &middot; Endless Flow Systems
+    </p>
+  </div>
+
+</div>
+<script src="nav.js"></script>
+</body>
+</html>
