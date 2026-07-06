@@ -1,0 +1,148 @@
+<!--
+  ====================================================
+  RETROFIT INSTRUCTIONS for index.html and audit.html
+  ====================================================
+
+  STEP 1: Replace the <head> block in both files with this:
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- PAGE-SPECIFIC: change title + description per page -->
+  <title>Endless Flow Capital Group — AI Business Operating Systems</title>
+  <meta name="description" content="Precision-built AI automation systems for founders, creators, and growing businesses. CRM, automation, FlowCore AI routing, and complete ecosystem builds." />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Endless Flow Capital Group — AI Business Operating Systems" />
+  <meta property="og:description" content="From lead capture to full ecosystem automation. No guesswork. Precision-built for your business stage." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://yourdomain.com/" />
+  <meta property="og:image"       content="https://yourdomain.com/og-image.png" />
+  <meta property="og:site_name"   content="Endless Flow Capital Group" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Endless Flow Capital Group" />
+  <meta name="twitter:description" content="AI-powered business operating systems. Start with the AI Business Audit." />
+  <meta name="twitter:image"       content="https://yourdomain.com/og-image.png" />
+
+  <!-- Favicon + PWA -->
+  <link rel="icon"             href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="manifest"         href="manifest.json" />
+  <meta name="theme-color"     content="#040714" />
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- NOTE: Remove all the old <style> block from both files.
+       Keep only page-specific styles in a new <style> tag below if needed. -->
+</head>
+
+<!--
+  STEP 2: Replace the old embedded <nav> block in both files with:
+-->
+<div id="ef-nav-mount"></div>
+
+<!--
+  STEP 3: Replace the old embedded footer in both files with:
+-->
+<div id="ef-footer-mount"></div>
+
+<!--
+  STEP 4: Before the closing </body> tag, replace old nav/canvas JS with:
+-->
+<script src="nav.js"></script>
+
+<!--
+  STEP 5 (audit.html only): Update the form tag for Netlify capture:
+  Change: <form class="ef-form" id="efAuditForm" novalidate>
+  To:
+-->
+<form
+  class="ef-form"
+  id="efAuditForm"
+  name="ai-business-audit"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  novalidate
+>
+  <input type="hidden" name="form-name" value="ai-business-audit" />
+  <input type="hidden" name="bot-field" style="display:none" aria-hidden="true" />
+  <!-- ... rest of form fields unchanged ... -->
+
+<!--
+  STEP 6 (audit.html only): Replace the setTimeout submit block in JS with:
+-->
+<script>
+  /* ===== AUDIT FORM: GHL WEBHOOK + NETLIFY DUAL-SUBMIT ===== */
+  var GHL_WEBHOOK = 'YOUR_GHL_WEBHOOK_URL_HERE';
+  /* To get your GHL webhook URL:
+     1. GHL → Automation → Workflows → New Workflow
+     2. Set trigger: "Inbound Webhook"
+     3. Copy the webhook URL and paste it above */
+
+  var form      = document.getElementById('efAuditForm');
+  var submitBtn = document.getElementById('efSubmitBtn');
+  var formState = document.getElementById('efFormState');
+
+  form.addEventListener('input', function(e) { e.target.classList.remove('ef-error'); }, true);
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var req = form.querySelectorAll('[required]'), ok = true, bad = null;
+    for (var i = 0; i < req.length; i++) {
+      if (!req[i].value.trim()) { req[i].classList.add('ef-error'); ok = false; if (!bad) bad = req[i]; }
+    }
+    if (!ok) { if (bad) { bad.scrollIntoView({behavior:'smooth',block:'center'}); bad.focus(); } return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    /* Collect form data */
+    var data = {
+      firstName:    document.getElementById('efFN').value,
+      lastName:     document.getElementById('efLN').value,
+      email:        document.getElementById('efEmail').value,
+      phone:        document.getElementById('efPhone').value,
+      businessName: document.getElementById('efBiz').value,
+      describe:     document.getElementById('efDescribe').value,
+      needMost:     document.getElementById('efNeed').value,
+      package:      document.getElementById('efPkg').value,
+      bottleneck:   document.getElementById('efBottle').value,
+      hasWebsite:   document.getElementById('efWeb').value,
+      hasCrm:       document.getElementById('efCRM').value,
+      timeline:     document.getElementById('efTime').value,
+      budget:       document.getElementById('efBudget').value,
+      anythingElse: document.getElementById('efExtra').value
+    };
+
+    /* 1. Submit to Netlify Forms (backup capture) */
+    var netlifyBody = new URLSearchParams();
+    netlifyBody.append('form-name', 'ai-business-audit');
+    Object.keys(data).forEach(function(k) { netlifyBody.append(k, data[k]); });
+    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:netlifyBody.toString() })
+      .catch(function() {});
+
+    /* 2. Submit to GHL Webhook (creates contact + triggers workflow) */
+    if (GHL_WEBHOOK !== 'YOUR_GHL_WEBHOOK_URL_HERE') {
+      fetch(GHL_WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) })
+        .catch(function() {});
+    }
+
+    /* 3. Redirect to thank-you page */
+    setTimeout(function() { window.location.href = 'thank-you.html'; }, 900);
+  });
+</script>
+
+<!--
+  STEP 7 (all pages): Paste your GHL chat widget embed code
+  just before the closing </body> tag, after nav.js:
+  GHL → Settings → Chat Widget → Get Code → Copy + paste here
+-->
+<!-- GHL CHAT WIDGET — paste embed code below -->
+<!-- <script src="https://widgets.leadconnectorhq.com/loader.js" ... ></script> -->
+
+    
