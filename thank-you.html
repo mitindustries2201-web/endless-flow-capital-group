@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audit Received — Endless Flow Capital Group</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-ty-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:100px 24px 60px; }
+    .ef-ty-card { background:rgba(8,13,31,0.78); border:1px solid rgba(119,215,255,0.15); border-radius:36px; padding:64px 56px; position:relative; overflow:hidden; backdrop-filter:blur(24px); max-width:680px; width:100%; text-align:center; box-shadow:0 0 80px rgba(119,215,255,0.07),0 0 140px rgba(139,92,246,0.05),0 40px 80px rgba(0,0,0,0.5); }
+    .ef-ty-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,#77d7ff 35%,#8b5cf6 65%,transparent); }
+    .ef-ty-card::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% -5%,rgba(119,215,255,0.06) 0%,transparent 60%); pointer-events:none; }
+    .ef-ty-icon { font-size:4rem; display:block; margin-bottom:24px; animation:ef-pop 0.7s cubic-bezier(0.175,0.885,0.32,1.275) both; }
+    .ef-ty-title { font-size:clamp(1.8rem,4vw,2.6rem); font-weight:900; color:#77d7ff; margin-bottom:18px; letter-spacing:-0.02em; }
+    .ef-ty-sub   { font-size:1rem; color:#9aa9c9; line-height:1.75; max-width:480px; margin:0 auto 40px; }
+    .ef-steps-mini { display:flex; flex-direction:column; gap:14px; margin-bottom:40px; text-align:left; }
+    .ef-step-mini  { display:flex; align-items:flex-start; gap:16px; background:rgba(4,7,20,0.5); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:16px 18px; }
+    .ef-step-mini-num  { width:28px; height:28px; border-radius:50%; background:rgba(119,215,255,0.1); border:1px solid rgba(119,215,255,0.2); display:flex; align-items:center; justify-content:center; font-size:0.78rem; font-weight:800; color:#77d7ff; flex-shrink:0; }
+    .ef-step-mini-text { font-size:0.88rem; color:#9aa9c9; line-height:1.55; }
+    .ef-step-mini-text strong { color:#eef3ff; display:block; margin-bottom:3px; }
+    .ef-ty-powered { font-size:0.68rem; color:rgba(119,215,255,0.35); text-transform:uppercase; letter-spacing:0.14em; margin-top:20px; }
+    @media(max-width:640px){ .ef-ty-card{ padding:36px 24px; } }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+  <div id="ef-nav-mount"></div>
+
+  <div class="ef-ty-wrap">
+    <div class="ef-ty-card">
+      <img src="logo.png" alt="Endless Flow Capital Group"
+        style="height:44px;width:auto;display:block;margin:0 auto 24px;"
+        onerror="this.style.display='none'" />
+
+      <span class="ef-ty-icon">&#9889;</span>
+      <div class="ef-ty-title">Your Audit Is In.</div>
+      <p class="ef-ty-sub">
+        Thank you for submitting your AI Business Audit with Endless Flow Capital Group.
+        We received your information and will review your business stage, package interest,
+        and best next step. Our goal is to help you move from scattered effort into structured flow.
+      </p>
+
+      <div class="ef-steps-mini">
+        <div class="ef-step-mini">
+          <div class="ef-step-mini-num">01</div>
+          <div class="ef-step-mini-text">
+            <strong>We Review Your Audit</strong>
+            Our team reviews your answers within 24 hours and maps your business stage, gaps, and best-fit system.
+          </div>
+        </div>
+        <div class="ef-step-mini">
+          <div class="ef-step-mini-num">02</div>
+          <div class="ef-step-mini-text">
+            <strong>We Send Your Recommendation</strong>
+            We&rsquo;ll reach out via email or phone with a precise package or service recommendation &mdash; no generic pitch, just what fits.
+          </div>
+        </div>
+        <div class="ef-step-mini">
+          <div class="ef-step-mini-num">03</div>
+          <div class="ef-step-mini-text">
+            <strong>We Build &amp; You Flow</strong>
+            Once you approve, we build your complete system and hand it off with documentation &mdash; so your business starts flowing.
+          </div>
+        </div>
+      </div>
+
+      <a href="index.html" class="ef-btn-secondary" style="display:inline-flex;margin:0 auto;">
+        &larr; Back to Home
+      </a>
+
+      <div class="ef-ty-powered">&#9650; Powered by FlowCore AI Routing &middot; Endless Flow Systems</div>
+    </div>
+  </div>
+
+  <div id="ef-footer-mount"></div>
+</div>
+<script src="nav.js"></script>
+<!-- GHL CHAT WIDGET -->
+</body>
+</html>
