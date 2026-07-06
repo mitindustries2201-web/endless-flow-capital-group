@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Endless Flow Capital Group</title>
+  <meta name="description" content="Get in touch with Endless Flow Capital Group. We respond within 24 hours. Or start directly with the AI Business Audit for the fastest path to your recommendation." />
+  <meta property="og:title" content="Contact — Endless Flow Capital Group" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/contact.html" />
+  <meta property="og:image" content="https://yourdomain.com/og-image.png" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-contact-grid { display:grid; grid-template-columns:1.2fr 0.8fr; gap:48px; align-items:start; }
+    .ef-contact-card { background:rgba(8,13,31,0.78); border:1px solid rgba(255,255,255,0.09); border-radius:32px; padding:48px 44px; position:relative; overflow:hidden; backdrop-filter:blur(24px); box-shadow:0 0 80px rgba(119,215,255,0.06); }
+    .ef-contact-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,#77d7ff 35%,#8b5cf6 65%,transparent); }
+    .ef-contact-card::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% -5%,rgba(119,215,255,0.05) 0%,transparent 60%); pointer-events:none; }
+    .ef-info-stack { display:flex; flex-direction:column; gap:20px; }
+    .ef-info-card { background:rgba(8,13,31,0.6); border:1px solid rgba(255,255,255,0.07); border-radius:18px; padding:22px 22px; }
+    .ef-info-card-icon { font-size:1.4rem; margin-bottom:10px; display:block; }
+    .ef-info-card-title { font-size:0.82rem; font-weight:700; color:#77d7ff; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; }
+    .ef-info-card-text  { font-size:0.88rem; color:#9aa9c9; line-height:1.6; }
+    .ef-audit-nudge { background:rgba(119,215,255,0.05); border:1px solid rgba(119,215,255,0.14); border-radius:18px; padding:22px 22px; }
+    .ef-audit-nudge-title { font-size:0.9rem; font-weight:800; color:#eef3ff; margin-bottom:8px; }
+    .ef-audit-nudge-text  { font-size:0.84rem; color:#9aa9c9; line-height:1.6; margin-bottom:14px; }
+    .ef-ty-card { background:rgba(8,13,31,0.78); border:1px solid rgba(119,215,255,0.15); border-radius:32px; padding:52px 44px; text-align:center; position:relative; overflow:hidden; backdrop-filter:blur(24px); }
+    .ef-ty-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,#77d7ff 35%,#8b5cf6 65%,transparent); }
+    @media(max-width:900px){ .ef-contact-grid { grid-template-columns:1fr; } }
+    @media(max-width:640px){ .ef-contact-card { padding:32px 24px; } }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+
+  <div id="ef-nav-mount"></div>
+
+  <!-- HERO -->
+  <div class="ef-page-hero">
+    <div class="ef-badge ef-reveal"><span class="ef-badge-dot"></span>Get In Touch</div>
+    <h1 class="ef-page-hero-title ef-reveal ef-d1">
+      Let&rsquo;s Talk About<br>
+      <span class="ef-cyan">Your System</span>
+    </h1>
+    <p class="ef-page-hero-sub ef-reveal ef-d2">
+      Have a question before you&rsquo;re ready to audit? Send us a message. We respond within 24 hours. For the fastest path to a recommendation, start with the AI Business Audit.
+    </p>
+  </div>
+
+  <!-- CONTACT GRID -->
+  <section class="ef-section" style="padding-top:48px;">
+    <div class="ef-contact-grid">
+
+      <!-- FORM -->
+      <div id="efContactFormState">
+        <div class="ef-contact-card ef-reveal">
+          <form
+            class="ef-form"
+            id="efContactForm"
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            novalidate
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="bot-field" style="display:none" aria-hidden="true" />
+
+            <div style="font-size:1.1rem;font-weight:800;color:#eef3ff;margin-bottom:4px;">Send a Message</div>
+            <p style="font-size:0.88rem;color:#9aa9c9;margin-bottom:28px;">We&rsquo;ll reply within 24 hours. For the fastest recommendation, <a href="audit.html" style="color:#77d7ff;">start with the audit</a>.</p>
+
+            <div class="ef-form-row">
+              <div class="ef-field">
+                <label class="ef-label" for="efCFN">First Name <span class="ef-req">*</span></label>
+                <input class="ef-input" type="text" id="efCFN" name="firstName" placeholder="Jane" required />
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" for="efCLN">Last Name <span class="ef-req">*</span></label>
+                <input class="ef-input" type="text" id="efCLN" name="lastName" placeholder="Smith" required />
+              </div>
+            </div>
+
+            <div class="ef-form-row">
+              <div class="ef-field">
+                <label class="ef-label" for="efCEmail">Email <span class="ef-req">*</span></label>
+                <input class="ef-input" type="email" id="efCEmail" name="email" placeholder="you@yourbusiness.com" required />
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" for="efCPhone">Phone</label>
+                <input class="ef-input" type="tel" id="efCPhone" name="phone" placeholder="+1 (555) 000-0000" />
+              </div>
+            </div>
+
+            <div class="ef-field">
+              <label class="ef-label" for="efCSubject">What can we help with? <span class="ef-req">*</span></label>
+              <select class="ef-select" id="efCSubject" name="subject" required>
+                <option value="" disabled selected>Select a topic...</option>
+                <option value="package-question">Question about a package</option>
+                <option value="alacarte-question">Question about a specific service</option>
+                <option value="existing-client">Existing client support</option>
+                <option value="partnership">Partnership inquiry</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+
+            <div class="ef-field">
+              <label class="ef-label" for="efCMsg">Your Message <span class="ef-req">*</span></label>
+              <textarea class="ef-textarea" id="efCMsg" name="message" placeholder="Tell us what&rsquo;s on your mind..." style="min-height:120px;" required></textarea>
+            </div>
+
+            <button type="submit" class="ef-btn-submit" id="efCSubmitBtn">
+              Send Message
+            </button>
+            <div class="ef-trust">
+              <span class="ef-trust-item">Replied within 24 hours</span>
+              <span class="ef-trust-item">100% confidential</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Thank you (hidden) -->
+      <div id="efContactTy" style="display:none;">
+        <div class="ef-ty-card">
+          <div style="font-size:3rem;margin-bottom:20px;animation:ef-pop 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both;">&#9889;</div>
+          <div style="font-size:1.5rem;font-weight:900;color:#77d7ff;margin-bottom:14px;">Message Received.</div>
+          <p style="font-size:0.95rem;color:#9aa9c9;line-height:1.7;margin-bottom:24px;">We&rsquo;ll review your message and reply within 24 hours. In the meantime, you can start your AI Business Audit for the fastest path to a recommendation.</p>
+          <a href="audit.html" class="ef-btn-primary" style="font-size:0.9rem;padding:14px 28px;">&#9889; Start the Audit Now</a>
+        </div>
+      </div>
+
+      <!-- INFO SIDEBAR -->
+      <div class="ef-info-stack ef-reveal ef-d2">
+        <div class="ef-info-card">
+          <span class="ef-info-card-icon">&#8987;</span>
+          <div class="ef-info-card-title">Response Time</div>
+          <p class="ef-info-card-text">We reply to all messages within 24 hours. For urgent inquiries, start with the AI Business Audit for the fastest route to your recommendation.</p>
+        </div>
+        <div class="ef-info-card">
+          <span class="ef-info-card-icon">&#128205;</span>
+          <div class="ef-info-card-title">Location</div>
+          <p class="ef-info-card-text">Endless Flow Capital Group<br>Marietta, GA, United States<br>Serving businesses remotely nationwide.</p>
+        </div>
+        <div class="ef-info-card">
+          <span class="ef-info-card-icon">&#9889;</span>
+          <div class="ef-info-card-title">Powered By</div>
+          <p class="ef-info-card-text">All inquiries are routed through FlowCore AI &mdash; our intelligent business routing system. You&rsquo;ll always hear back from a real human within 24 hours.</p>
+        </div>
+        <div class="ef-audit-nudge">
+          <div class="ef-audit-nudge-title">Faster Path: Start the Audit</div>
+          <p class="ef-audit-nudge-text">The AI Business Audit gives us everything we need to make a precise recommendation. It&rsquo;s free, takes 5 minutes, and gets reviewed within 24 hours.</p>
+          <a href="audit.html" class="ef-btn-primary" style="font-size:0.88rem;padding:12px 24px;display:inline-flex;">&#9889; Start AI Business Audit</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div id="ef-footer-mount"></div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+  var cform  = document.getElementById('efContactForm');
+  var cBtn   = document.getElementById('efCSubmitBtn');
+  var cState = document.getElementById('efContactFormState');
+  var cTy    = document.getElementById('efContactTy');
+
+  cform.addEventListener('input', function(e){ e.target.classList.remove('ef-error'); }, true);
+
+  cform.addEventListener('submit', function(e){
+    e.preventDefault();
+    var req = cform.querySelectorAll('[required]'), ok = true, bad = null;
+    for(var i=0;i<req.length;i++){ if(!req[i].value.trim()){ req[i].classList.add('ef-error'); ok=false; if(!bad)bad=req[i]; } }
+    if(!ok){ if(bad){bad.scrollIntoView({behavior:'smooth',block:'center'});bad.focus();} return; }
+
+    cBtn.disabled = true; cBtn.textContent = 'Sending...';
+
+    /* Netlify form submit */
+    var body = new URLSearchParams(new FormData(cform)).toString();
+    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:body })
+      .catch(function(){});
+
+    setTimeout(function(){
+      cState.style.display = 'none';
+      cTy.style.display = 'block';
+    }, 900);
+  });
+</script>
+<!-- GHL CHAT WIDGET -->
+</body>
+</html>
