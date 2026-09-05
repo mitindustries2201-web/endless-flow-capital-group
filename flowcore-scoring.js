@@ -539,8 +539,24 @@
     return responses
       .filter(function (r) { return r && r.question_id && QUESTION_INDEX[r.question_id]; })
       .map(function (r) {
-        var applied = applyQuestionScoring(r.question_id, r.raw_response != null ? r.raw_response : r.response_value);
         var q = QUESTION_INDEX[r.question_id];
+        var applied;
+
+        if (r.scored_response !== undefined && r.scored_response !== null && Number.isFinite(Number(r.scored_response))) {
+          var explicitScored = clamp(Number(r.scored_response), 0, 4);
+          var inferredRaw = r.raw_response != null
+            ? clamp(Number(r.raw_response), 0, 4)
+            : (q.reverse_scored ? 4 - explicitScored : explicitScored);
+          applied = {
+            raw_response: inferredRaw,
+            scored_response: explicitScored,
+            normalized_score: normalizeQuestionScore(explicitScored),
+            reverse_scored: !!q.reverse_scored
+          };
+        } else {
+          applied = applyQuestionScoring(r.question_id, r.raw_response != null ? r.raw_response : r.response_value);
+        }
+
         return {
           engine: q.engine,
           question_id: r.question_id,

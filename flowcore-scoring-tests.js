@@ -38,7 +38,12 @@ runCase('CASE A: all 0 => very low, Unstructured, HOLD', () => {
 });
 
 runCase('CASE B: all 4 => 100, Expansion Ready, SCALE', () => {
-  const r = scoring.scoreDiagnostic({ responses: allResponses(4), supplemental: {} });
+  const responses = scoring.QUESTION_LIST.map((q) => ({
+    question_id: q.question_id,
+    scored_response: 4,
+    evidence_type: 'self_reported'
+  }));
+  const r = scoring.scoreDiagnostic({ responses, supplemental: {} });
   assert(r.overall_score === 100, 'overall should be 100');
   assert(r.expansion_ready.expansion_ready_eligible === true, 'should be expansion-ready eligible');
   assert(r.scaling_decision.decision === 'SCALE', 'decision should be SCALE');
@@ -83,7 +88,6 @@ runCase('CASE E: many leads, weak C1/C2 => conversion outranks mediocre issue', 
 
 runCase('CASE F: high average but one engine < 70 => not expansion ready', () => {
   const responses = withOverrides(4, {
-    market: undefined,
     M1: 2, M2: 2, M3: 2, M4: 2
   });
   const r = scoring.scoreDiagnostic({ responses, supplemental: {} });
