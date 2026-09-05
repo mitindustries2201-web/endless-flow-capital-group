@@ -546,6 +546,7 @@
     var constraints = input.constraints || { candidates: [] };
     var questionScores = input.question_scores || [];
     var confidence = input.diagnostic_confidence;
+    var expansionReady = input.expansion_ready || { expansion_ready_candidate: false, expansion_ready_eligible: false };
 
     var reasons = [];
     var invalidFlags = flags.filter(function (f) { return f.severity === DATA_QUALITY_SEVERITY.INVALID; });
@@ -584,6 +585,9 @@
     var note = decision === 'SCALE'
       ? 'Your current operating foundation appears capable of supporting additional volume, subject to the quality of the information provided.'
       : 'Repair the current constraint before materially increasing volume.';
+    if (decision === 'HOLD' && expansionReady.expansion_ready_candidate && !expansionReady.expansion_ready_eligible) {
+      note = 'Your overall maturity is high, but one or more critical operating engines do not yet meet Expansion Ready requirements.';
+    }
 
     return {
       decision: decision,
@@ -658,7 +662,8 @@
       data_quality_flags: supplementalResult.data_quality_flags,
       constraints: constraints,
       question_scores: normalizedResponses,
-      diagnostic_confidence: confidence
+      diagnostic_confidence: confidence,
+      expansion_ready: readiness
     });
 
     var stage = stageResult.stage;
