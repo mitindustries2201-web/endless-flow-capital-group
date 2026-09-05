@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowCore Diagnostic Report | FlowScale</title>
+  <meta name="description" content="Review your FlowCore Business Diagnostic report with deterministic FlowScale scoring, constraints, confidence, and 30/60/90 FlowPlan." />
+  <meta property="og:title" content="FlowCore Diagnostic Report" />
+  <meta property="og:description" content="Deterministic FlowScale report based on the information provided in your completed audit." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .fr-wrap { max-width:1120px; margin:0 auto; padding:120px 20px 80px; }
+    .fr-head { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:flex-start; margin-bottom:18px; }
+    .fr-title { font-size:clamp(1.6rem,4vw,2.5rem); margin:0; }
+    .fr-sub { color:#a9bcdc; margin-top:8px; }
+    .fr-controls { display:flex; flex-wrap:wrap; gap:8px; }
+
+    .fr-card { background:rgba(8,13,31,.82); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:16px; }
+    .fr-grid { display:grid; gap:12px; }
+    .fr-grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .fr-grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+
+    .fr-kv { border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px; background:rgba(7,17,38,.55); }
+    .fr-kv .k { display:block; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:#82d9ff; margin-bottom:4px; }
+    .fr-kv .v { color:#ebf2ff; font-size:.95rem; line-height:1.45; }
+
+    .fr-section { margin-top:14px; }
+    .fr-section h2 { font-size:1.12rem; margin-bottom:10px; }
+    .fr-note { color:#a8b9dd; font-size:.86rem; }
+    .fr-disclaimer { color:#c6d7f4; font-size:.84rem; margin-top:10px; border-top:1px dashed rgba(255,255,255,.12); padding-top:8px; }
+
+    .fr-score-row { border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:10px; background:rgba(7,17,38,.55); }
+    .fr-score-top { display:flex; justify-content:space-between; gap:10px; font-size:.86rem; margin-bottom:7px; }
+    .fr-bar { height:8px; border-radius:999px; background:rgba(255,255,255,.09); overflow:hidden; }
+    .fr-bar > span { display:block; height:100%; background:linear-gradient(90deg,#77d7ff,#8b5cf6); }
+
+    .fr-list { display:grid; gap:8px; }
+    .fr-chip { display:inline-flex; border:1px solid rgba(119,215,255,.3); color:#77d7ff; border-radius:999px; font-size:.74rem; padding:4px 9px; }
+    .fr-flow { display:grid; gap:8px; }
+    .fr-flow-item { border-left:2px solid rgba(119,215,255,.45); padding:8px 10px; background:rgba(7,17,38,.4); border-radius:10px; }
+
+    .fr-empty { text-align:center; max-width:760px; margin:120px auto 70px; }
+    .fr-empty h1 { font-size:1.6rem; }
+
+    .fr-sev { font-size:.74rem; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.16); }
+
+    @media (max-width:920px){
+      .fr-grid-3 { grid-template-columns:1fr 1fr; }
+      .fr-grid-2 { grid-template-columns:1fr; }
+    }
+    @media (max-width:640px){
+      .fr-grid-3 { grid-template-columns:1fr; }
+      .fr-wrap { padding:110px 16px 70px; }
+    }
+
+    @media print {
+      .ef-canvas, #ef-nav-mount, #ef-footer-mount, .fr-controls, .fr-optional-cta { display:none !important; }
+      .fr-wrap { padding:10px 0 0; max-width:none; }
+      .fr-card, .fr-score-row, .fr-kv, .fr-flow-item { break-inside:avoid; page-break-inside:avoid; }
+      body { background:#fff !important; color:#000 !important; }
+      .fr-note, .fr-disclaimer { color:#333 !important; }
+    }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+  <div id="ef-nav-mount"></div>
+
+  <div id="frEmpty" class="fr-empty" hidden>
+    <h1>No completed FlowCore diagnostic was found on this device.</h1>
+    <p class="fr-sub">Complete the 28-question diagnostic to generate your deterministic report.</p>
+    <a href="audit.html" class="ef-btn-primary">Take the AI Business Audit</a>
+  </div>
+
+  <main id="frReport" class="fr-wrap" hidden>
+    <div class="fr-head">
+      <div>
+        <h1 class="fr-title">FlowCore Diagnostic Report</h1>
+        <p class="fr-sub" id="frMetaLine"></p>
+      </div>
+      <div class="fr-controls">
+        <button type="button" id="frPrintBtn" class="ef-btn-primary">Print / Save Report</button>
+        <a href="audit.html" class="ef-btn-secondary">Start New Audit</a>
+        <button type="button" id="frClearBtn" class="ef-btn-secondary">Clear Diagnostic Data</button>
+      </div>
+    </div>
+
+    <section class="fr-card fr-section" id="frExecutive"></section>
+    <section class="fr-card fr-section" id="frScorecard"></section>
+    <section class="fr-card fr-section" id="frLeakage"></section>
+    <section class="fr-card fr-section" id="frConstraints"></section>
+    <section class="fr-card fr-section" id="frChain"></section>
+    <section class="fr-card fr-section" id="frArchitecture"></section>
+    <section class="fr-card fr-section" id="frAi"></section>
+    <section class="fr-card fr-section" id="frFlowPlan"></section>
+    <section class="fr-card fr-section" id="frNext"></section>
+    <section class="fr-card fr-section" id="frConfidence"></section>
+    <section class="fr-card fr-section" id="frFlags"></section>
+    <section class="fr-card fr-section" id="frExpansion"></section>
+
+    <div class="fr-card fr-section fr-optional-cta">
+      <h2>Optional: Review This Diagnostic With Endless Flow</h2>
+      <p class="fr-note">Diagnosis is separate from any implementation package selection.</p>
+      <a href="contact.html" class="ef-btn-primary">Discuss Your FlowPlan</a>
+    </div>
+
+    <div class="fr-disclaimer" id="frFootDisclaimer"></div>
+  </main>
+
+  <div id="ef-footer-mount"></div>
+</div>
+
+<script src="flowcore-scoring.js"></script>
+<script src="flowcore-report.js"></script>
+<script src="nav.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  function e(id){ return document.getElementById(id); }
+
+  function readResult() {
+    try {
+      var raw = localStorage.getItem(FlowcoreReport.RESULT_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return 'Unknown completion date';
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return 'Unknown completion date';
+    return d.toLocaleString();
+  }
+
+  function pct(v) {
+    return (v === null || v === undefined) ? 'Unknown' : String(Math.round(Number(v))) + '%';
+  }
+
+  function renderExecutive(model) {
+    var ex = model.executive;
+    e('frExecutive').innerHTML = [
+      '<h2>1. Executive Snapshot</h2>',
+      '<div class="fr-chip">FLOWCORE BUSINESS DIAGNOSTIC</div>',
+      '<div class="fr-grid fr-grid-3" style="margin-top:10px;">',
+      kv('FlowScale Score', ex.score + ' / 100'),
+      kv('Stage', ex.stage),
+      kv('Scaling Decision', ex.scaling_decision),
+      kv('Decision Status', ex.decision_status),
+      kv('Primary Constraint', ex.primary_constraint),
+      kv('Secondary Constraint', ex.secondary_constraint),
+      kv('Strongest Engine', ex.strongest_engine),
+      kv('Diagnostic Confidence', ex.diagnostic_confidence_pct + '%'),
+      kv('Your Business', 'Deterministic report output') ,
+      '</div>',
+      '<p class="fr-note" style="margin-top:10px;">' + ex.interpretation + '</p>',
+      '<p class="fr-disclaimer">' + ex.disclaimer + '</p>'
+    ].join('');
+  }
+
+  function kv(k,v){ return '<div class="fr-kv"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; }
+
+  function renderScorecard(model) {
+    var html = ['<h2>2. Seven Engine Scorecard</h2>','<div class="fr-list">'];
+    model.scorecard.forEach(function (row) {
+      html.push(
+        '<div class="fr-score-row">' +
+          '<div class="fr-score-top"><strong>' + row.name + ' — ' + row.score + '/100</strong><span>Weight: ' + row.weight + '% · ' + row.status + '</span></div>' +
+          '<div class="fr-bar"><span style="width:' + row.maturity_visual_pct + '%"></span></div>' +
+        '</div>'
+      );
+    });
+    html.push('</div>');
+    e('frScorecard').innerHTML = html.join('');
+  }
+
+  function renderLeakage(model) {
+    var l = model.leakage;
+    var c = l.counts;
+    var funnel = [
+      kv('Leads', c.leads === null ? 'Insufficient data to calculate this stage reliably.' : c.leads),
+      kv('Appointments', c.appointments === null ? 'Insufficient data to calculate this stage reliably.' : c.appointments),
+      kv('Qualified Opportunities', c.qualified === null ? 'Insufficient data to calculate this stage reliably.' : c.qualified),
+      kv('Sales / Customers', c.sales === null ? 'Insufficient data to calculate this stage reliably.' : c.sales)
+    ].join('');
+
+    var metrics = l.metrics.map(function (m) {
+      return '<div class="fr-kv"><span class="k">' + m.name + '</span><span class="v">' + m.value_display + '</span>' + (m.requires_clarification ? '<p class="fr-note">' + m.clarification_text + '</p>' : '') + '</div>';
+    }).join('');
+
+    e('frLeakage').innerHTML = [
+      '<h2>3. Revenue Leakage Map</h2>',
+      '<div class="fr-grid fr-grid-2">',
+      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Funnel Inputs</h3><div class="fr-grid fr-grid-2">' + funnel + '</div></div>',
+      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Derived Conversion Metrics</h3><div class="fr-list">' + metrics + '</div></div>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderConstraintCard(title, c, explanation) {
+    if (!c) return '<div class="fr-kv"><span class="k">' + title + '</span><span class="v">No deterministic constraint was identified.</span></div>';
+    return [
+      '<div class="fr-kv">',
+      '<span class="k">' + title + '</span>',
+      '<span class="v"><strong>' + c.label + '</strong></span>',
+      '<p class="fr-note">Engine: ' + c.engine + ' · Maturity: ' + c.normalized_score + '/100 · Priority: ' + c.priority_score + '</p>',
+      '<p class="fr-note">Severity: ' + c.gap_severity + ' · Revenue Impact: ' + c.revenue_impact + ' · Dependency: ' + c.dependency + ' · Urgency: ' + c.urgency + '</p>',
+      '<p class="fr-note">Reason Code: ' + c.reason_code + '</p>',
+      '<p class="fr-note">' + explanation + '</p>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderConstraints(model) {
+    var c = model.constraints;
+    var next = c.likely_next ? renderConstraintCard('Likely Next Constraint', c.likely_next, 'This candidate appears next in the deterministic priority ranking.') : '';
+    e('frConstraints').innerHTML = [
+      '<h2>4. Constraint Analysis</h2>',
+      '<div class="fr-grid fr-grid-2">',
+      renderConstraintCard('Primary Constraint', c.primary, c.primary_explanation),
+      renderConstraintCard('Secondary Constraint', c.secondary, c.secondary_explanation),
+      '</div>',
+      next ? '<div style="margin-top:10px;">' + next + '</div>' : ''
+    ].join('');
+  }
+
+  function renderChain(model) {
+    var chain = model.chain;
+    var html = ['<h2>5. Constraint Chain</h2>'];
+    if (!chain.length) {
+      html.push('<p class="fr-note">No reliable multi-step constraint chain is available from the current diagnostic.</p>');
+    } else {
+      html.push('<div class="fr-flow">');
+      chain.forEach(function (item, idx) {
+        html.push('<div class="fr-flow-item"><strong>' + (idx === 0 ? 'Primary' : (idx === 1 ? 'Secondary' : 'Next Likely')) + ':</strong> ' + item.question_id + ' — ' + item.label + '</div>');
+      });
+      html.push('</div>');
+    }
+    e('frChain').innerHTML = html.join('');
+  }
+
+  function renderArchitecture(model) {
+    var a = model.architecture;
+    e('frArchitecture').innerHTML = [
+      '<h2>6. Current vs Recommended Systems Architecture</h2>',
+      '<div class="fr-grid fr-grid-2">',
+      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Current Diagnostic State</h3><div class="fr-list">' + a.current_state.map(function (x) { return '<div class="fr-kv"><span class="v">' + x + '</span></div>'; }).join('') + '</div></div>',
+      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Priority Future State</h3><div class="fr-list">' + a.future_state.map(function (x) { return '<div class="fr-kv"><span class="v">' + x + '</span></div>'; }).join('') + '</div></div>',
+      '</div>'
+    ].join('');
+  }
+
+  function renderAi(model) {
+    var ai = model.ai_opportunities;
+    e('frAi').innerHTML = [
+      '<h2>7. AI & Automation Opportunity Map</h2>',
+      '<p class="fr-note">' + ai.principle + '</p>',
+      '<div class="fr-list">',
+      ai.items.map(function (x) {
+        return '<div class="fr-kv"><span class="k">' + x.process + '</span><span class="v">' + x.category + '</span><p class="fr-note">' + x.note + '</p></div>';
+      }).join(''),
+      '</div>'
+    ].join('');
+  }
+
+  function renderFlowPlan(model) {
+    e('frFlowPlan').innerHTML = [
+      '<h2>8. 30 / 60 / 90-Day FlowPlan</h2>',
+      '<div class="fr-grid fr-grid-3">',
+      model.flowplan.map(function (phase) {
+        return '<div class="fr-kv"><span class="k">' + phase.window + ' · ' + phase.mode + '</span><span class="v"><strong>Primary Focus:</strong> ' + phase.focus + '</span><ul class="fr-note" style="margin:8px 0 0 16px;">' + phase.actions.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul></div>';
+      }).join(''),
+      '</div>'
+    ].join('');
+  }
+
+  function renderNextStep(model) {
+    e('frNext').innerHTML = [
+      '<h2>9. Recommended Next Step</h2>',
+      kv('Recommended Next Step', model.next_step.category),
+      '<p class="fr-note" style="margin-top:10px;">' + model.next_step.detail + '</p>'
+    ].join('');
+  }
+
+  function renderConfidence(model) {
+    var c = model.confidence;
+    e('frConfidence').innerHTML = [
+      '<h2>10. Diagnostic Confidence</h2>',
+      '<div class="fr-grid fr-grid-2">',
+      kv('Diagnostic Confidence', c.diagnostic_confidence_pct + '%'),
+      kv('Evidence Coverage', c.evidence_coverage_pct + '%'),
+      kv('Decision Confidence', c.decision_confidence),
+      kv('Evidence Type Summary', c.evidence_summary.join(' · ')),
+      '</div>',
+      '<p class="fr-note" style="margin-top:10px;">' + c.explanation + '</p>'
+    ].join('');
+  }
+
+  function renderFlags(model) {
+    if (!model.data_quality.length) {
+      e('frFlags').innerHTML = '<h2>11. Data Quality Flags</h2><p class="fr-note">No data-quality flags were detected from submitted supplemental inputs.</p>';
+      return;
+    }
+
+    e('frFlags').innerHTML = [
+      '<h2>11. Data Quality Flags</h2>',
+      '<div class="fr-list">',
+      model.data_quality.map(function (f) {
+        return '<div class="fr-kv"><span class="k">' + f.code + ' <span class="fr-sev">' + f.severity + '</span></span><span class="v">' + f.message + '</span></div>';
+      }).join(''),
+      '</div>'
+    ].join('');
+  }
+
+  function renderExpansion(model) {
+    var ex = model.expansion;
+    var guardrails = ex.failed_guardrails.length ? ex.failed_guardrails.join(', ') : 'None';
+    e('frExpansion').innerHTML = [
+      '<h2>12. Expansion Ready Guardrails</h2>',
+      '<div class="fr-grid fr-grid-2">',
+      kv('Expansion Status', ex.headline + ' · ' + ex.status),
+      kv('Failed Guardrails', guardrails),
+      '</div>'
+    ].join('');
+  }
+
+  function render(model) {
+    renderExecutive(model);
+    renderScorecard(model);
+    renderLeakage(model);
+    renderConstraints(model);
+    renderChain(model);
+    renderArchitecture(model);
+    renderAi(model);
+    renderFlowPlan(model);
+    renderNextStep(model);
+    renderConfidence(model);
+    renderFlags(model);
+    renderExpansion(model);
+
+    e('frMetaLine').textContent = 'FlowScale Methodology Version: ' + model.metadata.scoring_version + ' · Completed: ' + fmtDate(model.metadata.completion_timestamp);
+    e('frFootDisclaimer').textContent = 'Based on the information provided. This diagnostic has not been independently verified. Browser scoring in this phase is a reference implementation.';
+  }
+
+  function clearData() {
+    var first = window.confirm('Clear all local FlowCore diagnostic data on this device? This removes unfinished and completed report data.');
+    if (!first) return;
+    var second = window.confirm('Please confirm again to permanently clear local diagnostic data from this browser.');
+    if (!second) return;
+    localStorage.removeItem(FlowcoreReport.DIAGNOSTIC_STORAGE_KEY);
+    localStorage.removeItem(FlowcoreReport.RESULT_STORAGE_KEY);
+    e('frReport').hidden = true;
+    e('frEmpty').hidden = false;
+  }
+
+  function init() {
+    e('frPrintBtn').addEventListener('click', function () { window.print(); });
+    e('frClearBtn').addEventListener('click', clearData);
+
+    var payload = readResult();
+    var model = FlowcoreReport.buildReportModel(payload);
+
+    if (!model.ok) {
+      e('frEmpty').hidden = false;
+      e('frReport').hidden = true;
+      return;
+    }
+
+    e('frEmpty').hidden = true;
+    e('frReport').hidden = false;
+    render(model);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

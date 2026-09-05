@@ -283,6 +283,7 @@
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
             <button type="button" id="efRestartBtn" class="ef-btn-secondary">Review Answers</button>
             <button type="button" id="efResetAllBtn" class="ef-btn-secondary">Clear Saved Diagnostic</button>
+            <a href="flowcore-report.html" class="ef-btn-secondary">View FlowCore Diagnostic Report</a>
             <a href="contact.html" class="ef-btn-primary">Contact Endless Flow</a>
           </div>
 
@@ -321,6 +322,7 @@
 <script src="nav.js"></script>
 <script>
   const STORAGE_KEY = 'ef_flowcore_diagnostic_v1';
+  const RESULT_STORAGE_KEY = 'ef_flowcore_result_v1';
 
   const ENGINE_CONFIG = FlowcoreScoring.ENGINE_CONFIG;
   const QUESTION_LIST = FlowcoreScoring.QUESTION_LIST;
@@ -347,6 +349,43 @@
 
   const state = { step: 0, responses: {}, supplemental: {}, completed: false };
 
+  function persistCompletedResult(result) {
+    const payload = {
+      scoring_version: result.scoring_version,
+      completion_timestamp: new Date().toISOString(),
+      raw_core_responses: Object.values(state.responses).map(function (r) {
+        return {
+          question_id: r.question_id,
+          raw_response: r.raw_response,
+          scored_response: r.scored_response,
+          evidence_type: r.evidence_type,
+          unknown: !!r.unknown,
+          timestamp: r.timestamp || null
+        };
+      }),
+      scored_core_responses: result.question_scores || [],
+      supplemental_values: state.supplemental || {},
+      engine_scores: result.engine_scores,
+      overall_flowscale_score: result.overall_score,
+      overall_flowscale_score_precise: result.overall_score_precise,
+      maturity_stage: result.maturity_stage,
+      strongest_engine: result.strongest_engine,
+      weakest_engine: result.weakest_engine,
+      primary_constraint: result.primary_constraint,
+      secondary_constraint: result.secondary_constraint,
+      ranked_constraint_candidates: result.constraint_candidates,
+      diagnostic_confidence: result.diagnostic_confidence,
+      evidence_coverage: result.diagnostic_confidence ? result.diagnostic_confidence.evidence_coverage : null,
+      data_quality_flags: result.data_quality_flags,
+      scaling_decision: result.scaling_decision ? result.scaling_decision.decision : null,
+      decision_confidence_status: result.scaling_decision ? result.scaling_decision.decision_confidence_status : null,
+      derived_metrics: result.derived_conversion_metrics,
+      expansion_ready: result.expansion_ready,
+      scoring_output: result
+    };
+    localStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(payload));
+  }
+
   function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     var status = document.getElementById('efAutosaveState');
@@ -367,6 +406,8 @@
   }
 
   function clearStoredDiagnostic() {
+    const confirmed = window.confirm('Clear unfinished diagnostic responses saved on this device?');
+    if (!confirmed) return;
     localStorage.removeItem(STORAGE_KEY);
     state.step = 0;
     state.responses = {};
@@ -652,6 +693,7 @@
       responses: Object.values(state.responses),
       supplemental: state.supplemental
     });
+    persistCompletedResult(result);
 
     renderPreview(result);
 
