@@ -190,7 +190,11 @@ B. `REPAIR FIRST`
 - when a critical repair-priority constraint or major operating guardrail causes HOLD.
 
 C. `VALIDATE DATA`
-- when no critical operating blocker exists but clarification or insufficient confidence affects decision reliability.
+- when no critical operating blocker exists and **any** of the following is true:
+  - evidence coverage `< 80%`, or
+  - confidence score `< 35`, or
+  - REQUIRES_CLARIFICATION flags affect decision-material SCALE/HOLD information, or
+  - decision-critical core questions are unanswered/unknown.
 
 D. `SYSTEMIZE`
 - when not yet scale-ready but no critical repair/data blocker dominates.
@@ -202,6 +206,9 @@ F. `EXPANSION PLANNING`
 - only when Expansion Ready eligibility is true.
 
 Clarification-level issues are displayed separately and do not override REPAIR FIRST when a critical operating blocker exists, unless rule A applies.
+  
+Self-reported evidence alone does not trigger `VALIDATE DATA` in rule C.
+Fully completed self-reported audits can still produce FlowScale diagnosis, SCALE/HOLD decision, and FlowPlan while decision status remains `PROVISIONAL`.
 
 ## 30/60/90 FlowPlan Rules
 - Days 1–30: REPAIR (primary constraint focus)

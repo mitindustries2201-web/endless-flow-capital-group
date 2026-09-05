@@ -79,6 +79,10 @@ function buildModel(responses, supplemental) {
   return report.buildReportModel(envelopeFromResult(result, responses, supplemental || {}));
 }
 
+function buildModelFromResult(result, responses, supplemental) {
+  return report.buildReportModel(envelopeFromResult(result, responses, supplemental || {}));
+}
+
 runCase('A: third-ranked below 180 does not display', () => {
   const responses = withScoredOverrides(4, {
     C1: 0,
@@ -185,5 +189,51 @@ runCase('J: weak complaint handling does NOT generate autonomous AI execution', 
   assert(!autonomousComplaint, 'complaint escalation must not use autonomous AI execution categories');
 });
 
+runCase('K: precedence C triggers when evidence coverage < 80%', () => {
+  const responses = allScoredResponses(4, 'verified');
+  const result = scoring.scoreDiagnostic({ responses, supplemental: {} });
+  result.diagnostic_confidence.evidence_coverage_pct = 75;
+  result.diagnostic_confidence.evidence_coverage = 0.75;
+  result.diagnostic_confidence.confidence_score = 75;
+  const m = buildModelFromResult(result, responses, {});
+  assert(m.next_step.category === 'VALIDATE DATA', 'low coverage should trigger validate data');
+  assert(m.next_step.precedence_code === 'C', 'should follow precedence rule C');
+});
+
+runCase('L: precedence C triggers when confidence score < 35', () => {
+  const responses = allScoredResponses(4, 'verified');
+  const result = scoring.scoreDiagnostic({ responses, supplemental: {} });
+  result.diagnostic_confidence.evidence_coverage_pct = 100;
+  result.diagnostic_confidence.evidence_coverage = 1;
+  result.diagnostic_confidence.confidence_score = 30;
+  const m = buildModelFromResult(result, responses, {});
+  assert(m.next_step.category === 'VALIDATE DATA', 'very low confidence should trigger validate data');
+  assert(m.next_step.precedence_code === 'C', 'should follow precedence rule C');
+});
+
+runCase('M: precedence C triggers on decision-material clarification flags', () => {
+  const responses = allScoredResponses(4, 'verified');
+  const supplemental = { conversion: { leads_count: 50, appointments_count: 55, qualified_opportunities_count: 40, sales_customers_count: 20 } };
+  const m = buildModel(responses, supplemental);
+  assert(m.next_step.category === 'VALIDATE DATA', 'decision-material clarification should trigger validate data');
+  assert(m.next_step.precedence_code === 'C', 'should follow precedence rule C');
+});
+
+runCase('N: precedence C triggers on decision-critical unknown core question', () => {
+  const responses = allScoredResponses(4, 'verified').map((r) =>
+    r.question_id === 'E2' ? { ...r, evidence_type: 'estimated', unknown: true } : r
+  );
+  const m = buildModel(responses, {});
+  assert(m.next_step.category === 'VALIDATE DATA', 'unknown decision-critical core question should trigger validate data');
+  assert(m.next_step.precedence_code === 'C', 'should follow precedence rule C');
+});
+
+runCase('O: fully completed self-reported audit alone does not trigger precedence C', () => {
+  const responses = allScoredResponses(4, 'self_reported');
+  const m = buildModel(responses, {});
+  assert(m.next_step.category !== 'VALIDATE DATA', 'self-reported alone should not force validate data');
+  assert(m.next_step.precedence_code === 'F', 'should remain expansion planning when expansion-eligible');
+});
+
 if (process.exitCode) process.exit(process.exitCode);
-console.log('All deterministic report hardening tests passed (A-J).');
+console.log('All deterministic report hardening tests passed (A-O).');

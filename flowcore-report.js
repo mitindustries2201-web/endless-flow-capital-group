@@ -10,6 +10,17 @@
   var RESULT_STORAGE_KEY = 'ef_flowcore_result_v1';
   var DIAGNOSTIC_STORAGE_KEY = 'ef_flowcore_diagnostic_v1';
   var NEXT_PRIORITY_CONSTRAINT_MIN_SCORE = 180;
+  var PRECEDENCE_C_MIN_EVIDENCE_COVERAGE_PCT = 80;
+  var PRECEDENCE_C_MIN_CONFIDENCE_SCORE = 35;
+  var DECISION_CRITICAL_CORE_QUESTION_IDS = ['C1', 'C2', 'C3', 'C4', 'D1', 'D2', 'D3', 'D4', 'I1', 'I2', 'I3', 'I4', 'E1', 'E2', 'E3', 'E4'];
+  var DECISION_MATERIAL_CLARIFICATION_CODES = {
+    APPOINTMENTS_EXCEED_LEADS: true,
+    SALES_EXCEED_QUALIFIED: true,
+    SALES_EXCEED_LEADS: true,
+    BOOKING_RATE_REQUIRES_CLARIFICATION: true,
+    CLOSE_RATE_REQUIRES_CLARIFICATION: true,
+    LEAD_TO_CUSTOMER_REQUIRES_CLARIFICATION: true
+  };
 
   var ENGINE_STATUS_BANDS = [
     { min: 0, max: 29, label: 'Critical Foundation' },
@@ -219,7 +230,7 @@
       code: 'C',
       category: 'VALIDATE DATA',
       detail: function () { return 'Clarify decision-critical data definitions and strengthen evidence confidence before acceleration decisions.'; },
-      predicate: function (ctx) { return !ctx.hasCriticalOperatingBlocker && (ctx.hasClarification || ctx.hasInsufficientConfidence); }
+      predicate: function (ctx) { return !ctx.hasCriticalOperatingBlocker && (ctx.hasDecisionMaterialClarification || ctx.hasInsufficientCoverage || ctx.hasVeryLowConfidence || ctx.hasDecisionCriticalUnknownCoreQuestion); }
     },
     {
       code: 'D',
@@ -407,13 +418,31 @@
 
     var hasInvalid = flags.some(function (f) { return String(f.severity).toUpperCase() === 'INVALID'; });
     var hasClarification = flags.some(function (f) { return String(f.severity).toUpperCase() === 'REQUIRES_CLARIFICATION'; });
+    var hasDecisionMaterialClarification = flags.some(function (f) {
+      var sev = String(f.severity || '').toUpperCase();
+      if (sev !== 'REQUIRES_CLARIFICATION') return false;
+      if (DECISION_MATERIAL_CLARIFICATION_CODES[f.code]) return true;
+      return String(f.engine || '').toLowerCase() === 'conversion';
+    });
     var hasCriticalConstraint = (result.constraint_candidates || []).some(function (c) { return !!c.critical_priority; }) || !!(primaryConstraint && primaryConstraint.critical_priority);
     var hasMajorOperatingGuardrailReason = reasons.some(function (r) { return !!MAJOR_OPERATING_HOLD_REASONS[r]; });
     var hasCriticalOperatingBlocker = decision === 'HOLD' && (hasCriticalConstraint || hasMajorOperatingGuardrailReason);
 
     var confidenceScore = Number(confidence.confidence_score || 0);
     var evidenceCoveragePct = Number(confidence.evidence_coverage_pct || 0);
-    var hasInsufficientConfidence = confidenceScore < 60 || evidenceCoveragePct < 70;
+    var hasInsufficientCoverage = evidenceCoveragePct < PRECEDENCE_C_MIN_EVIDENCE_COVERAGE_PCT;
+    var hasVeryLowConfidence = confidenceScore < PRECEDENCE_C_MIN_CONFIDENCE_SCORE;
+
+    var scoreByQuestion = {};
+    (result.question_scores || []).forEach(function (q) {
+      scoreByQuestion[q.question_id] = q;
+    });
+    var hasDecisionCriticalUnknownCoreQuestion = DECISION_CRITICAL_CORE_QUESTION_IDS.some(function (qid) {
+      var q = scoreByQuestion[qid];
+      if (!q || q.normalized_score === null || q.normalized_score === undefined) return true;
+      var evidence = String(q.evidence_type || '').toLowerCase();
+      return q.unknown === true || evidence === 'estimated' || evidence === 'unknown' || evidence === 'dont_know' || evidence === "don't_know" || evidence === 'not_sure';
+    });
 
     return {
       decision: decision,
@@ -421,10 +450,13 @@
       flags: flags,
       hasInvalid: hasInvalid,
       hasClarification: hasClarification,
+      hasDecisionMaterialClarification: hasDecisionMaterialClarification,
       hasCriticalConstraint: hasCriticalConstraint,
       hasMajorOperatingGuardrailReason: hasMajorOperatingGuardrailReason,
       hasCriticalOperatingBlocker: hasCriticalOperatingBlocker,
-      hasInsufficientConfidence: hasInsufficientConfidence,
+      hasInsufficientCoverage: hasInsufficientCoverage,
+      hasVeryLowConfidence: hasVeryLowConfidence,
+      hasDecisionCriticalUnknownCoreQuestion: hasDecisionCriticalUnknownCoreQuestion,
       hasDecisionCriticalInvalid: hasInvalid && (reasons.indexOf('INVALID_DATA_QUALITY_FLAG') >= 0 || true),
       primaryConstraint: primaryConstraint,
       expansionEligible: expansionEligible
