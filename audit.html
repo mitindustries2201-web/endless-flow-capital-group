@@ -211,12 +211,11 @@
 
   <section class="ef-section" id="audit-start">
     <div class="ef-section-label ef-center">Audit Start Area</div>
-    <h2 class="ef-section-title ef-center ef-reveal">Launch your audit intake.</h2>
+    <h2 class="ef-section-title ef-center ef-reveal">This page is the primary public audit journey.</h2>
     <div class="ef-launch ef-reveal ef-d1">
       <div class="ef-launch-inner">
-        <p style="color:#bfd0f2;line-height:1.75;margin-bottom:18px;">This launch point routes to the production Endless Flow audit once the real public URL or embed is configured.</p>
-        <a id="efAuditLaunchBtn" href="#" class="ef-btn-primary" aria-disabled="true" style="opacity:.85;">Launch Existing Audit Destination</a>
-        <div id="efAuditLaunchState" class="ef-launch-state ef-pending">Audit intake connection is being finalized. You will not be redirected to a broken destination.</div>
+        <p style="color:#bfd0f2;line-height:1.75;margin-bottom:8px;">You do not need to leave this page to complete the AI Business Audit. Continue directly into the 28-question FlowScale diagnostic workspace below.</p>
+        <div class="ef-launch-state ef-ready">Homepage → audit.html → Begin Business Audit → 28-question FlowScale diagnostic → FlowCore Diagnostic Preview</div>
       </div>
     </div>
   </section>
@@ -239,6 +238,10 @@
             <legend class="ef-label" style="margin-bottom:8px;">Maturity Level</legend>
             <div class="ef-scale" id="efScaleOptions"></div>
           </fieldset>
+          <label style="display:inline-flex;gap:8px;align-items:center;margin-top:10px;color:#9fb0d4;font-size:.82rem;">
+            <input type="checkbox" id="efUnknownToggle" />
+            I'm not sure / unknown for this question (lowers diagnostic confidence).
+          </label>
 
           <div class="ef-supp-wrap" id="efSupplementalWrap" hidden>
             <div class="ef-supp-title" id="efSupplementalTitle">Supplemental Inputs</div>
@@ -265,11 +268,14 @@
               <div class="ef-preview-item"><span class="k">Maturity Stage</span><span class="v" id="pvStage">-</span></div>
               <div class="ef-preview-item"><span class="k">Strongest Engine</span><span class="v" id="pvStrongest">-</span></div>
               <div class="ef-preview-item"><span class="k">Weakest Engine</span><span class="v" id="pvWeakest">-</span></div>
-              <div class="ef-preview-item"><span class="k">Primary Constraint</span><span class="v" id="pvPrimary">-</span></div>
+              <div class="ef-preview-item"><span class="k">Preliminary Constraint</span><span class="v" id="pvPrimary">-</span></div>
               <div class="ef-preview-item"><span class="k">Secondary Constraint</span><span class="v" id="pvSecondary">-</span></div>
               <div class="ef-preview-item"><span class="k">Diagnostic Confidence</span><span class="v" id="pvConfidence">-</span></div>
               <div class="ef-preview-item"><span class="k">Scale / Hold</span><span class="v" id="pvScaleHold">-</span></div>
+              <div class="ef-preview-item"><span class="k">Decision Status</span><span class="v" id="pvDecisionStatus">-</span></div>
+              <div class="ef-preview-item"><span class="k">Scoring Version</span><span class="v" id="pvVersion">-</span></div>
             </div>
+            <div class="ef-preview-note" id="pvDecisionNote" style="margin-top:10px;margin-bottom:0;">-</div>
             <div class="ef-engine-list" id="pvEngineList"></div>
             <div class="ef-engine-list" id="pvMetricsList"></div>
           </div>
@@ -302,7 +308,7 @@
         <div class="ef-progress-track"><div id="efProgressFill" class="ef-progress-fill"></div></div>
 
         <div class="ef-quick-summary" id="efMicrocopy"></div>
-        <div class="ef-mini" id="efAutosaveState">Unfinished responses may be saved in this browser for recovery.</div>
+        <div class="ef-mini" id="efAutosaveState">Your unfinished diagnostic is saved on this device so you can continue where you left off.</div>
         <button type="button" id="efClearBtn" class="ef-btn-glass" style="margin-top:10px;">Clear Saved Diagnostic</button>
       </aside>
     </div>
@@ -314,7 +320,6 @@
 <script src="flowcore-scoring.js"></script>
 <script src="nav.js"></script>
 <script>
-  const AUDIT_FORM_URL_TODO = '';
   const STORAGE_KEY = 'ef_flowcore_diagnostic_v1';
 
   const ENGINE_CONFIG = FlowcoreScoring.ENGINE_CONFIG;
@@ -345,7 +350,7 @@
   function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     var status = document.getElementById('efAutosaveState');
-    if (status) status.textContent = 'Unfinished responses may be saved in this browser for recovery.';
+    if (status) status.textContent = 'Your unfinished diagnostic is saved on this device so you can continue where you left off.';
   }
 
   function loadState() {
@@ -373,25 +378,9 @@
     renderStep();
   }
 
-  function setAuditLaunchGate() {
-    var btn = document.getElementById('efAuditLaunchBtn');
-    var stateEl = document.getElementById('efAuditLaunchState');
-    var configured = typeof AUDIT_FORM_URL_TODO === 'string' && AUDIT_FORM_URL_TODO.trim().length > 0;
-
-    if (configured) {
-      btn.setAttribute('href', AUDIT_FORM_URL_TODO.trim());
-      btn.removeAttribute('aria-disabled');
-      btn.style.opacity = '1';
-      stateEl.classList.remove('ef-pending');
-      stateEl.classList.add('ef-ready');
-      stateEl.textContent = 'Audit intake is connected. Continue to begin your business diagnostic.';
-      return;
-    }
-
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      stateEl.textContent = 'Audit intake link is not configured yet. Please check back shortly or contact us directly.';
-    });
+  function isUnknownMarked(questionId) {
+    var resp = state.responses[questionId];
+    return !!(resp && resp.unknown);
   }
 
   function renderSupplemental(engine) {
@@ -484,6 +473,8 @@
     const labels = questionConfig.scale_labels || FlowcoreScoring.DEFAULT_SCALE_LABELS;
     const current = state.responses[questionConfig.question_id];
     const selectedRaw = current ? current.raw_response : null;
+    const unknownToggle = document.getElementById('efUnknownToggle');
+    if (unknownToggle) unknownToggle.checked = isUnknownMarked(questionConfig.question_id);
 
     labels.forEach(function (label, raw) {
       const wrap = document.createElement('div');
@@ -517,6 +508,8 @@
   function saveResponse(questionConfig, rawResponse) {
     const scored = FlowcoreScoring.applyQuestionScoring(questionConfig.question_id, rawResponse);
     const supplemental = state.supplemental[questionConfig.engine] || {};
+    const unknownToggle = document.getElementById('efUnknownToggle');
+    const unknownMarked = !!(unknownToggle && unknownToggle.checked);
 
     state.responses[questionConfig.question_id] = {
       engine: questionConfig.engine,
@@ -526,11 +519,11 @@
       scored_response: scored.scored_response,
       response_value: scored.scored_response,
       supplemental_values: supplemental,
-      evidence_type: 'self_reported',
+      evidence_type: unknownMarked ? 'estimated' : 'self_reported',
       confidence: null,
       timestamp: new Date().toISOString(),
       source: null,
-      unknown: false
+      unknown: unknownMarked
     };
 
     saveState();
@@ -573,6 +566,8 @@
     renderScaleOptions(questionConfig);
     renderSupplemental(flat.engine);
     renderProgressOnly();
+    const unknownToggle = document.getElementById('efUnknownToggle');
+    if (unknownToggle) unknownToggle.checked = isUnknownMarked(questionConfig.question_id);
 
     document.getElementById('efQuestionError').textContent = '';
     document.getElementById('efBackBtn').disabled = state.step === 0;
@@ -595,6 +590,7 @@
 
     e('pvOverall').textContent = fmt(result.overall_score);
     e('pvStage').textContent = result.maturity_stage + (result.expansion_ready.expansion_ready_candidate && !result.expansion_ready.expansion_ready_eligible ? ' (guardrail not met)' : '');
+    e('pvVersion').textContent = fmt(result.scoring_version);
 
     var strong = result.strongest_engine ? (result.strongest_engine.name + ' (' + result.strongest_engine.score + ')') : result.strongest_engines.map(function (x) { return x.name + ' (' + x.score + ')'; }).join(', ');
     var weak = result.weakest_engine ? (result.weakest_engine.name + ' (' + result.weakest_engine.score + ')') : result.weakest_engines.map(function (x) { return x.name + ' (' + x.score + ')'; }).join(', ');
@@ -606,6 +602,8 @@
 
     e('pvConfidence').textContent = result.diagnostic_confidence.confidence_score + ' (coverage ' + result.diagnostic_confidence.evidence_coverage_pct + '%)';
     e('pvScaleHold').textContent = result.scaling_decision.decision + ' · ' + result.scaling_decision.reasons.join(', ');
+    e('pvDecisionStatus').textContent = result.scaling_decision.decision_confidence_status;
+    e('pvDecisionNote').textContent = result.scaling_decision.note;
 
     const list = e('pvEngineList');
     list.innerHTML = '';
@@ -634,9 +632,15 @@
       result.data_quality_flags.slice(0, 3).forEach(function (f) {
         const row = document.createElement('div');
         row.className = 'ef-engine-row';
-        row.innerHTML = '<span>Data Flag</span><span>' + f.code + '</span>';
+        row.innerHTML = '<span>Data Flag (' + f.severity + ')</span><span>' + f.code + '</span>';
         metrics.appendChild(row);
       });
+    }
+    if (result.stage_note) {
+      const row = document.createElement('div');
+      row.className = 'ef-engine-row';
+      row.innerHTML = '<span>Stage Note</span><span>' + result.stage_note + '</span>';
+      metrics.appendChild(row);
     }
   }
 
@@ -658,7 +662,7 @@
     document.getElementById('efProgressPctText').textContent = '100% Complete';
     document.getElementById('efProgressQuestionText').textContent = 'Question 28 of 28';
     document.getElementById('efProgressFill').style.width = '100%';
-    document.getElementById('efAutosaveState').textContent = 'Responses saved in browser. Use “Clear Saved Diagnostic” to remove local data.';
+    document.getElementById('efAutosaveState').textContent = 'Responses saved in browser. Use “Clear Saved Diagnostic” to remove local data on this device.';
   }
 
   function goBack() {
@@ -694,6 +698,14 @@
     document.getElementById('efRestartBtn').addEventListener('click', reviewAnswers);
     document.getElementById('efClearBtn').addEventListener('click', clearStoredDiagnostic);
     document.getElementById('efResetAllBtn').addEventListener('click', clearStoredDiagnostic);
+    document.getElementById('efUnknownToggle').addEventListener('change', function (e) {
+      const flat = FLAT_QUESTIONS[state.step];
+      const qid = flat.questionConfig.question_id;
+      if (!state.responses[qid]) return;
+      state.responses[qid].unknown = !!e.target.checked;
+      state.responses[qid].evidence_type = e.target.checked ? 'estimated' : 'self_reported';
+      saveState();
+    });
 
     document.getElementById('efDiagnosticForm').addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && e.target && e.target.matches('input[type="radio"]')) {
@@ -712,7 +724,6 @@
   }
 
   function init() {
-    setAuditLaunchGate();
     loadState();
     bindEvents();
 

@@ -7,16 +7,18 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
+  var FLOWSCALE_SCORING_VERSION = '1.0.0-dev';
+
   var ENGINE_CONFIG = [
     {
       id: 'market',
       name: 'Market',
       weight: 10,
       questions: [
-        { id: 'M1', text: 'How clearly can you define the customer most likely to purchase from you?', revenue_impact: 3, dependency: 3, urgency: 3 },
-        { id: 'M2', text: 'How well do you understand the primary problem or desired outcome that causes customers to buy?', revenue_impact: 4, dependency: 3, urgency: 3 },
+        { id: 'M1', text: 'How clearly can you define the customer most likely to purchase from you?', revenue_impact: 4, dependency: 4, urgency: 3 },
+        { id: 'M2', text: 'How well do you understand the primary problem or desired outcome that causes customers to buy?', revenue_impact: 4, dependency: 4, urgency: 3 },
         { id: 'M3', text: 'Can customers quickly understand why they should choose you instead of an alternative?', revenue_impact: 4, dependency: 3, urgency: 3 },
-        { id: 'M4', text: 'Do you have evidence that your target market consistently wants and purchases what you sell?', revenue_impact: 4, dependency: 3, urgency: 4 }
+        { id: 'M4', text: 'Do you have evidence that your target market consistently wants and purchases what you sell?', revenue_impact: 5, dependency: 5, urgency: 5 }
       ],
       supplemental: []
     },
@@ -25,10 +27,10 @@
       name: 'Value',
       weight: 15,
       questions: [
-        { id: 'V1', text: 'Is there a clearly defined offer with a specific outcome, scope and price?', revenue_impact: 4, dependency: 3, urgency: 3 },
-        { id: 'V2', text: 'Is your pricing based on economics and value rather than guessing or competitor copying?', revenue_impact: 4, dependency: 3, urgency: 3 },
-        { id: 'V3', text: 'Do you know approximately how much gross profit is produced when you make a sale?', revenue_impact: 4, dependency: 4, urgency: 4 },
-        { id: 'V4', text: 'Do you track which products/services/offers convert and retain customers best?', revenue_impact: 3, dependency: 3, urgency: 3 }
+        { id: 'V1', text: 'Is there a clearly defined offer with a specific outcome, scope and price?', revenue_impact: 5, dependency: 5, urgency: 4 },
+        { id: 'V2', text: 'Is your pricing based on economics and value rather than guessing or competitor copying?', revenue_impact: 4, dependency: 4, urgency: 4 },
+        { id: 'V3', text: 'Do you know approximately how much gross profit is produced when you make a sale?', revenue_impact: 5, dependency: 5, urgency: 5 },
+        { id: 'V4', text: 'Do you track which products/services/offers convert and retain customers best?', revenue_impact: 3, dependency: 3, urgency: 2 }
       ],
       supplemental: [
         { id: 'avg_sale', label: 'Average sale', type: 'text', allowDontKnow: true },
@@ -42,9 +44,9 @@
       weight: 15,
       questions: [
         { id: 'A1', text: 'Can you identify exactly where new leads/customers are coming from?', revenue_impact: 3, dependency: 3, urgency: 2 },
-        { id: 'A2', text: 'Does the business generate qualified opportunities consistently?', revenue_impact: 4, dependency: 3, urgency: 3 },
-        { id: 'A3', text: 'Can prospects easily submit their information from your website, landing pages, ads and other channels?', revenue_impact: 4, dependency: 4, urgency: 3 },
-        { id: 'A4', text: 'Can you connect a customer or sale back to the marketing source that created it?', revenue_impact: 3, dependency: 3, urgency: 3 }
+        { id: 'A2', text: 'Does the business generate qualified opportunities consistently?', revenue_impact: 5, dependency: 5, urgency: 4 },
+        { id: 'A3', text: 'Can prospects easily submit their information from your website, landing pages, ads and other channels?', revenue_impact: 4, dependency: 4, urgency: 4 },
+        { id: 'A4', text: 'Can you connect a customer or sale back to the marketing source that created it?', revenue_impact: 3, dependency: 3, urgency: 2 }
       ],
       supplemental: [
         { id: 'leads_30_days', label: 'Leads last 30 days', type: 'number' },
@@ -63,7 +65,7 @@
           dependency: 5,
           urgency: 5,
           scale_labels: [
-            'Usually more than 24 hours, inconsistent, or unknown.',
+            'Usually more than 24 hours, inconsistent, or we do not know.',
             'Usually between 4 and 24 hours.',
             'Usually between 1 and 4 hours.',
             'Usually within approximately 5–60 minutes.',
@@ -86,10 +88,10 @@
       name: 'Delivery',
       weight: 15,
       questions: [
-        { id: 'D1', text: 'Does every new customer receive a consistent onboarding experience?', revenue_impact: 4, dependency: 4, urgency: 4 },
+        { id: 'D1', text: 'Does every new customer receive a consistent onboarding experience?', revenue_impact: 4, dependency: 4, urgency: 3 },
         { id: 'D2', text: 'Is there a documented and repeatable process for delivering what was sold?', revenue_impact: 5, dependency: 5, urgency: 5 },
         { id: 'D3', text: 'Does the business proactively monitor customer satisfaction, problems and service quality?', revenue_impact: 4, dependency: 4, urgency: 4 },
-        { id: 'D4', text: 'Is there a structured process for repeat purchases, renewals, reviews, referrals or reactivation?', revenue_impact: 4, dependency: 4, urgency: 3 }
+        { id: 'D4', text: 'Is there a structured process for repeat purchases, renewals, reviews, referrals or reactivation?', revenue_impact: 4, dependency: 3, urgency: 3 }
       ],
       supplemental: [
         { id: 'refund_rate', label: 'Refund rate', type: 'text' },
@@ -103,9 +105,9 @@
       name: 'Independence',
       weight: 15,
       questions: [
-        { id: 'I1', text: 'Does one reliable system contain customer information, communications, pipeline status and important activity?', revenue_impact: 4, dependency: 5, urgency: 4 },
-        { id: 'I2', text: 'Are recurring business processes documented well enough that another competent person could perform them?', revenue_impact: 3, dependency: 5, urgency: 4 },
-        { id: 'I3', text: 'Are repetitive administrative activities automated where appropriate?', revenue_impact: 3, dependency: 4, urgency: 3 },
+        { id: 'I1', text: 'Does one reliable system contain customer information, communications, pipeline status and important activity?', revenue_impact: 4, dependency: 4, urgency: 3 },
+        { id: 'I2', text: 'Are recurring business processes documented well enough that another competent person could perform them?', revenue_impact: 4, dependency: 4, urgency: 3 },
+        { id: 'I3', text: 'Are repetitive administrative activities automated where appropriate?', revenue_impact: 3, dependency: 3, urgency: 2 },
         {
           id: 'I4',
           text: 'If the owner stopped working for seven days, how much of the company would stop functioning?',
@@ -114,7 +116,7 @@
           dependency: 5,
           urgency: 4,
           scale_labels: [
-            'Almost nothing would stop; team/systems could operate effectively.',
+            'Almost nothing would stop; the team/systems could operate effectively.',
             'A few noncritical activities would slow down.',
             'Several important activities would be affected.',
             'Most major activities would slow or stop.',
@@ -132,7 +134,7 @@
         {
           id: 'E1',
           text: 'Could the business handle 50% more customers next month without serious service deterioration?',
-          revenue_impact: 4,
+          revenue_impact: 5,
           dependency: 5,
           urgency: 5,
           scale_labels: [
@@ -146,7 +148,7 @@
         {
           id: 'E2',
           text: 'Does management understand revenue, margins, cash requirements and major operating costs?',
-          revenue_impact: 4,
+          revenue_impact: 5,
           dependency: 5,
           urgency: 5,
           scale_labels: [
@@ -157,8 +159,8 @@
             'Financial performance is current, measured, forecasted, and actively used in decisions.'
           ]
         },
-        { id: 'E3', text: 'Can leadership see the important KPIs necessary to make growth decisions?', revenue_impact: 4, dependency: 4, urgency: 4 },
-        { id: 'E4', text: 'Can the business increase marketing, staff, customers or locations without creating an operational bottleneck elsewhere?', revenue_impact: 4, dependency: 5, urgency: 5 }
+        { id: 'E3', text: 'Can leadership see the important KPIs necessary to make growth decisions?', revenue_impact: 4, dependency: 4, urgency: 3 },
+        { id: 'E4', text: 'Can the business increase marketing, staff, customers or locations without creating an operational bottleneck elsewhere?', revenue_impact: 5, dependency: 5, urgency: 5 }
       ],
       supplemental: []
     }
@@ -179,6 +181,13 @@
     verified: 100
   };
 
+  var DATA_QUALITY_SEVERITY = {
+    INFO: 'INFO',
+    WARNING: 'WARNING',
+    REQUIRES_CLARIFICATION: 'REQUIRES_CLARIFICATION',
+    INVALID: 'INVALID'
+  };
+
   var STAGE_BANDS = [
     { min: 0, max: 29, name: 'Unstructured' },
     { min: 30, max: 44, name: 'Foundation' },
@@ -190,7 +199,7 @@
 
   var CONSTRAINT_CONFIG = {
     candidate_threshold_score: 75,
-    critical_priority_threshold: 260
+    critical_priority_threshold: 400
   };
 
   var SCALE_HOLD_CONFIG = {
@@ -229,7 +238,8 @@
     }, []);
   }
 
-  var QUESTION_INDEX = questionList().reduce(function (acc, q) {
+  var QUESTION_LIST = questionList();
+  var QUESTION_INDEX = QUESTION_LIST.reduce(function (acc, q) {
     acc[q.question_id] = q;
     return acc;
   }, {});
@@ -282,9 +292,9 @@
     var margin = parseNumeric(val.avg_gross_margin_pct);
     var avgCustomerValue = parseNumeric(val.avg_customer_value);
 
-    if (avgSale !== null && avgSale < 0) pushFlag('NEGATIVE_AVERAGE_SALE', 'critical', 'value', 'avg_sale', 'Average sale cannot be negative.');
-    if (margin !== null && (margin < 0 || margin > 100)) pushFlag('GROSS_MARGIN_OUT_OF_RANGE', 'critical', 'value', 'avg_gross_margin_pct', 'Gross margin should be between 0 and 100%.');
-    if (avgCustomerValue !== null && avgCustomerValue < 0) pushFlag('NEGATIVE_AVERAGE_CUSTOMER_VALUE', 'critical', 'value', 'avg_customer_value', 'Average customer value cannot be negative.');
+    if (avgSale !== null && avgSale < 0) pushFlag('NEGATIVE_AVERAGE_SALE', DATA_QUALITY_SEVERITY.INVALID, 'value', 'avg_sale', 'Average sale cannot be negative.');
+    if (margin !== null && (margin < 0 || margin > 100)) pushFlag('GROSS_MARGIN_OUT_OF_RANGE', DATA_QUALITY_SEVERITY.INVALID, 'value', 'avg_gross_margin_pct', 'Gross margin should be between 0 and 100 unless a future special-use case is confirmed.');
+    if (avgCustomerValue !== null && avgCustomerValue < 0) pushFlag('NEGATIVE_AVERAGE_CUSTOMER_VALUE', DATA_QUALITY_SEVERITY.INVALID, 'value', 'avg_customer_value', 'Average customer value cannot be negative.');
 
     var leads = parseNumeric(conv.leads_count);
     var appointments = parseNumeric(conv.appointments_count);
@@ -293,18 +303,18 @@
 
     [['leads_count', leads], ['appointments_count', appointments], ['qualified_opportunities_count', qualified], ['sales_customers_count', sales]].forEach(function (pair) {
       if (pair[1] !== null && pair[1] < 0) {
-        pushFlag('NEGATIVE_VALUE', 'critical', 'conversion', pair[0], pair[0] + ' cannot be negative.');
+        pushFlag('NEGATIVE_VALUE', DATA_QUALITY_SEVERITY.INVALID, 'conversion', pair[0], pair[0] + ' cannot be negative.');
       }
     });
 
     if (leads !== null && appointments !== null && appointments > leads) {
-      pushFlag('APPOINTMENTS_EXCEED_LEADS', 'critical', 'conversion', 'appointments_count', 'Appointments should normally not exceed leads without explicit explanation.');
+      pushFlag('APPOINTMENTS_EXCEED_LEADS', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'appointments_count', 'Appointments exceed leads in the current definition and require clarification.');
     }
     if (qualified !== null && sales !== null && sales > qualified) {
-      pushFlag('SALES_EXCEED_QUALIFIED', 'critical', 'conversion', 'sales_customers_count', 'Sales should normally not exceed qualified opportunities without explicit explanation.');
+      pushFlag('SALES_EXCEED_QUALIFIED', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'sales_customers_count', 'Sales exceed qualified opportunities in the current definition and require clarification.');
     }
     if (leads !== null && sales !== null && sales > leads) {
-      pushFlag('SALES_EXCEED_LEADS', 'critical', 'conversion', 'sales_customers_count', 'Customers should normally not exceed leads without explicit explanation.');
+      pushFlag('SALES_EXCEED_LEADS', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'sales_customers_count', 'Customers exceed leads in the current definition and require clarification.');
     }
 
     var derived = {
@@ -313,9 +323,26 @@
       lead_to_customer_rate: safeRate(sales, leads)
     };
 
-    if (flags.some(function (f) { return f.code === 'APPOINTMENTS_EXCEED_LEADS'; })) derived.booking_rate = null;
-    if (flags.some(function (f) { return f.code === 'SALES_EXCEED_QUALIFIED'; })) derived.close_rate = null;
-    if (flags.some(function (f) { return f.code === 'SALES_EXCEED_LEADS'; })) derived.lead_to_customer_rate = null;
+    if (leads === null || leads <= 0) {
+      pushFlag('BOOKING_RATE_UNAVAILABLE', DATA_QUALITY_SEVERITY.INFO, 'conversion', 'leads_count', 'Booking rate unavailable because Leads is missing or zero.');
+      pushFlag('LEAD_TO_CUSTOMER_RATE_UNAVAILABLE', DATA_QUALITY_SEVERITY.INFO, 'conversion', 'leads_count', 'Lead-to-customer rate unavailable because Leads is missing or zero.');
+    }
+    if (qualified === null || qualified <= 0) {
+      pushFlag('CLOSE_RATE_UNAVAILABLE', DATA_QUALITY_SEVERITY.INFO, 'conversion', 'qualified_opportunities_count', 'Close rate unavailable because Qualified Opportunities is missing or zero.');
+    }
+
+    if (flags.some(function (f) { return f.code === 'APPOINTMENTS_EXCEED_LEADS'; })) {
+      derived.booking_rate = null;
+      pushFlag('BOOKING_RATE_REQUIRES_CLARIFICATION', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'appointments_count', 'Booking rate withheld until lead/appointment definition is clarified.');
+    }
+    if (flags.some(function (f) { return f.code === 'SALES_EXCEED_QUALIFIED'; })) {
+      derived.close_rate = null;
+      pushFlag('CLOSE_RATE_REQUIRES_CLARIFICATION', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'sales_customers_count', 'Close rate withheld until qualified/sales definition is clarified.');
+    }
+    if (flags.some(function (f) { return f.code === 'SALES_EXCEED_LEADS'; })) {
+      derived.lead_to_customer_rate = null;
+      pushFlag('LEAD_TO_CUSTOMER_REQUIRES_CLARIFICATION', DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION, 'conversion', 'sales_customers_count', 'Lead-to-customer rate withheld until lead/sales definition is clarified.');
+    }
 
     return { data_quality_flags: flags, derived_conversion_metrics: derived };
   }
@@ -327,17 +354,21 @@
     return round2(total / scored.length);
   }
 
+  function calculateEngineScores(questionScores) {
+    var scores = {};
+    ENGINE_CONFIG.forEach(function (e) {
+      scores[e.id] = calculateEngineScore(questionScores, e.id);
+    });
+    return scores;
+  }
+
   function calculateOverallScore(engineScores) {
     var totalWeight = ENGINE_CONFIG.reduce(function (sum, e) { return sum + e.weight; }, 0);
-    if (totalWeight !== 100) {
-      throw new Error('Engine weights must total 100. Current total: ' + totalWeight);
-    }
+    if (totalWeight !== 100) throw new Error('Engine weights must total 100. Current total: ' + totalWeight);
 
     for (var i = 0; i < ENGINE_CONFIG.length; i++) {
       var eid = ENGINE_CONFIG[i].id;
-      if (engineScores[eid] === null || engineScores[eid] === undefined) {
-        return null;
-      }
+      if (engineScores[eid] === null || engineScores[eid] === undefined) return null;
     }
 
     var overall = 0;
@@ -352,9 +383,7 @@
     var rounded = Math.round(overallScore);
     for (var i = 0; i < STAGE_BANDS.length; i++) {
       var b = STAGE_BANDS[i];
-      if (rounded >= b.min && rounded <= b.max) {
-        return { stage: b.name, band: b };
-      }
+      if (rounded >= b.min && rounded <= b.max) return { stage: b.name, band: b };
     }
     return { stage: 'Insufficient Data', band: null };
   }
@@ -373,8 +402,8 @@
     var below70 = Object.keys(engineScores).filter(function (k) {
       return engineScores[k] !== null && engineScores[k] < 70;
     });
-    if (below70.length) guardrails.push('ENGINE_BELOW_70:' + below70.join(','));
 
+    if (below70.length) guardrails.push('ENGINE_BELOW_70:' + below70.join(','));
     if (engineScores.delivery < 75) guardrails.push('DELIVERY_BELOW_75');
     if (engineScores.independence < 75) guardrails.push('INDEPENDENCE_BELOW_75');
 
@@ -394,6 +423,7 @@
   }
 
   function reasonCode(candidate) {
+    if (candidate.priority_score >= CONSTRAINT_CONFIG.critical_priority_threshold) return 'CRITICAL_REPAIR_PRIORITY';
     if (candidate.normalized_score <= 25 && candidate.revenue_impact >= 4) return 'LOW_MATURITY_HIGH_REVENUE_IMPACT';
     if (candidate.dependency >= 4 && candidate.urgency >= 4) return 'HIGH_DEPENDENCY_HIGH_URGENCY_GAP';
     if (candidate.gap_severity >= 4) return 'SEVERE_MATURITY_GAP';
@@ -416,6 +446,7 @@
           dependency: q.dependency,
           urgency: q.urgency,
           priority_score: priority,
+          critical_priority: priority >= CONSTRAINT_CONFIG.critical_priority_threshold,
           reason_code: ''
         };
         candidate.reason_code = reasonCode(candidate);
@@ -439,9 +470,7 @@
       return { id: e.id, name: e.name, score: engineScores[e.id] };
     }).filter(function (e) { return e.score !== null && e.score !== undefined; });
 
-    if (!list.length) {
-      return { strongest_engine: null, weakest_engine: null, strongest_engines: [], weakest_engines: [] };
-    }
+    if (!list.length) return { strongest_engine: null, weakest_engine: null, strongest_engines: [], weakest_engines: [] };
 
     var max = Math.max.apply(null, list.map(function (e) { return e.score; }));
     var min = Math.min.apply(null, list.map(function (e) { return e.score; }));
@@ -457,16 +486,31 @@
     };
   }
 
+  function normalizeEvidenceType(response) {
+    var raw = response && response.evidence_type ? String(response.evidence_type).toLowerCase() : 'self_reported';
+    raw = raw.replace(/\s+/g, '_').replace(/-/g, '_');
+
+    if (response && response.unknown === true) return 'estimated';
+    if (raw === "don't_know" || raw === 'dont_know' || raw === 'unknown' || raw === 'not_sure' || raw === 'estimated_or_unknown') {
+      return 'estimated';
+    }
+    if (!EVIDENCE_SCORES.hasOwnProperty(raw)) return 'self_reported';
+    return raw;
+  }
+
   function evidenceScoreForResponse(response) {
-    var t = response && response.evidence_type ? String(response.evidence_type).toLowerCase() : 'self_reported';
-    if (response && response.unknown === true) t = 'estimated';
-    if (!EVIDENCE_SCORES.hasOwnProperty(t)) t = 'self_reported';
-    return EVIDENCE_SCORES[t];
+    return EVIDENCE_SCORES[normalizeEvidenceType(response)];
   }
 
   function calculateDiagnosticConfidence(questionScores, expectedCoreCount) {
     var usable = questionScores.filter(function (q) { return q.normalized_score !== null; });
     var usableCount = usable.length;
+
+    var evidence_counts = { estimated: 0, self_reported: 0, system_derived: 0, verified: 0 };
+    usable.forEach(function (q) {
+      evidence_counts[normalizeEvidenceType(q)] += 1;
+    });
+
     var qualityAvg = usableCount
       ? round2(usable.reduce(function (sum, q) { return sum + evidenceScoreForResponse(q); }, 0) / usableCount)
       : 0;
@@ -477,10 +521,22 @@
       evidence_quality_score: qualityAvg,
       evidence_coverage: coverage,
       evidence_coverage_pct: Math.round(coverage * 100),
-      confidence_score: round2((qualityAvg * coverage)),
+      confidence_score: round2(qualityAvg * coverage),
       evidence_levels: EVIDENCE_SCORES,
+      evidence_counts: evidence_counts,
       default_public_evidence_type: 'self_reported'
     };
+  }
+
+  function determineDecisionConfidenceStatus(confidence, dataQualityFlags) {
+    var counts = confidence.evidence_counts || { estimated: 0, self_reported: 0, system_derived: 0, verified: 0 };
+    var usable = counts.estimated + counts.self_reported + counts.system_derived + counts.verified;
+    var highEvidence = usable ? (counts.system_derived + counts.verified) / usable : 0;
+    var hasInvalid = (dataQualityFlags || []).some(function (f) { return f.severity === DATA_QUALITY_SEVERITY.INVALID; });
+
+    if (hasInvalid || confidence.confidence_score < 60 || highEvidence < 0.4) return 'PROVISIONAL';
+    if (confidence.confidence_score >= 90 && highEvidence >= 0.8) return 'HIGH_CONFIDENCE';
+    return 'SUPPORTED';
   }
 
   function determineScalingDecision(input) {
@@ -489,9 +545,11 @@
     var flags = input.data_quality_flags || [];
     var constraints = input.constraints || { candidates: [] };
     var questionScores = input.question_scores || [];
+    var confidence = input.diagnostic_confidence;
 
     var reasons = [];
-    var criticalFlags = flags.filter(function (f) { return f.severity === 'critical'; });
+    var invalidFlags = flags.filter(function (f) { return f.severity === DATA_QUALITY_SEVERITY.INVALID; });
+    var clarifications = flags.filter(function (f) { return f.severity === DATA_QUALITY_SEVERITY.REQUIRES_CLARIFICATION; });
     var e2 = questionScores.find(function (q) { return q.question_id === 'E2'; });
     var e1 = questionScores.find(function (q) { return q.question_id === 'E1'; });
     var highestConstraint = constraints.candidates[0] || null;
@@ -500,10 +558,16 @@
     if (engineScores.independence < 50) reasons.push('INDEPENDENCE_BELOW_50');
     if (engineScores.conversion < 50) reasons.push('CONVERSION_BELOW_50');
     if (engineScores.expansion < 50) reasons.push('EXPANSION_BELOW_50');
-    if (criticalFlags.length) reasons.push('CRITICAL_DATA_QUALITY_FLAG');
+    if (invalidFlags.length) reasons.push('INVALID_DATA_QUALITY_FLAG');
     if (e2 && e2.normalized_score <= 25) reasons.push('MAJOR_UNKNOWN_FINANCIAL_VISIBILITY');
     if (e1 && e1.normalized_score < 50) reasons.push('INSUFFICIENT_CAPACITY_FOR_NEAR_TERM_SCALE');
     if (highestConstraint && highestConstraint.priority_score >= CONSTRAINT_CONFIG.critical_priority_threshold) reasons.push('CRITICAL_CONSTRAINT_REQUIRES_REPAIR_FIRST');
+
+    if (clarifications.length) reasons.push('DATA_DEFINITIONS_REQUIRE_CLARIFICATION');
+
+    var blockingReasons = reasons.filter(function (r) {
+      return r !== 'DATA_DEFINITIONS_REQUIRE_CLARIFICATION';
+    });
 
     var canScale = (
       overall !== null &&
@@ -512,22 +576,20 @@
       engineScores.delivery >= SCALE_HOLD_CONFIG.scale_min_delivery &&
       engineScores.independence >= SCALE_HOLD_CONFIG.scale_min_independence &&
       engineScores.expansion >= SCALE_HOLD_CONFIG.scale_min_expansion &&
-      criticalFlags.length === 0 &&
+      invalidFlags.length === 0 &&
       !(highestConstraint && highestConstraint.priority_score >= CONSTRAINT_CONFIG.critical_priority_threshold)
     );
 
-    if (canScale && reasons.length === 0) {
-      return {
-        decision: 'SCALE',
-        reasons: ['FOUNDATION_MEETS_SCALE_THRESHOLDS'],
-        note: 'Scaling is appropriate with current maturity and no critical repair-first blockers.'
-      };
-    }
+    var decision = (canScale && blockingReasons.length === 0) ? 'SCALE' : 'HOLD';
+    var note = decision === 'SCALE'
+      ? 'Your current operating foundation appears capable of supporting additional volume, subject to the quality of the information provided.'
+      : 'Repair the current constraint before materially increasing volume.';
 
     return {
-      decision: 'HOLD',
-      reasons: reasons.length ? reasons : ['REPAIR_BEFORE_MATERIAL_SCALE'],
-      note: 'HOLD means repair the current constraint before materially increasing volume.'
+      decision: decision,
+      reasons: reasons.length ? reasons : ['FOUNDATION_MEETS_SCALE_THRESHOLDS'],
+      note: note,
+      decision_confidence_status: determineDecisionConfidenceStatus(confidence, flags)
     };
   }
 
@@ -564,7 +626,7 @@
           raw_response: applied.raw_response,
           scored_response: applied.scored_response,
           normalized_score: applied.normalized_score,
-          evidence_type: r.evidence_type || 'self_reported',
+          evidence_type: normalizeEvidenceType(r),
           confidence: r.confidence || null,
           timestamp: r.timestamp || null,
           source: r.source || null,
@@ -575,14 +637,6 @@
           reverse_scored: q.reverse_scored
         };
       });
-  }
-
-  function calculateEngineScores(questionScores) {
-    var scores = {};
-    ENGINE_CONFIG.forEach(function (e) {
-      scores[e.id] = calculateEngineScore(questionScores, e.id);
-    });
-    return scores;
   }
 
   function scoreDiagnostic(input) {
@@ -597,26 +651,31 @@
     var readiness = determineExpansionReadiness(overallScore, engineScores);
     var extremes = strongestAndWeakestEngines(engineScores);
     var constraints = rankConstraintCandidates(normalizedResponses);
-    var confidence = calculateDiagnosticConfidence(normalizedResponses, questionList().length);
+    var confidence = calculateDiagnosticConfidence(normalizedResponses, QUESTION_LIST.length);
     var scaling = determineScalingDecision({
       engine_scores: engineScores,
       overall_score: overallScore,
       data_quality_flags: supplementalResult.data_quality_flags,
       constraints: constraints,
-      question_scores: normalizedResponses
+      question_scores: normalizedResponses,
+      diagnostic_confidence: confidence
     });
 
     var stage = stageResult.stage;
+    var stage_note = null;
     if (stage === 'Expansion Ready Candidate' && !readiness.expansion_ready_eligible) {
       stage = 'Scalable';
+      stage_note = 'Your overall maturity is high, but one or more critical operating engines do not yet meet Expansion Ready requirements.';
     }
 
     return {
+      scoring_version: FLOWSCALE_SCORING_VERSION,
       engine_scores: engineScores,
       overall_score_precise: overallScore,
       overall_score: overallScore === null ? null : Math.round(overallScore),
       maturity_stage: stage,
       stage_candidate: stageResult.stage,
+      stage_note: stage_note,
       expansion_ready: readiness,
       strongest_engine: extremes.strongest_engine,
       weakest_engine: extremes.weakest_engine,
@@ -630,15 +689,20 @@
       data_quality_flags: supplementalResult.data_quality_flags,
       derived_conversion_metrics: supplementalResult.derived_conversion_metrics,
       recommended_solution: null,
-      question_scores: normalizedResponses
+      question_scores: normalizedResponses,
+      notes: {
+        scale_threshold_discrete_note: 'Engine scores move in discrete 25-point increments from four maturity questions; threshold checks use direct score comparisons without changing scoring math.'
+      }
     };
   }
 
   return {
+    FLOWSCALE_SCORING_VERSION: FLOWSCALE_SCORING_VERSION,
     ENGINE_CONFIG: ENGINE_CONFIG,
-    QUESTION_LIST: questionList(),
+    QUESTION_LIST: QUESTION_LIST,
     DEFAULT_SCALE_LABELS: DEFAULT_SCALE_LABELS,
     EVIDENCE_SCORES: EVIDENCE_SCORES,
+    DATA_QUALITY_SEVERITY: DATA_QUALITY_SEVERITY,
     normalizeQuestionScore: normalizeQuestionScore,
     applyQuestionScoring: applyQuestionScoring,
     calculateEngineScore: calculateEngineScore,
