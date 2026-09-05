@@ -56,7 +56,7 @@
     .ef-progress-fill { width:0%; height:100%; background:linear-gradient(90deg,#77d7ff,#8b5cf6); transition:width .25s ease; }
 
     .ef-engine-chip { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(119,215,255,.25); background:rgba(119,215,255,.08); color:#77d7ff; border-radius:999px; font-size:.76rem; padding:6px 13px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; }
-    .ef-question-title { font-size:1.34rem; line-height:1.35; margin:16px 0 8px; }
+    .ef-question-title { font-size:1.26rem; line-height:1.35; margin:16px 0 8px; }
     .ef-question-sub { color:#9aa9c9; font-size:.9rem; line-height:1.6; margin-bottom:16px; }
 
     .ef-scale { display:grid; gap:10px; }
@@ -86,8 +86,16 @@
     .ef-complete { display:none; background:rgba(8,13,31,.84); border:1px solid rgba(119,215,255,.3); border-radius:24px; padding:28px 24px; }
     .ef-complete h3 { font-size:1.42rem; margin-bottom:10px; color:#77d7ff; }
     .ef-complete p { color:#bdd0f3; line-height:1.7; }
-    .ef-complete-list { list-style:none; margin-top:12px; display:grid; gap:8px; }
-    .ef-complete-list li { font-size:.86rem; color:#bfd0f2; }
+
+    .ef-preview-card { margin-top:18px; border:1px solid rgba(255,255,255,.12); border-radius:16px; background:rgba(7,17,38,.68); padding:16px; }
+    .ef-preview-title { font-size:1rem; color:#eef3ff; margin-bottom:8px; font-weight:800; }
+    .ef-preview-note { font-size:.82rem; color:#a9bddf; margin-bottom:12px; }
+    .ef-preview-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .ef-preview-item { border:1px solid rgba(255,255,255,.09); border-radius:10px; padding:10px; }
+    .ef-preview-item .k { display:block; font-size:.74rem; text-transform:uppercase; color:#82d9ff; margin-bottom:4px; letter-spacing:.08em; }
+    .ef-preview-item .v { display:block; font-size:.89rem; color:#e7efff; line-height:1.4; }
+    .ef-engine-list { margin-top:10px; display:grid; gap:6px; }
+    .ef-engine-row { display:flex; justify-content:space-between; font-size:.82rem; color:#bdd0f2; border-bottom:1px dashed rgba(255,255,255,.08); padding:5px 0; }
 
     .ef-future-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:16px; }
     .ef-future-grid div { border:1px dashed rgba(119,215,255,.28); border-radius:10px; padding:10px; color:#9fb0d5; font-size:.78rem; }
@@ -98,11 +106,11 @@
       .ef-report-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .ef-diagnostic-shell { grid-template-columns:1fr; }
       .ef-progress-card { position:relative; top:auto; }
-      .ef-future-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .ef-preview-grid, .ef-future-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
     @media (max-width:700px){
       .ef-audit-hero { padding:112px 20px 62px; }
-      .ef-engines, .ef-stages, .ef-report-grid, .ef-future-grid { grid-template-columns:1fr; }
+      .ef-engines, .ef-stages, .ef-report-grid, .ef-preview-grid, .ef-future-grid { grid-template-columns:1fr; }
       .ef-section { padding:72px 20px; }
       .ef-supp-grid { grid-template-columns:1fr; }
       .ef-scale-label { grid-template-columns:30px 1fr; }
@@ -218,7 +226,7 @@
   <section class="ef-section" id="diagnostic-workspace">
     <div class="ef-section-label ef-center">FlowScale Diagnostic Workspace</div>
     <h2 class="ef-section-title ef-center ef-reveal">Complete the 28-question business diagnostic.</h2>
-    <p class="ef-section-sub ef-center ef-reveal">One question at a time, grouped by engine, with autosave-ready progress and no fabricated score output.</p>
+    <p class="ef-section-sub ef-center ef-reveal">One question at a time, grouped by engine, with autosave-ready progress and deterministic local preview scoring.</p>
 
     <div class="ef-diagnostic-shell">
       <div>
@@ -247,14 +255,28 @@
 
         <div id="efCompletion" class="ef-complete" tabindex="-1">
           <h3>Your diagnostic responses are complete.</h3>
-          <p>FlowCore analysis becomes available once the scoring integration is connected. Your responses have been organized in a structured format for the future scoring and routing layer.</p>
-          <ul class="ef-complete-list">
-            <li>&bull; No simulated FlowScale score is shown.</li>
-            <li>&bull; No package mapping logic has been applied.</li>
-            <li>&bull; Diagnosis is preserved separately from solution matching.</li>
-          </ul>
+          <p>FlowCore analysis below is a deterministic local preview and not yet externally system-verified.</p>
+
+          <div class="ef-preview-card" id="efPreviewCard">
+            <div class="ef-preview-title">FlowCore Diagnostic Preview</div>
+            <div class="ef-preview-note">This preliminary diagnostic is based on the information provided and is not yet system-verified.</div>
+            <div class="ef-preview-grid">
+              <div class="ef-preview-item"><span class="k">FlowScale Score</span><span class="v" id="pvOverall">-</span></div>
+              <div class="ef-preview-item"><span class="k">Maturity Stage</span><span class="v" id="pvStage">-</span></div>
+              <div class="ef-preview-item"><span class="k">Strongest Engine</span><span class="v" id="pvStrongest">-</span></div>
+              <div class="ef-preview-item"><span class="k">Weakest Engine</span><span class="v" id="pvWeakest">-</span></div>
+              <div class="ef-preview-item"><span class="k">Primary Constraint</span><span class="v" id="pvPrimary">-</span></div>
+              <div class="ef-preview-item"><span class="k">Secondary Constraint</span><span class="v" id="pvSecondary">-</span></div>
+              <div class="ef-preview-item"><span class="k">Diagnostic Confidence</span><span class="v" id="pvConfidence">-</span></div>
+              <div class="ef-preview-item"><span class="k">Scale / Hold</span><span class="v" id="pvScaleHold">-</span></div>
+            </div>
+            <div class="ef-engine-list" id="pvEngineList"></div>
+            <div class="ef-engine-list" id="pvMetricsList"></div>
+          </div>
+
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
             <button type="button" id="efRestartBtn" class="ef-btn-secondary">Review Answers</button>
+            <button type="button" id="efResetAllBtn" class="ef-btn-secondary">Clear Saved Diagnostic</button>
             <a href="contact.html" class="ef-btn-primary">Contact Endless Flow</a>
           </div>
 
@@ -280,7 +302,8 @@
         <div class="ef-progress-track"><div id="efProgressFill" class="ef-progress-fill"></div></div>
 
         <div class="ef-quick-summary" id="efMicrocopy"></div>
-        <div class="ef-mini" id="efAutosaveState">Autosave ready: responses are stored in this browser.</div>
+        <div class="ef-mini" id="efAutosaveState">Unfinished responses may be saved in this browser for recovery.</div>
+        <button type="button" id="efClearBtn" class="ef-btn-glass" style="margin-top:10px;">Clear Saved Diagnostic</button>
       </aside>
     </div>
   </section>
@@ -288,154 +311,41 @@
   <div id="ef-footer-mount"></div>
 </div>
 
+<script src="flowcore-scoring.js"></script>
 <script src="nav.js"></script>
 <script>
   const AUDIT_FORM_URL_TODO = '';
-
-  const FLOW_SCALE = [
-    { value: 0, label: "Doesn't exist / don't know", detail: "No consistent process or visibility today." },
-    { value: 1, label: "Exists informally; mostly reactive or manual", detail: "Some effort exists, but it depends on manual action." },
-    { value: 2, label: "Partially implemented; inconsistent", detail: "Used in parts of the business, but not reliable." },
-    { value: 3, label: "Repeatable, documented or measured", detail: "Most cases follow a standard approach with visibility." },
-    { value: 4, label: "Predictable, measured, optimized and scalable", detail: "Stable, measured, and built to absorb growth." }
-  ];
-
-  const DIAGNOSTIC_ENGINES = [
-    {
-      id: 'market',
-      name: 'Market',
-      weight: 10,
-      microcopy: 'Clarity of market demand determines how efficiently everything else can work.',
-      supplemental: [],
-      questions: [
-        { id: 'M1', text: 'How clearly can you define the customer most likely to purchase from you?' },
-        { id: 'M2', text: 'How well do you understand the primary problem or desired outcome that causes customers to buy?' },
-        { id: 'M3', text: 'Can customers quickly understand why they should choose you instead of an alternative?' },
-        { id: 'M4', text: 'Do you have evidence that your target market consistently wants and purchases what you sell?' }
-      ]
-    },
-    {
-      id: 'value',
-      name: 'Value',
-      weight: 15,
-      microcopy: 'Strong value architecture helps protect margins and long-term growth quality.',
-      supplemental: [
-        { id: 'avg_sale', label: 'Average sale', type: 'text', placeholder: 'e.g., $2,500', allowDontKnow: true },
-        { id: 'avg_gross_margin_pct', label: 'Average gross margin %', type: 'number', placeholder: 'e.g., 45', allowDontKnow: true },
-        { id: 'avg_customer_value', label: 'Average customer value', type: 'text', placeholder: 'e.g., $7,800', allowDontKnow: true }
-      ],
-      questions: [
-        { id: 'V1', text: 'Is there a clearly defined offer with a specific outcome, scope and price?' },
-        { id: 'V2', text: 'Is your pricing based on economics and value rather than guessing or competitor copying?' },
-        { id: 'V3', text: 'Do you know approximately how much gross profit is produced when you make a sale?' },
-        { id: 'V4', text: 'Do you track which products/services/offers convert and retain customers best?' }
-      ]
-    },
-    {
-      id: 'acquisition',
-      name: 'Acquisition',
-      weight: 15,
-      microcopy: 'Acquisition quality matters more than raw volume when growth decisions are made.',
-      supplemental: [
-        { id: 'leads_30_days', label: 'Leads last 30 days', type: 'number', placeholder: 'e.g., 120' },
-        { id: 'primary_source', label: 'Primary source', type: 'select', options: ['Google','Meta','Referral','Organic','Outbound','Walk-in','Marketplace','Other'] }
-      ],
-      questions: [
-        { id: 'A1', text: 'Can you identify exactly where new leads/customers are coming from?' },
-        { id: 'A2', text: 'Does the business generate qualified opportunities consistently?' },
-        { id: 'A3', text: 'Can prospects easily submit their information from your website, landing pages, ads and other channels?' },
-        { id: 'A4', text: 'Can you connect a customer or sale back to the marketing source that created it?' }
-      ]
-    },
-    {
-      id: 'conversion',
-      name: 'Conversion',
-      weight: 20,
-      microcopy: 'More leads cannot fix a system that consistently loses the leads it already has.',
-      supplemental: [
-        { id: 'leads_count', label: 'Leads', type: 'number', placeholder: 'e.g., 80' },
-        { id: 'appointments_count', label: 'Appointments', type: 'number', placeholder: 'e.g., 37' },
-        { id: 'qualified_opportunities_count', label: 'Qualified opportunities', type: 'number', placeholder: 'e.g., 29' },
-        { id: 'sales_customers_count', label: 'Sales / customers', type: 'number', placeholder: 'e.g., 11' }
-      ],
-      questions: [
-        { id: 'C1', text: 'How quickly does someone respond when a new prospect contacts the business?' },
-        { id: 'C2', text: 'Does every unconverted lead automatically receive structured follow-up?' },
-        { id: 'C3', text: 'Does the business have a repeatable process for qualifying and converting opportunities?' },
-        { id: 'C4', text: 'Can qualified prospects conveniently book the appropriate next step, and does the business actively reduce no-shows?' }
-      ]
-    },
-    {
-      id: 'delivery',
-      name: 'Delivery',
-      weight: 15,
-      microcopy: 'Delivery reliability protects reputation and enables repeatable expansion.',
-      supplemental: [
-        { id: 'refund_rate', label: 'Refund rate', type: 'text', placeholder: 'e.g., 2%' },
-        { id: 'cancellation_rate', label: 'Cancellation rate', type: 'text', placeholder: 'e.g., 5%' },
-        { id: 'repeat_purchase_rate', label: 'Repeat purchase rate', type: 'text', placeholder: 'e.g., 28%' },
-        { id: 'avg_fulfillment_time', label: 'Average fulfillment time', type: 'text', placeholder: 'e.g., 7 days' }
-      ],
-      questions: [
-        { id: 'D1', text: 'Does every new customer receive a consistent onboarding experience?' },
-        { id: 'D2', text: 'Is there a documented and repeatable process for delivering what was sold?' },
-        { id: 'D3', text: 'Does the business proactively monitor customer satisfaction, problems and service quality?' },
-        { id: 'D4', text: 'Is there a structured process for repeat purchases, renewals, reviews, referrals or reactivation?' }
-      ]
-    },
-    {
-      id: 'independence',
-      name: 'Independence',
-      weight: 15,
-      microcopy: 'This engine measures how much of the business depends on the owner personally knowing or doing everything.',
-      supplemental: [],
-      questions: [
-        { id: 'I1', text: 'Does one reliable system contain customer information, communications, pipeline status and important activity?' },
-        { id: 'I2', text: 'Are recurring business processes documented well enough that another competent person could perform them?' },
-        { id: 'I3', text: 'Are repetitive administrative activities automated where appropriate?' },
-        { id: 'I4', text: 'If the owner stopped working for seven days, how much of the company would stop functioning?' }
-      ]
-    },
-    {
-      id: 'expansion',
-      name: 'Expansion',
-      weight: 10,
-      microcopy: 'Growth is only useful if the business can absorb the additional volume.',
-      supplemental: [],
-      questions: [
-        { id: 'E1', text: 'Could the business handle 50% more customers next month without serious service deterioration?' },
-        { id: 'E2', text: 'Does management understand revenue, margins, cash requirements and major operating costs?' },
-        { id: 'E3', text: 'Can leadership see the important KPIs necessary to make growth decisions?' },
-        { id: 'E4', text: 'Can the business increase marketing, staff, customers or locations without creating an operational bottleneck elsewhere?' }
-      ]
-    }
-  ];
-
   const STORAGE_KEY = 'ef_flowcore_diagnostic_v1';
 
-  const FLAT_QUESTIONS = DIAGNOSTIC_ENGINES.flatMap((engine, engineIndex) =>
-    engine.questions.map((question, qIndex) => ({
-      engineId: engine.id,
-      engineName: engine.name,
-      engineWeight: engine.weight,
-      engineIndex,
-      qIndex,
-      globalIndex: engineIndex * 4 + qIndex,
-      question
-    }))
-  );
+  const ENGINE_CONFIG = FlowcoreScoring.ENGINE_CONFIG;
+  const QUESTION_LIST = FlowcoreScoring.QUESTION_LIST;
 
-  const state = {
-    step: 0,
-    responses: {},
-    supplemental: {},
-    completed: false
+  const ENGINE_NOTES = {
+    conversion: 'More leads cannot fix a system that consistently loses the leads it already has.',
+    independence: 'This engine measures how much of the business depends on the owner personally knowing or doing everything.',
+    expansion: 'Growth is only useful if the business can absorb the additional volume.'
   };
+
+  const FLAT_QUESTIONS = [];
+  ENGINE_CONFIG.forEach(function (engine, eIdx) {
+    engine.questions.forEach(function (q, qIdx) {
+      FLAT_QUESTIONS.push({
+        engine: engine,
+        question: q,
+        questionConfig: QUESTION_LIST.find(function (it) { return it.question_id === q.id; }),
+        engineIndex: eIdx,
+        questionIndexInEngine: qIdx,
+        globalIndex: FLAT_QUESTIONS.length
+      });
+    });
+  });
+
+  const state = { step: 0, responses: {}, supplemental: {}, completed: false };
 
   function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    const el = document.getElementById('efAutosaveState');
-    if (el) el.textContent = 'Autosave ready: responses are stored in this browser.';
+    var status = document.getElementById('efAutosaveState');
+    if (status) status.textContent = 'Unfinished responses may be saved in this browser for recovery.';
   }
 
   function loadState() {
@@ -443,13 +353,24 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === 'object') {
-        state.step = Math.max(0, Math.min(FLAT_QUESTIONS.length - 1, Number(parsed.step) || 0));
-        state.responses = parsed.responses || {};
-        state.supplemental = parsed.supplemental || {};
-        state.completed = !!parsed.completed;
-      }
+      if (!parsed || typeof parsed !== 'object') return;
+      state.step = Math.max(0, Math.min(FLAT_QUESTIONS.length - 1, Number(parsed.step) || 0));
+      state.responses = parsed.responses || {};
+      state.supplemental = parsed.supplemental || {};
+      state.completed = !!parsed.completed;
     } catch (e) {}
+  }
+
+  function clearStoredDiagnostic() {
+    localStorage.removeItem(STORAGE_KEY);
+    state.step = 0;
+    state.responses = {};
+    state.supplemental = {};
+    state.completed = false;
+    document.getElementById('efCompletion').style.display = 'none';
+    document.getElementById('efDiagnosticForm').style.display = 'block';
+    document.getElementById('efAutosaveState').textContent = 'Saved diagnostic data cleared from this browser.';
+    renderStep();
   }
 
   function setAuditLaunchGate() {
@@ -479,14 +400,16 @@
     const grid = document.getElementById('efSupplementalGrid');
     grid.innerHTML = '';
 
-    if (!engine.supplemental.length) {
+    if (!engine.supplemental || !engine.supplemental.length) {
       wrap.hidden = true;
       return;
     }
 
     wrap.hidden = false;
     title.textContent = engine.name + ' Supplemental Inputs';
-    const current = state.supplemental[engine.id] || {};
+
+    if (!state.supplemental[engine.id]) state.supplemental[engine.id] = {};
+    const current = state.supplemental[engine.id];
 
     engine.supplemental.forEach(function (field) {
       const row = document.createElement('div');
@@ -499,25 +422,23 @@
       let control;
       if (field.type === 'select') {
         control = document.createElement('select');
-        control.innerHTML = '<option value="">Select...</option>' + field.options.map(function (o) {
+        control.innerHTML = '<option value="">Select...</option>' + (field.options || []).map(function (o) {
           return '<option value="' + o + '">' + o + '</option>';
         }).join('');
       } else {
         control = document.createElement('input');
         control.type = field.type === 'number' ? 'number' : 'text';
-        if (field.placeholder) control.placeholder = field.placeholder;
-        if (field.type === 'number') control.inputMode = 'decimal';
+        control.inputMode = field.type === 'number' ? 'decimal' : 'text';
       }
 
       control.id = 'sup_' + field.id;
       control.name = field.id;
       control.value = current[field.id] || '';
       control.addEventListener('input', function () {
-        if (!state.supplemental[engine.id]) state.supplemental[engine.id] = {};
-        state.supplemental[engine.id][field.id] = control.value;
-        if (field.allowDontKnow && state.supplemental[engine.id][field.id + '_dont_know']) {
-          state.supplemental[engine.id][field.id + '_dont_know'] = false;
-          const cb = document.getElementById('sup_' + field.id + '_dont_know');
+        current[field.id] = control.value;
+        if (field.allowDontKnow && current[field.id + '_dont_know']) {
+          current[field.id + '_dont_know'] = false;
+          var cb = document.getElementById('sup_' + field.id + '_dont_know');
           if (cb) cb.checked = false;
         }
         saveState();
@@ -533,19 +454,20 @@
         opt.style.display = 'inline-flex';
         opt.style.gap = '8px';
         opt.style.alignItems = 'center';
+
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.id = 'sup_' + field.id + '_dont_know';
         checkbox.checked = !!current[field.id + '_dont_know'];
         checkbox.addEventListener('change', function () {
-          if (!state.supplemental[engine.id]) state.supplemental[engine.id] = {};
-          state.supplemental[engine.id][field.id + '_dont_know'] = checkbox.checked;
+          current[field.id + '_dont_know'] = checkbox.checked;
           if (checkbox.checked) {
-            state.supplemental[engine.id][field.id] = '';
+            current[field.id] = '';
             control.value = '';
           }
           saveState();
         });
+
         opt.appendChild(checkbox);
         opt.appendChild(document.createTextNode("Don't know"));
         row.appendChild(opt);
@@ -555,145 +477,209 @@
     });
   }
 
-  function renderStep() {
-    const current = FLAT_QUESTIONS[state.step];
-    const engine = DIAGNOSTIC_ENGINES[current.engineIndex];
-    const progressPct = Math.round((Object.keys(state.responses).length / FLAT_QUESTIONS.length) * 100);
-    const completedSoFar = state.step + 1;
-
-    document.getElementById('efEngineChip').textContent = 'Engine ' + (current.engineIndex + 1) + ' · ' + current.engineName + ' · ' + current.engineWeight + '%';
-    document.getElementById('efQuestionTitle').textContent = current.question.id + '. ' + current.question.text;
-    document.getElementById('efQuestionSub').textContent = 'Select one maturity level that best matches your current reality.';
-    document.getElementById('efProgressEngineLabel').textContent = 'Engine ' + (current.engineIndex + 1) + ' of 7 · ' + current.engineName;
-    document.getElementById('efProgressPctText').textContent = progressPct + '% Complete';
-    document.getElementById('efProgressQuestionText').textContent = 'Question ' + completedSoFar + ' of 28';
-    document.getElementById('efProgressFill').style.width = progressPct + '%';
-    document.getElementById('efQuestionError').textContent = '';
-
-    const microcopy = document.getElementById('efMicrocopy');
-    microcopy.innerHTML = '';
-    const mc = document.createElement('div');
-    mc.className = 'ef-mini';
-    mc.textContent = engine.microcopy;
-    microcopy.appendChild(mc);
-
-    if (engine.id === 'conversion') {
-      const m = document.createElement('div');
-      m.className = 'ef-mini';
-      m.textContent = 'Supplemental conversion inputs support future Booking Rate, Close Rate, and Lead-to-Customer Rate calculations when full scoring is connected.';
-      microcopy.appendChild(m);
-    }
-
+  function renderScaleOptions(questionConfig) {
     const options = document.getElementById('efScaleOptions');
     options.innerHTML = '';
-    const selected = state.responses[current.question.id] ? state.responses[current.question.id].response_value : null;
 
-    FLOW_SCALE.forEach(function (item) {
+    const labels = questionConfig.scale_labels || FlowcoreScoring.DEFAULT_SCALE_LABELS;
+    const current = state.responses[questionConfig.question_id];
+    const selectedRaw = current ? current.raw_response : null;
+
+    labels.forEach(function (label, raw) {
       const wrap = document.createElement('div');
       wrap.className = 'ef-scale-item';
 
       const input = document.createElement('input');
       input.type = 'radio';
       input.name = 'response_value';
-      input.id = 'resp_' + item.value;
-      input.value = String(item.value);
-      if (String(selected) === String(item.value)) input.checked = true;
+      input.id = 'resp_' + raw;
+      input.value = String(raw);
+      if (selectedRaw === raw) input.checked = true;
 
-      const label = document.createElement('label');
-      label.className = 'ef-scale-label';
-      label.setAttribute('for', input.id);
-      label.innerHTML = '<span class="ef-scale-num">' + item.value + '</span><span class="ef-scale-copy"><strong>' + item.label + '</strong><span>' + item.detail + '</span></span>';
+      const scoring = FlowcoreScoring.applyQuestionScoring(questionConfig.question_id, raw);
+      const normalized = scoring.normalized_score;
+
+      const uiLabel = document.createElement('label');
+      uiLabel.className = 'ef-scale-label';
+      uiLabel.setAttribute('for', input.id);
+      uiLabel.innerHTML = '<span class="ef-scale-num">' + raw + '</span><span class="ef-scale-copy"><strong>' + label + '</strong><span>Maturity score: ' + normalized + '</span></span>';
 
       input.addEventListener('change', function () {
-        saveResponse(current, Number(input.value));
+        saveResponse(questionConfig, raw);
       });
 
       wrap.appendChild(input);
-      wrap.appendChild(label);
+      wrap.appendChild(uiLabel);
       options.appendChild(wrap);
     });
+  }
 
-    renderSupplemental(engine);
+  function saveResponse(questionConfig, rawResponse) {
+    const scored = FlowcoreScoring.applyQuestionScoring(questionConfig.question_id, rawResponse);
+    const supplemental = state.supplemental[questionConfig.engine] || {};
 
-    document.getElementById('efBackBtn').disabled = state.step === 0;
-    document.getElementById('efNextBtn').textContent = state.step === FLAT_QUESTIONS.length - 1 ? 'Complete Diagnostic' : 'Next Question →';
+    state.responses[questionConfig.question_id] = {
+      engine: questionConfig.engine,
+      question_id: questionConfig.question_id,
+      question_text: questionConfig.question_text,
+      raw_response: scored.raw_response,
+      scored_response: scored.scored_response,
+      response_value: scored.scored_response,
+      supplemental_values: supplemental,
+      evidence_type: 'self_reported',
+      confidence: null,
+      timestamp: new Date().toISOString(),
+      source: null,
+      unknown: false
+    };
 
-    const checked = document.querySelector('input[name="response_value"]:checked');
-    if (!checked) {
-      const first = document.querySelector('input[name="response_value"]');
-      if (first) first.focus();
+    saveState();
+    renderProgressOnly();
+  }
+
+  function renderProgressOnly() {
+    const answered = Object.keys(state.responses).length;
+    const pct = Math.round((answered / FLAT_QUESTIONS.length) * 100);
+    const current = FLAT_QUESTIONS[state.step];
+
+    document.getElementById('efProgressEngineLabel').textContent = 'Engine ' + (current.engineIndex + 1) + ' of 7 · ' + current.engine.name;
+    document.getElementById('efProgressPctText').textContent = pct + '% Complete';
+    document.getElementById('efProgressQuestionText').textContent = 'Question ' + (state.step + 1) + ' of ' + FLAT_QUESTIONS.length;
+    document.getElementById('efProgressFill').style.width = pct + '%';
+
+    const micro = document.getElementById('efMicrocopy');
+    micro.innerHTML = '';
+    if (ENGINE_NOTES[current.engine.id]) {
+      const d = document.createElement('div');
+      d.className = 'ef-mini';
+      d.textContent = ENGINE_NOTES[current.engine.id];
+      micro.appendChild(d);
     }
   }
 
-  function saveResponse(current, value) {
-    const supplemental = state.supplemental[current.engineId] || {};
-    state.responses[current.question.id] = {
-      engine: current.engineId,
-      question_id: current.question.id,
-      question_text: current.question.text,
-      response_value: value,
-      supplemental_values: supplemental,
-      evidence_type: null,
-      confidence: null,
-      timestamp: new Date().toISOString(),
-      source: null
-    };
-    saveState();
-    renderStep();
+  function renderStep() {
+    const flat = FLAT_QUESTIONS[state.step];
+    const questionConfig = flat.questionConfig;
+
+    document.getElementById('efEngineChip').textContent = 'Engine ' + (flat.engineIndex + 1) + ' · ' + flat.engine.name + ' · ' + flat.engine.weight + '%';
+    document.getElementById('efQuestionTitle').textContent = questionConfig.question_id + '. ' + questionConfig.question_text;
+
+    if (questionConfig.reverse_scored) {
+      document.getElementById('efQuestionSub').textContent = 'This question is reverse-scored for maturity: higher owner dependency lowers the maturity score.';
+    } else {
+      document.getElementById('efQuestionSub').textContent = 'Select one maturity level that best matches your current reality.';
+    }
+
+    renderScaleOptions(questionConfig);
+    renderSupplemental(flat.engine);
+    renderProgressOnly();
+
+    document.getElementById('efQuestionError').textContent = '';
+    document.getElementById('efBackBtn').disabled = state.step === 0;
+    document.getElementById('efNextBtn').textContent = state.step === FLAT_QUESTIONS.length - 1 ? 'Complete Diagnostic' : 'Next Question →';
   }
 
   function validateCurrentStep() {
-    const current = FLAT_QUESTIONS[state.step];
-    const selected = document.querySelector('input[name="response_value"]:checked');
-    if (!selected) {
+    const flat = FLAT_QUESTIONS[state.step];
+    const qid = flat.questionConfig.question_id;
+    if (!state.responses[qid]) {
       document.getElementById('efQuestionError').textContent = 'Please select a maturity level before continuing.';
       return false;
     }
-
-    if (!state.responses[current.question.id]) {
-      saveResponse(current, Number(selected.value));
-    }
-
     return true;
   }
 
-  function goBack() {
-    if (state.step > 0) {
-      state.step -= 1;
-      saveState();
-      renderStep();
+  function renderPreview(result) {
+    function e(id) { return document.getElementById(id); }
+    function fmt(v) { return (v === null || v === undefined) ? 'Unknown' : String(v); }
+
+    e('pvOverall').textContent = fmt(result.overall_score);
+    e('pvStage').textContent = result.maturity_stage + (result.expansion_ready.expansion_ready_candidate && !result.expansion_ready.expansion_ready_eligible ? ' (guardrail not met)' : '');
+
+    var strong = result.strongest_engine ? (result.strongest_engine.name + ' (' + result.strongest_engine.score + ')') : result.strongest_engines.map(function (x) { return x.name + ' (' + x.score + ')'; }).join(', ');
+    var weak = result.weakest_engine ? (result.weakest_engine.name + ' (' + result.weakest_engine.score + ')') : result.weakest_engines.map(function (x) { return x.name + ' (' + x.score + ')'; }).join(', ');
+    e('pvStrongest').textContent = strong || 'Unknown';
+    e('pvWeakest').textContent = weak || 'Unknown';
+
+    e('pvPrimary').textContent = result.primary_constraint ? (result.primary_constraint.question_id + ' · ' + result.primary_constraint.reason_code) : 'None flagged';
+    e('pvSecondary').textContent = result.secondary_constraint ? (result.secondary_constraint.question_id + ' · ' + result.secondary_constraint.reason_code) : 'None flagged';
+
+    e('pvConfidence').textContent = result.diagnostic_confidence.confidence_score + ' (coverage ' + result.diagnostic_confidence.evidence_coverage_pct + '%)';
+    e('pvScaleHold').textContent = result.scaling_decision.decision + ' · ' + result.scaling_decision.reasons.join(', ');
+
+    const list = e('pvEngineList');
+    list.innerHTML = '';
+    ['market','value','acquisition','conversion','delivery','independence','expansion'].forEach(function (k) {
+      const row = document.createElement('div');
+      row.className = 'ef-engine-row';
+      row.innerHTML = '<span>' + k.charAt(0).toUpperCase() + k.slice(1) + '</span><span>' + fmt(result.engine_scores[k]) + '</span>';
+      list.appendChild(row);
+    });
+
+    const metrics = e('pvMetricsList');
+    metrics.innerHTML = '';
+    const dm = result.derived_conversion_metrics || {};
+    [
+      ['Booking Rate', dm.booking_rate],
+      ['Close Rate', dm.close_rate],
+      ['Lead-to-Customer Rate', dm.lead_to_customer_rate]
+    ].forEach(function (pair) {
+      const row = document.createElement('div');
+      row.className = 'ef-engine-row';
+      row.innerHTML = '<span>' + pair[0] + '</span><span>' + (pair[1] === null ? 'Unknown' : pair[1] + '%') + '</span>';
+      metrics.appendChild(row);
+    });
+
+    if (result.data_quality_flags && result.data_quality_flags.length) {
+      result.data_quality_flags.slice(0, 3).forEach(function (f) {
+        const row = document.createElement('div');
+        row.className = 'ef-engine-row';
+        row.innerHTML = '<span>Data Flag</span><span>' + f.code + '</span>';
+        metrics.appendChild(row);
+      });
     }
-  }
-
-  function goNext() {
-    if (!validateCurrentStep()) return;
-
-    if (state.step < FLAT_QUESTIONS.length - 1) {
-      state.step += 1;
-      saveState();
-      renderStep();
-      return;
-    }
-
-    showCompletion();
   }
 
   function showCompletion() {
     state.completed = true;
     saveState();
 
+    const result = FlowcoreScoring.scoreDiagnostic({
+      responses: Object.values(state.responses),
+      supplemental: state.supplemental
+    });
+
+    renderPreview(result);
+
     document.getElementById('efDiagnosticForm').style.display = 'none';
-    const done = document.getElementById('efCompletion');
-    done.style.display = 'block';
-    done.focus();
+    document.getElementById('efCompletion').style.display = 'block';
+    document.getElementById('efCompletion').focus();
 
     document.getElementById('efProgressPctText').textContent = '100% Complete';
     document.getElementById('efProgressQuestionText').textContent = 'Question 28 of 28';
     document.getElementById('efProgressFill').style.width = '100%';
-    document.getElementById('efAutosaveState').textContent = 'Responses saved. Awaiting FlowCore scoring integration.';
+    document.getElementById('efAutosaveState').textContent = 'Responses saved in browser. Use “Clear Saved Diagnostic” to remove local data.';
   }
 
-  function restartReview() {
+  function goBack() {
+    if (state.step === 0) return;
+    state.step -= 1;
+    saveState();
+    renderStep();
+  }
+
+  function goNext() {
+    if (!validateCurrentStep()) return;
+    if (state.step < FLAT_QUESTIONS.length - 1) {
+      state.step += 1;
+      saveState();
+      renderStep();
+      return;
+    }
+    showCompletion();
+  }
+
+  function reviewAnswers() {
     state.completed = false;
     state.step = 0;
     saveState();
@@ -705,7 +691,9 @@
   function bindEvents() {
     document.getElementById('efBackBtn').addEventListener('click', goBack);
     document.getElementById('efNextBtn').addEventListener('click', goNext);
-    document.getElementById('efRestartBtn').addEventListener('click', restartReview);
+    document.getElementById('efRestartBtn').addEventListener('click', reviewAnswers);
+    document.getElementById('efClearBtn').addEventListener('click', clearStoredDiagnostic);
+    document.getElementById('efResetAllBtn').addEventListener('click', clearStoredDiagnostic);
 
     document.getElementById('efDiagnosticForm').addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && e.target && e.target.matches('input[type="radio"]')) {
@@ -728,12 +716,8 @@
     loadState();
     bindEvents();
 
-    if (state.completed && Object.keys(state.responses).length >= FLAT_QUESTIONS.length) {
-      document.getElementById('efDiagnosticForm').style.display = 'none';
-      document.getElementById('efCompletion').style.display = 'block';
-      document.getElementById('efProgressPctText').textContent = '100% Complete';
-      document.getElementById('efProgressQuestionText').textContent = 'Question 28 of 28';
-      document.getElementById('efProgressFill').style.width = '100%';
+    if (state.completed && Object.keys(state.responses).length === FLAT_QUESTIONS.length) {
+      showCompletion();
       return;
     }
 
