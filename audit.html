@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free AI Business Audit | FlowCore Business Diagnostic</title>
+  <meta name="description" content="Begin the FlowCore Business Diagnostic to identify your current growth constraint and receive a structured 30/60/90 implementation pathway." />
+  <meta property="og:title" content="Free AI Business Audit | FlowCore Business Diagnostic" />
+  <meta property="og:description" content="Enter the premium FlowCore audit experience to diagnose, prioritize, and map the next business system improvements." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-audit-hero { min-height:88vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:124px 24px 76px; position:relative; }
+    .ef-audit-hero::before { content:''; position:absolute; width:min(860px,84vw); height:min(860px,84vw); top:14%; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse,rgba(119,215,255,.14) 0%,rgba(139,92,246,.08) 42%,transparent 70%); pointer-events:none; }
+    .ef-audit-hero-inner { position:relative; z-index:1; max-width:900px; }
+    .ef-audit-h1 { font-size:clamp(2rem,5.8vw,4.5rem); line-height:1.08; letter-spacing:-.028em; font-weight:900; margin-bottom:22px; }
+    .ef-audit-sub { color:#9aa9c9; font-size:1.08rem; line-height:1.78; max-width:760px; margin:0 auto 30px; }
+    .ef-note { margin-top:20px; color:#b8c8ec; font-size:.92rem; }
+    .ef-grid { display:grid; gap:12px; }
+    .ef-engines { grid-template-columns:repeat(7,minmax(0,1fr)); }
+    .ef-engine { border:1px solid rgba(255,255,255,.1); border-radius:16px; background:rgba(8,13,31,.72); padding:16px 12px; min-height:146px; }
+    .ef-engine h3 { font-size:.9rem; }
+    .ef-engine strong { display:block; color:#77d7ff; margin:8px 0; font-size:1.14rem; }
+    .ef-engine p { color:#9aa9c9; font-size:.79rem; line-height:1.5; }
+    .ef-report-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .ef-report-item { border:1px solid rgba(255,255,255,.1); border-radius:12px; background:rgba(7,17,38,.67); padding:12px 13px; color:#dbe6ff; font-size:.89rem; }
+    .ef-stages { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; }
+    .ef-stage { border:1px solid rgba(255,255,255,.1); border-radius:14px; background:rgba(8,13,31,.74); padding:14px 10px; text-align:center; }
+    .ef-stage .range { color:#77d7ff; font-weight:800; font-size:.9rem; }
+    .ef-stage .name { color:#eef3ff; font-weight:700; font-size:.82rem; margin-top:4px; }
+    .ef-diag-box { background:rgba(8,13,31,.72); border:1px solid rgba(119,215,255,.2); border-radius:22px; padding:28px; }
+    .ef-diag-list { list-style:none; display:grid; gap:11px; margin-top:10px; }
+    .ef-diag-list li { display:flex; gap:10px; color:#bdd0f4; }
+    .ef-diag-list li::before { content:'\2713'; color:#77d7ff; font-size:.82rem; margin-top:2px; }
+    .ef-launch { background:rgba(8,13,31,.78); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:30px 26px; text-align:center; }
+    .ef-launch-state { margin-top:14px; color:#9aa9c9; font-size:.9rem; line-height:1.6; }
+    .ef-launch-state.ef-ready { color:#b9efcd; }
+    .ef-launch-state.ef-pending { color:#f7dba0; }
+    .ef-launch-inner { max-width:730px; margin:0 auto; }
+
+    @media (max-width:1080px){
+      .ef-engines { grid-template-columns:repeat(4,minmax(0,1fr)); }
+      .ef-stages { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .ef-report-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:700px){
+      .ef-audit-hero { padding:112px 20px 62px; }
+      .ef-engines, .ef-stages, .ef-report-grid { grid-template-columns:1fr; }
+      .ef-section { padding:72px 20px; }
+    }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+  <div id="ef-nav-mount"></div>
+
+  <section class="ef-audit-hero">
+    <div class="ef-audit-hero-inner">
+      <div class="ef-badge ef-reveal"><span class="ef-badge-dot"></span>FlowCore Business Diagnostic</div>
+      <h1 class="ef-audit-h1 ef-reveal ef-d1">Find the constraint limiting your business right now.</h1>
+      <p class="ef-audit-sub ef-reveal ef-d2">The Endless Flow AI Business Audit evaluates the systems responsible for how your business attracts, converts, serves, and scales customers. FlowCore analyzes the information through the FlowScale Business Growth Architecture to identify what should be fixed first.</p>
+      <div class="ef-hero-btns ef-reveal ef-d3" style="justify-content:center;display:flex;gap:14px;flex-wrap:wrap;">
+        <a href="#audit-start" class="ef-btn-primary">Begin My Business Audit</a>
+      </div>
+      <p class="ef-note ef-reveal ef-d4">Designed to diagnose before recommending technology.</p>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="analysis-weights">
+    <div class="ef-section-label ef-center">What FlowCore Analyzes</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Seven engines. One diagnostic picture.</h2>
+    <div class="ef-grid ef-engines ef-reveal ef-d1">
+      <article class="ef-engine"><h3>Market</h3><strong>10%</strong><p>Demand fit and market alignment.</p></article>
+      <article class="ef-engine"><h3>Value</h3><strong>15%</strong><p>Offer quality and perceived value.</p></article>
+      <article class="ef-engine"><h3>Acquisition</h3><strong>15%</strong><p>Pipeline inputs and lead quality.</p></article>
+      <article class="ef-engine"><h3>Conversion</h3><strong>20%</strong><p>Response speed, follow-up, and close reliability.</p></article>
+      <article class="ef-engine"><h3>Delivery</h3><strong>15%</strong><p>Execution and customer outcome consistency.</p></article>
+      <article class="ef-engine"><h3>Independence</h3><strong>15%</strong><p>System performance without owner dependency.</p></article>
+      <article class="ef-engine"><h3>Expansion</h3><strong>10%</strong><p>Scalability and resilience under growth.</p></article>
+    </div>
+    <p class="ef-section-sub ef-center ef-reveal ef-d2" style="margin-top:20px;">Conversion carries the highest weight because businesses can generate opportunity and still lose revenue before a sale occurs.</p>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="report-preview">
+    <div class="ef-section-label ef-center">What You Receive</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Your FlowCore diagnostic report preview.</h2>
+    <div class="ef-glass-card ef-reveal ef-d1">
+      <div class="ef-report-grid">
+        <div class="ef-report-item">FlowScale Score</div>
+        <div class="ef-report-item">Maturity Stage</div>
+        <div class="ef-report-item">Seven Engine Scorecard</div>
+        <div class="ef-report-item">Strongest Engine</div>
+        <div class="ef-report-item">Primary Constraint</div>
+        <div class="ef-report-item">Secondary Constraint</div>
+        <div class="ef-report-item">Revenue Leakage Analysis</div>
+        <div class="ef-report-item">Diagnostic Confidence</div>
+        <div class="ef-report-item">Scale / Hold Decision</div>
+        <div class="ef-report-item">AI &amp; Automation Opportunities</div>
+        <div class="ef-report-item">30 / 60 / 90 FlowPlan</div>
+        <div class="ef-report-item">Recommended Architecture</div>
+      </div>
+      <p style="margin-top:14px;color:#b8c8ec;font-size:.88rem;line-height:1.7;">Not every diagnostic outcome produces the same implementation recommendation. The report is decision support first.</p>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="maturity-stages">
+    <div class="ef-section-label ef-center">The Six Maturity Stages</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Stage signals for growth readiness.</h2>
+    <div class="ef-stages ef-reveal ef-d1">
+      <article class="ef-stage"><div class="range">0&ndash;29</div><div class="name">Unstructured</div></article>
+      <article class="ef-stage"><div class="range">30&ndash;44</div><div class="name">Foundation</div></article>
+      <article class="ef-stage"><div class="range">45&ndash;59</div><div class="name">Repeatable</div></article>
+      <article class="ef-stage"><div class="range">60&ndash;74</div><div class="name">Managed Growth</div></article>
+      <article class="ef-stage"><div class="range">75&ndash;87</div><div class="name">Scalable</div></article>
+      <article class="ef-stage"><div class="range">88&ndash;100</div><div class="name">Expansion Ready</div></article>
+    </div>
+    <p class="ef-section-sub ef-center ef-reveal ef-d2" style="margin-top:16px;">Expansion Ready requires more than a high average. No engine may be below 70, and Delivery and Independence must each be at least 75.</p>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="diagnosis-first">
+    <div class="ef-section-label">Diagnosis Before Prescription</div>
+    <h2 class="ef-section-title ef-reveal">The diagnosis comes first. The solution comes second.</h2>
+    <div class="ef-diag-box ef-reveal ef-d1">
+      <ul class="ef-diag-list">
+        <li>A low website score does not automatically mean “buy a website.”</li>
+        <li>A low acquisition score does not automatically mean “run ads.”</li>
+        <li>A low FlowScale score does not automatically determine a package.</li>
+      </ul>
+      <p style="margin-top:14px;color:#b8c8ec;line-height:1.75;">FlowCore evaluates the active constraint, business complexity, existing systems, economics, urgency, capacity, and customer-journey realities before recommending next actions.</p>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="audit-start">
+    <div class="ef-section-label ef-center">Audit Start Area</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Launch your audit intake.</h2>
+    <div class="ef-launch ef-reveal ef-d1">
+      <div class="ef-launch-inner">
+        <p style="color:#bfd0f2;line-height:1.75;margin-bottom:18px;">This front-end launch point is connected once the production audit form/embed URL is configured.</p>
+        <a id="efAuditLaunchBtn" href="#" class="ef-btn-primary" aria-disabled="true" style="opacity:.85;">Begin My Business Audit</a>
+        <div id="efAuditLaunchState" class="ef-launch-state ef-pending">Audit intake connection is being finalized. You will not be redirected to a broken destination.</div>
+      </div>
+    </div>
+  </section>
+
+  <div id="ef-footer-mount"></div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+  const AUDIT_FORM_URL_TODO = '';
+  (function () {
+    var btn = document.getElementById('efAuditLaunchBtn');
+    var state = document.getElementById('efAuditLaunchState');
+    var configured = typeof AUDIT_FORM_URL_TODO === 'string' && AUDIT_FORM_URL_TODO.trim().length > 0;
+
+    if (configured) {
+      btn.setAttribute('href', AUDIT_FORM_URL_TODO.trim());
+      btn.removeAttribute('aria-disabled');
+      btn.style.opacity = '1';
+      state.classList.remove('ef-pending');
+      state.classList.add('ef-ready');
+      state.textContent = 'Audit intake is connected. Continue to begin your business diagnostic.';
+      return;
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      state.textContent = 'Audit intake link is not configured yet. Please check back shortly or contact us directly.';
+    });
+  })();
+</script>
+<!-- GHL CHAT WIDGET -->
+</body>
+</html>
