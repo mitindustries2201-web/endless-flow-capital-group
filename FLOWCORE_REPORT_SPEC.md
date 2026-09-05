@@ -1,4 +1,4 @@
-# FlowCore Diagnostic Report Specification (Phase 6)
+# FlowCore Diagnostic Report Specification (Phase 6 Hardening)
 
 ## Scope
 Defines deterministic client-side report behavior for completed FlowScale diagnostics in the static HTML/CSS/JS implementation.
@@ -52,7 +52,31 @@ The completed result payload includes:
 - No package-routing recommendations.
 - Optional CTA remains separated from diagnosis.
 
-### Executive Snapshot
+## Next Priority Constraint Terminology
+Use:
+- `NEXT PRIORITY CONSTRAINT`
+
+Do not use:
+- downstream constraint
+- future bottleneck
+- likely next bottleneck
+
+Display rule:
+- only the third-ranked deterministic candidate
+- only when `priority_score >= 180`
+
+Current limitation note:
+- ranking indicates deterministic priority order only, not proven causal dependency.
+
+## True Downstream Constraints (Future Work)
+A future FlowCore version may add an explicit process-dependency graph to distinguish:
+- current constraint
+- causal downstream constraint
+- future capacity bottleneck
+
+The current deterministic ranking model does **not** make causal dependency claims.
+
+## Executive Snapshot
 Displays:
 - FlowScale score
 - Stage
@@ -69,7 +93,7 @@ Includes deterministic interpretation:
 Includes public disclaimer:
 - `Based on the information provided. This diagnostic has not been independently verified.`
 
-### Seven Engine Scorecard
+## Seven Engine Scorecard
 Per-engine display:
 - engine name
 - score /100
@@ -85,7 +109,7 @@ Per-engine display:
 
 These are descriptive report labels and do not replace official overall FlowScale stage bands.
 
-### Revenue Leakage Rules
+## Revenue Leakage Rules
 Only deterministic and data-backed values are shown.
 - Uses available supplemental counts and derived metrics.
 - Missing denominator or missing stage data -> `Insufficient data to calculate this stage reliably.`
@@ -93,7 +117,7 @@ Only deterministic and data-backed values are shown.
   - `Requires clarification before this metric should be used for decision-making.`
 - No invented traffic/contact/leakage-dollar figures.
 
-### Constraint Analysis Rules
+## Constraint Analysis Rules
 For primary and secondary constraints show:
 - label
 - engine
@@ -106,36 +130,80 @@ For primary and secondary constraints show:
 - reason code
 - deterministic explanation template
 
-`Likely Next Constraint` appears only when ranked evidence is sufficient by deterministic threshold.
+`NEXT PRIORITY CONSTRAINT` appears only when threshold rule is met.
 
-### Constraint Chain
+## Constraint Chain
 Visual chain uses available deterministic constraints only:
 - Primary
 - Secondary
-- Next likely (if sufficient)
+- Next Priority (if threshold met)
 
-No fabricated downstream entries.
+No fabricated causal/downstream claims.
 
-### Systems Architecture Rules
-Report shows process-gap architecture, not guessed vendor stack.
-- `Current Diagnostic State`
-- `Priority Future State`
+## Systems Architecture Mapping Table
+Mappings are centralized in `flowcore-report.js` (`SYSTEM_ARCHITECTURE_MAPPINGS`).
 
-Nodes and transitions are selected from deterministic weak-area patterns.
-No unsupported claims of CRM/tool/platform usage.
+| Mapping ID | Triggering Question/Process | Trigger Threshold | Current Diagnostic State | Priority Future State | Reason |
+|---|---|---:|---|---|---|
+| response-followup-chain | C1, C2, C4 (Lead Response + Follow-Up + Booking) | any `< 75` | Lead captured -> inconsistent response -> manual follow-up | Lead captured -> reliable rapid response -> structured follow-up -> qualification -> booking -> reminders | Conversion flow requires response/follow-up/booking consistency before volume expansion. |
+| delivery-standardization | D1, D2 (Onboarding + Fulfillment) | any `< 75` | Sale closed -> inconsistent onboarding/fulfillment | Sale closed -> standardized onboarding -> documented fulfillment checkpoints -> quality control | Delivery reliability should be systemized before growth pressure increases service load. |
+| operating-independence | I1, I2, I4 (Data + Process + Owner Dependency) | any `< 75` | Owner-driven operations with fragmented process memory | Centralized data -> documented processes -> delegated ownership -> escalation rules | Independence fragility should be reduced before acceleration. |
+| visibility-governance | E2, E3 (Financial + KPI Visibility) | any `< 75` | Growth decisions with incomplete financial/KPI visibility | Capacity and growth decisions guided by recurring financial/KPI reporting | Expansion decisions require recurring economic/performance visibility. |
 
-### AI & Automation Opportunity Map
-Conservative rule-based categories only:
-- KEEP HUMAN
-- AUTOMATE
-- AI ASSIST
-- AI EXECUTE + HUMAN OVERSIGHT (reserved, optional future use)
-- ELIMINATE / REDESIGN (reserved, optional future use)
+Fallback mapping applies only when none of the above are triggered.
 
-Includes principle:
-- `Automation should remove friction, not judgment.`
+## AI Opportunity Mapping Table
+Mappings are centralized in `flowcore-report.js` (`AI_OPPORTUNITY_MAPPINGS`).
 
-### 30/60/90 FlowPlan Rules
+| Mapping ID | Process | Trigger | Classification | Rationale | Safeguards |
+|---|---|---|---|---|---|
+| appointment-reminders | Appointment reminders | C4 maturity `< 88` | AUTOMATE | Repetitive low-judgment reminders suit deterministic automation. | Escalate unresolved schedule conflicts to humans. |
+| review-requests | Review requests | D4 maturity `< 88` | AUTOMATE | Post-delivery prompts are recurring and rule-driven. | Exclude unresolved complaint cases from automation. |
+| lead-response-assist | Missed lead response triage | C1 `< 75` and C2 `>= 25` | AI ASSIST | Assisted responses can reduce first-touch delays without removing human control. | Human approval for sensitive/high-value outbound cases. |
+| pipeline-summaries | Pipeline summaries | (I1 `< 75` or E3 `< 75`) and evidence coverage `>= 70%` | AI ASSIST | Summaries support operator review, not autonomous decisions. | Human decision authority retained. |
+| faq-assist | FAQ handling | M2 `< 60` and V1 `>= 45` | AI ASSIST | FAQ assistance reduces repetitive support load where offer framing is minimally stable. | Escalate pricing exceptions, complaints, and contract interpretation. |
+| kpi-rollup | KPI data normalization | I1 `<= 50` and E3 `<= 50` and no INVALID flags | AI EXECUTE + HUMAN OVERSIGHT | Structured metric rollups can be executed under strict review gates. | Human approval before metric publication/strategy changes. |
+| funnel-definition-redesign | Conflicting funnel definitions | Any REQUIRES_CLARIFICATION funnel flag | ELIMINATE / REDESIGN | Inconsistent stage definitions should be redesigned before downstream automation. | No decision-critical automation until definitions are normalized. |
+| complex-sales-judgment | Complex sales negotiation | Always | KEEP HUMAN | Negotiation requires contextual and risk-sensitive judgment. | AI decision support only; no autonomous commitments. |
+| complaint-escalation-judgment | Complaint escalation | Always | KEEP HUMAN | Escalation often includes sensitive trust and remediation decisions. | No autonomous complaint-resolution authority. |
+| strategic-decision-support | Strategic decisions | Always | KEEP HUMAN | Strategic/high-impact decisions require executive accountability. | No autonomous execution for pricing, legal, hiring/firing, or financial commitments. |
+
+## AI EXECUTE + HUMAN OVERSIGHT Policy
+Use sparingly and only for structured reversible workflows.
+
+Do not recommend autonomous AI execution for:
+- strategic business decisions
+- sensitive complaint resolution
+- major pricing decisions
+- financial commitments
+- legal/compliance decisions
+- firing/hiring decisions
+- other high-impact judgment calls
+
+## Recommended Next Step Precedence (Centralized)
+Implemented in `flowcore-report.js` (`NEXT_STEP_PRECEDENCE`) using the exact order:
+
+A. `VALIDATE DATA`
+- when INVALID data prevents reliable scoring or materially affects SCALE/HOLD.
+
+B. `REPAIR FIRST`
+- when a critical repair-priority constraint or major operating guardrail causes HOLD.
+
+C. `VALIDATE DATA`
+- when no critical operating blocker exists but clarification or insufficient confidence affects decision reliability.
+
+D. `SYSTEMIZE`
+- when not yet scale-ready but no critical repair/data blocker dominates.
+
+E. `PREPARE TO SCALE`
+- when decision is SCALE but Expansion Ready eligibility is false.
+
+F. `EXPANSION PLANNING`
+- only when Expansion Ready eligibility is true.
+
+Clarification-level issues are displayed separately and do not override REPAIR FIRST when a critical operating blocker exists, unless rule A applies.
+
+## 30/60/90 FlowPlan Rules
 - Days 1–30: REPAIR (primary constraint focus)
 - Days 31–60: SYSTEMIZE (secondary/support focus)
 - Days 61–90:
@@ -144,22 +212,12 @@ Includes principle:
 
 Actions are drawn from centralized question-level action library.
 
-### Rule-Based Action Library
+## Rule-Based Action Library
 - Centralized in `flowcore-report.js` (`ACTION_LIBRARY`).
 - Contains deterministic practical actions for all 28 core question IDs (M1–E4).
 - Non-vendor-specific and process-focused.
 
-### Recommended Next Step Rules
-Deterministic categories such as:
-- REPAIR FIRST
-- VALIDATE DATA
-- SYSTEMIZE
-- PREPARE TO SCALE
-- EXPANSION PLANNING
-
-No direct package sales recommendation.
-
-### Confidence Presentation
+## Confidence Presentation
 Displays:
 - Diagnostic confidence
 - Evidence coverage
@@ -168,13 +226,13 @@ Displays:
 
 Explains maturity vs confidence separation.
 
-### Expansion Ready Presentation
+## Expansion Ready Presentation
 If overall maturity is high but guardrails fail, report clearly indicates:
 - Expansion Ready Candidate
 - Not Yet eligible
 - failed guardrails
 
-### Report Versioning
+## Report Versioning
 Displays scoring methodology version directly from scoring output:
 - `FlowScale Methodology Version: <FLOWSCALE_SCORING_VERSION>`
 
@@ -199,6 +257,7 @@ No conflicting hard-coded alternative version.
 - No authoritative server-side scoring yet.
 - No backend persistence, tamper resistance, or verified external evidence ingestion yet.
 - No automatic package recommendation logic.
+- Constraint ranking does not yet prove causal downstream dependency.
 
 ## Future Authoritative Path (Platform Agnostic)
 Authoritative production implementation should move scoring/report generation into controlled server-side execution for integrity, version control, persistence, and verified evidence workflows.

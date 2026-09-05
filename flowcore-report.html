@@ -221,14 +221,15 @@
 
   function renderConstraints(model) {
     var c = model.constraints;
-    var next = c.likely_next ? renderConstraintCard('Likely Next Constraint', c.likely_next, 'This candidate appears next in the deterministic priority ranking.') : '';
+    var next = c.next_priority_constraint ? renderConstraintCard('NEXT PRIORITY CONSTRAINT', c.next_priority_constraint, 'This candidate is third-ranked by deterministic priority and does not imply proven causal downstream dependency.') : '';
     e('frConstraints').innerHTML = [
       '<h2>4. Constraint Analysis</h2>',
       '<div class="fr-grid fr-grid-2">',
       renderConstraintCard('Primary Constraint', c.primary, c.primary_explanation),
       renderConstraintCard('Secondary Constraint', c.secondary, c.secondary_explanation),
       '</div>',
-      next ? '<div style="margin-top:10px;">' + next + '</div>' : ''
+      next ? '<div style="margin-top:10px;">' + next + '</div>' : '',
+      '<p class="fr-note" style="margin-top:10px;">' + c.ranking_limitation_note + '</p>'
     ].join('');
   }
 
@@ -240,7 +241,7 @@
     } else {
       html.push('<div class="fr-flow">');
       chain.forEach(function (item, idx) {
-        html.push('<div class="fr-flow-item"><strong>' + (idx === 0 ? 'Primary' : (idx === 1 ? 'Secondary' : 'Next Likely')) + ':</strong> ' + item.question_id + ' — ' + item.label + '</div>');
+        html.push('<div class="fr-flow-item"><strong>' + (idx === 0 ? 'Primary' : (idx === 1 ? 'Secondary' : 'Next Priority')) + ':</strong> ' + item.question_id + ' — ' + item.label + '</div>');
       });
       html.push('</div>');
     }
@@ -251,10 +252,14 @@
     var a = model.architecture;
     e('frArchitecture').innerHTML = [
       '<h2>6. Current vs Recommended Systems Architecture</h2>',
-      '<div class="fr-grid fr-grid-2">',
-      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Current Diagnostic State</h3><div class="fr-list">' + a.current_state.map(function (x) { return '<div class="fr-kv"><span class="v">' + x + '</span></div>'; }).join('') + '</div></div>',
-      '<div><h3 style="font-size:.95rem;margin-bottom:8px;">Priority Future State</h3><div class="fr-list">' + a.future_state.map(function (x) { return '<div class="fr-kv"><span class="v">' + x + '</span></div>'; }).join('') + '</div></div>',
-      '</div>'
+      '<div class="fr-list">' + a.rows.map(function (row) {
+        return '<div class="fr-kv">' +
+          '<span class="k">' + row.trigger_process + ' · Trigger: any of [' + (row.trigger_question_ids.join(', ') || 'General') + '] below ' + (row.triggering_maturity_threshold_lt === null ? 'n/a' : row.triggering_maturity_threshold_lt) + '</span>' +
+          '<span class="v"><strong>Current Diagnostic State:</strong> ' + row.current_state_label + '</span>' +
+          '<p class="fr-note"><strong>Priority Future State:</strong> ' + row.recommended_state_label + '</p>' +
+          '<p class="fr-note"><strong>Reason:</strong> ' + row.reason + '</p>' +
+        '</div>';
+      }).join('') + '</div>'
     ].join('');
   }
 
@@ -265,7 +270,7 @@
       '<p class="fr-note">' + ai.principle + '</p>',
       '<div class="fr-list">',
       ai.items.map(function (x) {
-        return '<div class="fr-kv"><span class="k">' + x.process + '</span><span class="v">' + x.category + '</span><p class="fr-note">' + x.note + '</p></div>';
+        return '<div class="fr-kv"><span class="k">' + x.process + ' · Trigger: ' + x.trigger + '</span><span class="v">' + x.category + '</span><p class="fr-note"><strong>Rationale:</strong> ' + x.rationale + '</p><p class="fr-note"><strong>Safeguards:</strong> ' + x.safeguards + '</p></div>';
       }).join(''),
       '</div>'
     ].join('');
@@ -285,7 +290,7 @@
   function renderNextStep(model) {
     e('frNext').innerHTML = [
       '<h2>9. Recommended Next Step</h2>',
-      kv('Recommended Next Step', model.next_step.category),
+      kv('Recommended Next Step', model.next_step.category + ' (Rule ' + model.next_step.precedence_code + ')'),
       '<p class="fr-note" style="margin-top:10px;">' + model.next_step.detail + '</p>'
     ].join('');
   }
