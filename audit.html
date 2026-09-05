@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Free AI Business Audit | FlowCore Business Diagnostic</title>
-  <meta name="description" content="Begin the FlowCore Business Diagnostic to identify your current growth constraint and receive a structured 30/60/90 implementation pathway." />
+  <meta name="description" content="Begin the FlowCore Business Diagnostic to map business constraints across 7 growth engines and prepare a structured implementation pathway." />
   <meta property="og:title" content="Free AI Business Audit | FlowCore Business Diagnostic" />
-  <meta property="og:description" content="Enter the premium FlowCore audit experience to diagnose, prioritize, and map the next business system improvements." />
+  <meta property="og:description" content="Use the FlowScale Business Growth Architecture to assess Market, Value, Acquisition, Conversion, Delivery, Independence, and Expansion maturity." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="apple-touch-icon" href="logo.png" />
@@ -16,41 +16,97 @@
   <style>
     .ef-audit-hero { min-height:88vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:124px 24px 76px; position:relative; }
     .ef-audit-hero::before { content:''; position:absolute; width:min(860px,84vw); height:min(860px,84vw); top:14%; left:50%; transform:translateX(-50%); background:radial-gradient(ellipse,rgba(119,215,255,.14) 0%,rgba(139,92,246,.08) 42%,transparent 70%); pointer-events:none; }
-    .ef-audit-hero-inner { position:relative; z-index:1; max-width:900px; }
+    .ef-audit-hero-inner { position:relative; z-index:1; max-width:920px; }
     .ef-audit-h1 { font-size:clamp(2rem,5.8vw,4.5rem); line-height:1.08; letter-spacing:-.028em; font-weight:900; margin-bottom:22px; }
-    .ef-audit-sub { color:#9aa9c9; font-size:1.08rem; line-height:1.78; max-width:760px; margin:0 auto 30px; }
+    .ef-audit-sub { color:#9aa9c9; font-size:1.08rem; line-height:1.78; max-width:780px; margin:0 auto 30px; }
     .ef-note { margin-top:20px; color:#b8c8ec; font-size:.92rem; }
+
     .ef-grid { display:grid; gap:12px; }
     .ef-engines { grid-template-columns:repeat(7,minmax(0,1fr)); }
     .ef-engine { border:1px solid rgba(255,255,255,.1); border-radius:16px; background:rgba(8,13,31,.72); padding:16px 12px; min-height:146px; }
     .ef-engine h3 { font-size:.9rem; }
     .ef-engine strong { display:block; color:#77d7ff; margin:8px 0; font-size:1.14rem; }
     .ef-engine p { color:#9aa9c9; font-size:.79rem; line-height:1.5; }
+
     .ef-report-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
     .ef-report-item { border:1px solid rgba(255,255,255,.1); border-radius:12px; background:rgba(7,17,38,.67); padding:12px 13px; color:#dbe6ff; font-size:.89rem; }
+
     .ef-stages { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; }
     .ef-stage { border:1px solid rgba(255,255,255,.1); border-radius:14px; background:rgba(8,13,31,.74); padding:14px 10px; text-align:center; }
     .ef-stage .range { color:#77d7ff; font-weight:800; font-size:.9rem; }
     .ef-stage .name { color:#eef3ff; font-weight:700; font-size:.82rem; margin-top:4px; }
+
     .ef-diag-box { background:rgba(8,13,31,.72); border:1px solid rgba(119,215,255,.2); border-radius:22px; padding:28px; }
     .ef-diag-list { list-style:none; display:grid; gap:11px; margin-top:10px; }
     .ef-diag-list li { display:flex; gap:10px; color:#bdd0f4; }
     .ef-diag-list li::before { content:'\2713'; color:#77d7ff; font-size:.82rem; margin-top:2px; }
+
     .ef-launch { background:rgba(8,13,31,.78); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:30px 26px; text-align:center; }
     .ef-launch-state { margin-top:14px; color:#9aa9c9; font-size:.9rem; line-height:1.6; }
     .ef-launch-state.ef-ready { color:#b9efcd; }
     .ef-launch-state.ef-pending { color:#f7dba0; }
     .ef-launch-inner { max-width:730px; margin:0 auto; }
 
+    .ef-diagnostic-shell { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; align-items:start; }
+    .ef-diagnostic-panel { background:rgba(8,13,31,.82); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:28px 24px; backdrop-filter:blur(18px); }
+    .ef-progress-card { background:rgba(8,13,31,.75); border:1px solid rgba(119,215,255,.2); border-radius:20px; padding:18px; position:sticky; top:92px; }
+    .ef-progress-kicker { font-size:.74rem; text-transform:uppercase; letter-spacing:.1em; color:#77d7ff; margin-bottom:6px; }
+    .ef-progress-line { display:flex; justify-content:space-between; gap:12px; color:#c7d6f5; font-size:.85rem; margin:10px 0 8px; }
+    .ef-progress-track { height:8px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden; }
+    .ef-progress-fill { width:0%; height:100%; background:linear-gradient(90deg,#77d7ff,#8b5cf6); transition:width .25s ease; }
+
+    .ef-engine-chip { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(119,215,255,.25); background:rgba(119,215,255,.08); color:#77d7ff; border-radius:999px; font-size:.76rem; padding:6px 13px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; }
+    .ef-question-title { font-size:1.34rem; line-height:1.35; margin:16px 0 8px; }
+    .ef-question-sub { color:#9aa9c9; font-size:.9rem; line-height:1.6; margin-bottom:16px; }
+
+    .ef-scale { display:grid; gap:10px; }
+    .ef-scale-item { display:flex; gap:10px; align-items:stretch; }
+    .ef-scale-item input[type="radio"] { position:absolute; opacity:0; pointer-events:none; }
+    .ef-scale-label { width:100%; display:grid; grid-template-columns:36px 1fr; gap:10px; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:10px 12px; cursor:pointer; background:rgba(7,17,38,.65); transition:.2s ease; }
+    .ef-scale-label:hover { border-color:rgba(119,215,255,.35); }
+    .ef-scale-num { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(119,215,255,.09); color:#77d7ff; font-weight:800; }
+    .ef-scale-copy strong { display:block; font-size:.86rem; color:#ecf3ff; }
+    .ef-scale-copy span { display:block; font-size:.79rem; color:#a4b4d8; line-height:1.45; }
+    .ef-scale-item input[type="radio"]:focus + .ef-scale-label,
+    .ef-scale-item input[type="radio"]:checked + .ef-scale-label { border-color:rgba(119,215,255,.62); background:rgba(119,215,255,.11); box-shadow:0 0 0 2px rgba(119,215,255,.16) inset; }
+
+    .ef-supp-wrap { margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,.1); }
+    .ef-supp-title { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:#77d7ff; margin-bottom:10px; }
+    .ef-supp-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .ef-supp-field { display:flex; flex-direction:column; gap:6px; }
+    .ef-supp-field label { font-size:.78rem; color:#aebde0; }
+    .ef-supp-field input, .ef-supp-field select { background:rgba(4,7,20,.66); color:#eef3ff; border:1px solid rgba(255,255,255,.11); border-radius:10px; padding:10px 12px; }
+
+    .ef-actions { margin-top:22px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .ef-error { margin-top:12px; font-size:.84rem; color:#ffb3b3; min-height:1.2em; }
+
+    .ef-quick-summary { margin-top:12px; display:grid; gap:8px; }
+    .ef-mini { font-size:.79rem; color:#a8b9dd; border:1px solid rgba(255,255,255,.09); border-radius:10px; padding:8px 10px; background:rgba(7,17,38,.6); }
+
+    .ef-complete { display:none; background:rgba(8,13,31,.84); border:1px solid rgba(119,215,255,.3); border-radius:24px; padding:28px 24px; }
+    .ef-complete h3 { font-size:1.42rem; margin-bottom:10px; color:#77d7ff; }
+    .ef-complete p { color:#bdd0f3; line-height:1.7; }
+    .ef-complete-list { list-style:none; margin-top:12px; display:grid; gap:8px; }
+    .ef-complete-list li { font-size:.86rem; color:#bfd0f2; }
+
+    .ef-future-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-top:16px; }
+    .ef-future-grid div { border:1px dashed rgba(119,215,255,.28); border-radius:10px; padding:10px; color:#9fb0d5; font-size:.78rem; }
+
     @media (max-width:1080px){
       .ef-engines { grid-template-columns:repeat(4,minmax(0,1fr)); }
       .ef-stages { grid-template-columns:repeat(3,minmax(0,1fr)); }
       .ef-report-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .ef-diagnostic-shell { grid-template-columns:1fr; }
+      .ef-progress-card { position:relative; top:auto; }
+      .ef-future-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
     @media (max-width:700px){
       .ef-audit-hero { padding:112px 20px 62px; }
-      .ef-engines, .ef-stages, .ef-report-grid { grid-template-columns:1fr; }
+      .ef-engines, .ef-stages, .ef-report-grid, .ef-future-grid { grid-template-columns:1fr; }
       .ef-section { padding:72px 20px; }
+      .ef-supp-grid { grid-template-columns:1fr; }
+      .ef-scale-label { grid-template-columns:30px 1fr; }
+      .ef-scale-num { width:30px; height:30px; }
     }
   </style>
 </head>
@@ -65,7 +121,7 @@
       <h1 class="ef-audit-h1 ef-reveal ef-d1">Find the constraint limiting your business right now.</h1>
       <p class="ef-audit-sub ef-reveal ef-d2">The Endless Flow AI Business Audit evaluates the systems responsible for how your business attracts, converts, serves, and scales customers. FlowCore analyzes the information through the FlowScale Business Growth Architecture to identify what should be fixed first.</p>
       <div class="ef-hero-btns ef-reveal ef-d3" style="justify-content:center;display:flex;gap:14px;flex-wrap:wrap;">
-        <a href="#audit-start" class="ef-btn-primary">Begin My Business Audit</a>
+        <a href="#diagnostic-workspace" class="ef-btn-primary">Begin My Business Audit</a>
       </div>
       <p class="ef-note ef-reveal ef-d4">Designed to diagnose before recommending technology.</p>
     </div>
@@ -150,10 +206,82 @@
     <h2 class="ef-section-title ef-center ef-reveal">Launch your audit intake.</h2>
     <div class="ef-launch ef-reveal ef-d1">
       <div class="ef-launch-inner">
-        <p style="color:#bfd0f2;line-height:1.75;margin-bottom:18px;">This front-end launch point is connected once the production audit form/embed URL is configured.</p>
-        <a id="efAuditLaunchBtn" href="#" class="ef-btn-primary" aria-disabled="true" style="opacity:.85;">Begin My Business Audit</a>
+        <p style="color:#bfd0f2;line-height:1.75;margin-bottom:18px;">This launch point routes to the production Endless Flow audit once the real public URL or embed is configured.</p>
+        <a id="efAuditLaunchBtn" href="#" class="ef-btn-primary" aria-disabled="true" style="opacity:.85;">Launch Existing Audit Destination</a>
         <div id="efAuditLaunchState" class="ef-launch-state ef-pending">Audit intake connection is being finalized. You will not be redirected to a broken destination.</div>
       </div>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="diagnostic-workspace">
+    <div class="ef-section-label ef-center">FlowScale Diagnostic Workspace</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Complete the 28-question business diagnostic.</h2>
+    <p class="ef-section-sub ef-center ef-reveal">One question at a time, grouped by engine, with autosave-ready progress and no fabricated score output.</p>
+
+    <div class="ef-diagnostic-shell">
+      <div>
+        <form id="efDiagnosticForm" class="ef-diagnostic-panel" novalidate>
+          <div class="ef-engine-chip" id="efEngineChip">Engine 1 · Market · 10%</div>
+          <h3 class="ef-question-title" id="efQuestionTitle">Question</h3>
+          <p class="ef-question-sub" id="efQuestionSub">Select one maturity level that best matches your current reality.</p>
+
+          <fieldset>
+            <legend class="ef-label" style="margin-bottom:8px;">Maturity Level</legend>
+            <div class="ef-scale" id="efScaleOptions"></div>
+          </fieldset>
+
+          <div class="ef-supp-wrap" id="efSupplementalWrap" hidden>
+            <div class="ef-supp-title" id="efSupplementalTitle">Supplemental Inputs</div>
+            <div class="ef-supp-grid" id="efSupplementalGrid"></div>
+          </div>
+
+          <div class="ef-error" id="efQuestionError" aria-live="polite"></div>
+
+          <div class="ef-actions">
+            <button type="button" id="efBackBtn" class="ef-btn-secondary">&larr; Back</button>
+            <button type="button" id="efNextBtn" class="ef-btn-primary">Next Question &rarr;</button>
+          </div>
+        </form>
+
+        <div id="efCompletion" class="ef-complete" tabindex="-1">
+          <h3>Your diagnostic responses are complete.</h3>
+          <p>FlowCore analysis becomes available once the scoring integration is connected. Your responses have been organized in a structured format for the future scoring and routing layer.</p>
+          <ul class="ef-complete-list">
+            <li>&bull; No simulated FlowScale score is shown.</li>
+            <li>&bull; No package mapping logic has been applied.</li>
+            <li>&bull; Diagnosis is preserved separately from solution matching.</li>
+          </ul>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button type="button" id="efRestartBtn" class="ef-btn-secondary">Review Answers</button>
+            <a href="contact.html" class="ef-btn-primary">Contact Endless Flow</a>
+          </div>
+
+          <div class="ef-future-grid" aria-label="Future results architecture placeholders">
+            <div>FlowScale Score</div><div>Maturity Stage</div><div>Market Score</div>
+            <div>Value Score</div><div>Acquisition Score</div><div>Conversion Score</div>
+            <div>Delivery Score</div><div>Independence Score</div><div>Expansion Score</div>
+            <div>Strongest Engine</div><div>Primary Constraint</div><div>Secondary Constraint</div>
+            <div>Downstream Constraint</div><div>Diagnostic Confidence</div><div>Revenue Leakage</div>
+            <div>Scale / Hold Decision</div><div>AI Opportunity Map</div><div>30 / 60 / 90 FlowPlan</div>
+            <div>Recommended Architecture</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="ef-progress-card" aria-live="polite">
+        <div class="ef-progress-kicker">Business Diagnostic</div>
+        <div style="font-weight:800;font-size:1.08rem;color:#eef3ff;" id="efProgressEngineLabel">Engine 1 of 7 · Market</div>
+        <div class="ef-progress-line">
+          <span id="efProgressPctText">0% Complete</span>
+          <span id="efProgressQuestionText">Question 1 of 28</span>
+        </div>
+        <div class="ef-progress-track"><div id="efProgressFill" class="ef-progress-fill"></div></div>
+
+        <div class="ef-quick-summary" id="efMicrocopy"></div>
+        <div class="ef-mini" id="efAutosaveState">Autosave ready: responses are stored in this browser.</div>
+      </aside>
     </div>
   </section>
 
@@ -163,26 +291,456 @@
 <script src="nav.js"></script>
 <script>
   const AUDIT_FORM_URL_TODO = '';
-  (function () {
+
+  const FLOW_SCALE = [
+    { value: 0, label: "Doesn't exist / don't know", detail: "No consistent process or visibility today." },
+    { value: 1, label: "Exists informally; mostly reactive or manual", detail: "Some effort exists, but it depends on manual action." },
+    { value: 2, label: "Partially implemented; inconsistent", detail: "Used in parts of the business, but not reliable." },
+    { value: 3, label: "Repeatable, documented or measured", detail: "Most cases follow a standard approach with visibility." },
+    { value: 4, label: "Predictable, measured, optimized and scalable", detail: "Stable, measured, and built to absorb growth." }
+  ];
+
+  const DIAGNOSTIC_ENGINES = [
+    {
+      id: 'market',
+      name: 'Market',
+      weight: 10,
+      microcopy: 'Clarity of market demand determines how efficiently everything else can work.',
+      supplemental: [],
+      questions: [
+        { id: 'M1', text: 'How clearly can you define the customer most likely to purchase from you?' },
+        { id: 'M2', text: 'How well do you understand the primary problem or desired outcome that causes customers to buy?' },
+        { id: 'M3', text: 'Can customers quickly understand why they should choose you instead of an alternative?' },
+        { id: 'M4', text: 'Do you have evidence that your target market consistently wants and purchases what you sell?' }
+      ]
+    },
+    {
+      id: 'value',
+      name: 'Value',
+      weight: 15,
+      microcopy: 'Strong value architecture helps protect margins and long-term growth quality.',
+      supplemental: [
+        { id: 'avg_sale', label: 'Average sale', type: 'text', placeholder: 'e.g., $2,500', allowDontKnow: true },
+        { id: 'avg_gross_margin_pct', label: 'Average gross margin %', type: 'number', placeholder: 'e.g., 45', allowDontKnow: true },
+        { id: 'avg_customer_value', label: 'Average customer value', type: 'text', placeholder: 'e.g., $7,800', allowDontKnow: true }
+      ],
+      questions: [
+        { id: 'V1', text: 'Is there a clearly defined offer with a specific outcome, scope and price?' },
+        { id: 'V2', text: 'Is your pricing based on economics and value rather than guessing or competitor copying?' },
+        { id: 'V3', text: 'Do you know approximately how much gross profit is produced when you make a sale?' },
+        { id: 'V4', text: 'Do you track which products/services/offers convert and retain customers best?' }
+      ]
+    },
+    {
+      id: 'acquisition',
+      name: 'Acquisition',
+      weight: 15,
+      microcopy: 'Acquisition quality matters more than raw volume when growth decisions are made.',
+      supplemental: [
+        { id: 'leads_30_days', label: 'Leads last 30 days', type: 'number', placeholder: 'e.g., 120' },
+        { id: 'primary_source', label: 'Primary source', type: 'select', options: ['Google','Meta','Referral','Organic','Outbound','Walk-in','Marketplace','Other'] }
+      ],
+      questions: [
+        { id: 'A1', text: 'Can you identify exactly where new leads/customers are coming from?' },
+        { id: 'A2', text: 'Does the business generate qualified opportunities consistently?' },
+        { id: 'A3', text: 'Can prospects easily submit their information from your website, landing pages, ads and other channels?' },
+        { id: 'A4', text: 'Can you connect a customer or sale back to the marketing source that created it?' }
+      ]
+    },
+    {
+      id: 'conversion',
+      name: 'Conversion',
+      weight: 20,
+      microcopy: 'More leads cannot fix a system that consistently loses the leads it already has.',
+      supplemental: [
+        { id: 'leads_count', label: 'Leads', type: 'number', placeholder: 'e.g., 80' },
+        { id: 'appointments_count', label: 'Appointments', type: 'number', placeholder: 'e.g., 37' },
+        { id: 'qualified_opportunities_count', label: 'Qualified opportunities', type: 'number', placeholder: 'e.g., 29' },
+        { id: 'sales_customers_count', label: 'Sales / customers', type: 'number', placeholder: 'e.g., 11' }
+      ],
+      questions: [
+        { id: 'C1', text: 'How quickly does someone respond when a new prospect contacts the business?' },
+        { id: 'C2', text: 'Does every unconverted lead automatically receive structured follow-up?' },
+        { id: 'C3', text: 'Does the business have a repeatable process for qualifying and converting opportunities?' },
+        { id: 'C4', text: 'Can qualified prospects conveniently book the appropriate next step, and does the business actively reduce no-shows?' }
+      ]
+    },
+    {
+      id: 'delivery',
+      name: 'Delivery',
+      weight: 15,
+      microcopy: 'Delivery reliability protects reputation and enables repeatable expansion.',
+      supplemental: [
+        { id: 'refund_rate', label: 'Refund rate', type: 'text', placeholder: 'e.g., 2%' },
+        { id: 'cancellation_rate', label: 'Cancellation rate', type: 'text', placeholder: 'e.g., 5%' },
+        { id: 'repeat_purchase_rate', label: 'Repeat purchase rate', type: 'text', placeholder: 'e.g., 28%' },
+        { id: 'avg_fulfillment_time', label: 'Average fulfillment time', type: 'text', placeholder: 'e.g., 7 days' }
+      ],
+      questions: [
+        { id: 'D1', text: 'Does every new customer receive a consistent onboarding experience?' },
+        { id: 'D2', text: 'Is there a documented and repeatable process for delivering what was sold?' },
+        { id: 'D3', text: 'Does the business proactively monitor customer satisfaction, problems and service quality?' },
+        { id: 'D4', text: 'Is there a structured process for repeat purchases, renewals, reviews, referrals or reactivation?' }
+      ]
+    },
+    {
+      id: 'independence',
+      name: 'Independence',
+      weight: 15,
+      microcopy: 'This engine measures how much of the business depends on the owner personally knowing or doing everything.',
+      supplemental: [],
+      questions: [
+        { id: 'I1', text: 'Does one reliable system contain customer information, communications, pipeline status and important activity?' },
+        { id: 'I2', text: 'Are recurring business processes documented well enough that another competent person could perform them?' },
+        { id: 'I3', text: 'Are repetitive administrative activities automated where appropriate?' },
+        { id: 'I4', text: 'If the owner stopped working for seven days, how much of the company would stop functioning?' }
+      ]
+    },
+    {
+      id: 'expansion',
+      name: 'Expansion',
+      weight: 10,
+      microcopy: 'Growth is only useful if the business can absorb the additional volume.',
+      supplemental: [],
+      questions: [
+        { id: 'E1', text: 'Could the business handle 50% more customers next month without serious service deterioration?' },
+        { id: 'E2', text: 'Does management understand revenue, margins, cash requirements and major operating costs?' },
+        { id: 'E3', text: 'Can leadership see the important KPIs necessary to make growth decisions?' },
+        { id: 'E4', text: 'Can the business increase marketing, staff, customers or locations without creating an operational bottleneck elsewhere?' }
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = 'ef_flowcore_diagnostic_v1';
+
+  const FLAT_QUESTIONS = DIAGNOSTIC_ENGINES.flatMap((engine, engineIndex) =>
+    engine.questions.map((question, qIndex) => ({
+      engineId: engine.id,
+      engineName: engine.name,
+      engineWeight: engine.weight,
+      engineIndex,
+      qIndex,
+      globalIndex: engineIndex * 4 + qIndex,
+      question
+    }))
+  );
+
+  const state = {
+    step: 0,
+    responses: {},
+    supplemental: {},
+    completed: false
+  };
+
+  function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const el = document.getElementById('efAutosaveState');
+    if (el) el.textContent = 'Autosave ready: responses are stored in this browser.';
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        state.step = Math.max(0, Math.min(FLAT_QUESTIONS.length - 1, Number(parsed.step) || 0));
+        state.responses = parsed.responses || {};
+        state.supplemental = parsed.supplemental || {};
+        state.completed = !!parsed.completed;
+      }
+    } catch (e) {}
+  }
+
+  function setAuditLaunchGate() {
     var btn = document.getElementById('efAuditLaunchBtn');
-    var state = document.getElementById('efAuditLaunchState');
+    var stateEl = document.getElementById('efAuditLaunchState');
     var configured = typeof AUDIT_FORM_URL_TODO === 'string' && AUDIT_FORM_URL_TODO.trim().length > 0;
 
     if (configured) {
       btn.setAttribute('href', AUDIT_FORM_URL_TODO.trim());
       btn.removeAttribute('aria-disabled');
       btn.style.opacity = '1';
-      state.classList.remove('ef-pending');
-      state.classList.add('ef-ready');
-      state.textContent = 'Audit intake is connected. Continue to begin your business diagnostic.';
+      stateEl.classList.remove('ef-pending');
+      stateEl.classList.add('ef-ready');
+      stateEl.textContent = 'Audit intake is connected. Continue to begin your business diagnostic.';
       return;
     }
 
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      state.textContent = 'Audit intake link is not configured yet. Please check back shortly or contact us directly.';
+      stateEl.textContent = 'Audit intake link is not configured yet. Please check back shortly or contact us directly.';
     });
-  })();
+  }
+
+  function renderSupplemental(engine) {
+    const wrap = document.getElementById('efSupplementalWrap');
+    const title = document.getElementById('efSupplementalTitle');
+    const grid = document.getElementById('efSupplementalGrid');
+    grid.innerHTML = '';
+
+    if (!engine.supplemental.length) {
+      wrap.hidden = true;
+      return;
+    }
+
+    wrap.hidden = false;
+    title.textContent = engine.name + ' Supplemental Inputs';
+    const current = state.supplemental[engine.id] || {};
+
+    engine.supplemental.forEach(function (field) {
+      const row = document.createElement('div');
+      row.className = 'ef-supp-field';
+
+      const label = document.createElement('label');
+      label.setAttribute('for', 'sup_' + field.id);
+      label.textContent = field.label;
+
+      let control;
+      if (field.type === 'select') {
+        control = document.createElement('select');
+        control.innerHTML = '<option value="">Select...</option>' + field.options.map(function (o) {
+          return '<option value="' + o + '">' + o + '</option>';
+        }).join('');
+      } else {
+        control = document.createElement('input');
+        control.type = field.type === 'number' ? 'number' : 'text';
+        if (field.placeholder) control.placeholder = field.placeholder;
+        if (field.type === 'number') control.inputMode = 'decimal';
+      }
+
+      control.id = 'sup_' + field.id;
+      control.name = field.id;
+      control.value = current[field.id] || '';
+      control.addEventListener('input', function () {
+        if (!state.supplemental[engine.id]) state.supplemental[engine.id] = {};
+        state.supplemental[engine.id][field.id] = control.value;
+        if (field.allowDontKnow && state.supplemental[engine.id][field.id + '_dont_know']) {
+          state.supplemental[engine.id][field.id + '_dont_know'] = false;
+          const cb = document.getElementById('sup_' + field.id + '_dont_know');
+          if (cb) cb.checked = false;
+        }
+        saveState();
+      });
+
+      row.appendChild(label);
+      row.appendChild(control);
+
+      if (field.allowDontKnow) {
+        const opt = document.createElement('label');
+        opt.style.fontSize = '.76rem';
+        opt.style.color = '#9fb0d4';
+        opt.style.display = 'inline-flex';
+        opt.style.gap = '8px';
+        opt.style.alignItems = 'center';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'sup_' + field.id + '_dont_know';
+        checkbox.checked = !!current[field.id + '_dont_know'];
+        checkbox.addEventListener('change', function () {
+          if (!state.supplemental[engine.id]) state.supplemental[engine.id] = {};
+          state.supplemental[engine.id][field.id + '_dont_know'] = checkbox.checked;
+          if (checkbox.checked) {
+            state.supplemental[engine.id][field.id] = '';
+            control.value = '';
+          }
+          saveState();
+        });
+        opt.appendChild(checkbox);
+        opt.appendChild(document.createTextNode("Don't know"));
+        row.appendChild(opt);
+      }
+
+      grid.appendChild(row);
+    });
+  }
+
+  function renderStep() {
+    const current = FLAT_QUESTIONS[state.step];
+    const engine = DIAGNOSTIC_ENGINES[current.engineIndex];
+    const progressPct = Math.round((Object.keys(state.responses).length / FLAT_QUESTIONS.length) * 100);
+    const completedSoFar = state.step + 1;
+
+    document.getElementById('efEngineChip').textContent = 'Engine ' + (current.engineIndex + 1) + ' · ' + current.engineName + ' · ' + current.engineWeight + '%';
+    document.getElementById('efQuestionTitle').textContent = current.question.id + '. ' + current.question.text;
+    document.getElementById('efQuestionSub').textContent = 'Select one maturity level that best matches your current reality.';
+    document.getElementById('efProgressEngineLabel').textContent = 'Engine ' + (current.engineIndex + 1) + ' of 7 · ' + current.engineName;
+    document.getElementById('efProgressPctText').textContent = progressPct + '% Complete';
+    document.getElementById('efProgressQuestionText').textContent = 'Question ' + completedSoFar + ' of 28';
+    document.getElementById('efProgressFill').style.width = progressPct + '%';
+    document.getElementById('efQuestionError').textContent = '';
+
+    const microcopy = document.getElementById('efMicrocopy');
+    microcopy.innerHTML = '';
+    const mc = document.createElement('div');
+    mc.className = 'ef-mini';
+    mc.textContent = engine.microcopy;
+    microcopy.appendChild(mc);
+
+    if (engine.id === 'conversion') {
+      const m = document.createElement('div');
+      m.className = 'ef-mini';
+      m.textContent = 'Supplemental conversion inputs support future Booking Rate, Close Rate, and Lead-to-Customer Rate calculations when full scoring is connected.';
+      microcopy.appendChild(m);
+    }
+
+    const options = document.getElementById('efScaleOptions');
+    options.innerHTML = '';
+    const selected = state.responses[current.question.id] ? state.responses[current.question.id].response_value : null;
+
+    FLOW_SCALE.forEach(function (item) {
+      const wrap = document.createElement('div');
+      wrap.className = 'ef-scale-item';
+
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'response_value';
+      input.id = 'resp_' + item.value;
+      input.value = String(item.value);
+      if (String(selected) === String(item.value)) input.checked = true;
+
+      const label = document.createElement('label');
+      label.className = 'ef-scale-label';
+      label.setAttribute('for', input.id);
+      label.innerHTML = '<span class="ef-scale-num">' + item.value + '</span><span class="ef-scale-copy"><strong>' + item.label + '</strong><span>' + item.detail + '</span></span>';
+
+      input.addEventListener('change', function () {
+        saveResponse(current, Number(input.value));
+      });
+
+      wrap.appendChild(input);
+      wrap.appendChild(label);
+      options.appendChild(wrap);
+    });
+
+    renderSupplemental(engine);
+
+    document.getElementById('efBackBtn').disabled = state.step === 0;
+    document.getElementById('efNextBtn').textContent = state.step === FLAT_QUESTIONS.length - 1 ? 'Complete Diagnostic' : 'Next Question →';
+
+    const checked = document.querySelector('input[name="response_value"]:checked');
+    if (!checked) {
+      const first = document.querySelector('input[name="response_value"]');
+      if (first) first.focus();
+    }
+  }
+
+  function saveResponse(current, value) {
+    const supplemental = state.supplemental[current.engineId] || {};
+    state.responses[current.question.id] = {
+      engine: current.engineId,
+      question_id: current.question.id,
+      question_text: current.question.text,
+      response_value: value,
+      supplemental_values: supplemental,
+      evidence_type: null,
+      confidence: null,
+      timestamp: new Date().toISOString(),
+      source: null
+    };
+    saveState();
+    renderStep();
+  }
+
+  function validateCurrentStep() {
+    const current = FLAT_QUESTIONS[state.step];
+    const selected = document.querySelector('input[name="response_value"]:checked');
+    if (!selected) {
+      document.getElementById('efQuestionError').textContent = 'Please select a maturity level before continuing.';
+      return false;
+    }
+
+    if (!state.responses[current.question.id]) {
+      saveResponse(current, Number(selected.value));
+    }
+
+    return true;
+  }
+
+  function goBack() {
+    if (state.step > 0) {
+      state.step -= 1;
+      saveState();
+      renderStep();
+    }
+  }
+
+  function goNext() {
+    if (!validateCurrentStep()) return;
+
+    if (state.step < FLAT_QUESTIONS.length - 1) {
+      state.step += 1;
+      saveState();
+      renderStep();
+      return;
+    }
+
+    showCompletion();
+  }
+
+  function showCompletion() {
+    state.completed = true;
+    saveState();
+
+    document.getElementById('efDiagnosticForm').style.display = 'none';
+    const done = document.getElementById('efCompletion');
+    done.style.display = 'block';
+    done.focus();
+
+    document.getElementById('efProgressPctText').textContent = '100% Complete';
+    document.getElementById('efProgressQuestionText').textContent = 'Question 28 of 28';
+    document.getElementById('efProgressFill').style.width = '100%';
+    document.getElementById('efAutosaveState').textContent = 'Responses saved. Awaiting FlowCore scoring integration.';
+  }
+
+  function restartReview() {
+    state.completed = false;
+    state.step = 0;
+    saveState();
+    document.getElementById('efCompletion').style.display = 'none';
+    document.getElementById('efDiagnosticForm').style.display = 'block';
+    renderStep();
+  }
+
+  function bindEvents() {
+    document.getElementById('efBackBtn').addEventListener('click', goBack);
+    document.getElementById('efNextBtn').addEventListener('click', goNext);
+    document.getElementById('efRestartBtn').addEventListener('click', restartReview);
+
+    document.getElementById('efDiagnosticForm').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && e.target && e.target.matches('input[type="radio"]')) {
+        e.preventDefault();
+        goNext();
+      }
+      if (e.key === 'ArrowLeft' && e.altKey) {
+        e.preventDefault();
+        goBack();
+      }
+      if (e.key === 'ArrowRight' && e.altKey) {
+        e.preventDefault();
+        goNext();
+      }
+    });
+  }
+
+  function init() {
+    setAuditLaunchGate();
+    loadState();
+    bindEvents();
+
+    if (state.completed && Object.keys(state.responses).length >= FLAT_QUESTIONS.length) {
+      document.getElementById('efDiagnosticForm').style.display = 'none';
+      document.getElementById('efCompletion').style.display = 'block';
+      document.getElementById('efProgressPctText').textContent = '100% Complete';
+      document.getElementById('efProgressQuestionText').textContent = 'Question 28 of 28';
+      document.getElementById('efProgressFill').style.width = '100%';
+      return;
+    }
+
+    renderStep();
+  }
+
+  init();
 </script>
 <!-- GHL CHAT WIDGET -->
 </body>
