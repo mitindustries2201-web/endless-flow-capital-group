@@ -39,7 +39,7 @@ body.ef-body {
 }
 .ef-nav-brand { display:flex; align-items:center; text-decoration:none; flex-shrink:0; }
 .ef-nav-logo  { height:40px; width:auto; display:block; }
-.ef-nav-logo-text { display:none; font-size:0.95rem; font-weight:800; color:#eef3ff; letter-spacing:-0.01em; }
+.ef-nav-logo-text { display:inline; font-size:0.95rem; font-weight:800; color:#eef3ff; letter-spacing:-0.01em; }
 .ef-nav-logo-text em { color:#77d7ff; font-style:normal; }
 .ef-nav-links {
   display:flex; align-items:center; gap:36px; list-style:none;
@@ -88,7 +88,7 @@ body.ef-body {
 .ef-footer-inner { max-width:1120px; margin:0 auto; }
 .ef-footer-top { display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:48px; margin-bottom:52px; padding-bottom:52px; border-bottom:1px solid rgba(255,255,255,0.05); }
 .ef-footer-logo { height:38px; width:auto; display:block; margin-bottom:16px; }
-.ef-footer-logo-text { display:none; font-size:0.92rem; font-weight:800; color:#eef3ff; margin-bottom:16px; }
+.ef-footer-logo-text { display:block; font-size:0.92rem; font-weight:800; color:#eef3ff; margin-bottom:16px; }
 .ef-footer-logo-text em { color:#77d7ff; font-style:normal; }
 .ef-footer-tagline { font-size:0.83rem; color:#9aa9c9; line-height:1.7; margin-bottom:20px; }
 .ef-footer-online { display:inline-flex; align-items:center; gap:7px; font-size:0.68rem; color:rgba(119,215,255,0.5); background:rgba(119,215,255,0.05); border:1px solid rgba(119,215,255,0.1); padding:5px 14px; border-radius:100px; }

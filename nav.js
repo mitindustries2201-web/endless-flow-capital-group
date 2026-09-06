@@ -22,10 +22,8 @@
   if (navMount) {
     navMount.innerHTML = [
       '<nav class="ef-nav" id="efNav">',
-      '  <a href="index.html" class="ef-nav-brand">',
-      '    <img src="logo.png" alt="Endless Flow Capital Group" class="ef-nav-logo"',
-      '      onerror="this.style.display=\'none\';document.getElementById(\'efNavTxt\').style.display=\'inline\'" />',
-      '    <span id="efNavTxt" class="ef-nav-logo-text">Endless Flow <em>Capital Group</em></span>',
+      '  <a href="index.html" class="ef-nav-brand" aria-label="Endless Flow Capital Group">',
+      '    <span class="ef-nav-logo-text">Endless Flow <em>Capital Group</em></span>',
       '  </a>',
       '  <ul class="ef-nav-links">',
       '    <li><a href="index.html#flowcore-intro">FlowCore</a></li>',
@@ -58,9 +56,7 @@
       '  <div class="ef-footer-inner">',
       '    <div class="ef-footer-top">',
       '      <div>',
-      '        <img src="logo.png" alt="Endless Flow Capital Group" class="ef-footer-logo"',
-      '          onerror="this.style.display=\'none\';document.getElementById(\'efFtTxt\').style.display=\'block\'" />',
-      '        <div id="efFtTxt" class="ef-footer-logo-text">Endless Flow <em>Capital Group</em></div>',
+      '        <div class="ef-footer-logo-text">Endless Flow <em>Capital Group</em></div>',
       '        <p class="ef-footer-tagline">AI-powered business operating systems for founders, creators, and growing businesses. From first lead to full ecosystem automation.</p>',
       '        <div class="ef-footer-online"><span class="ef-footer-online-dot"></span> All systems operational</div>',
       '      </div>',

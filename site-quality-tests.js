@@ -119,7 +119,8 @@ function testNoProhibitedCausalClaimsOnPublicPages() {
     'what breaks next',
     'downstream constraint',
     'future bottleneck',
-    'likely next bottleneck'
+    'likely next bottleneck',
+    'constraint chain'
   ];
 
   HTML_FILES.forEach((file) => {
@@ -128,6 +129,31 @@ function testNoProhibitedCausalClaimsOnPublicPages() {
       assert(!content.includes(phrase), `${file}: prohibited causal claim phrase found: ${phrase}`);
     });
   });
+}
+
+function testNoRenderedLogoPngUsage() {
+  const navJs = read('nav.js');
+  assert(!navJs.includes('logo.png'), 'nav.js: logo.png must not be referenced');
+
+  HTML_FILES.forEach((file) => {
+    const html = read(file);
+    assert(!/src=['"]logo\.png['"]/i.test(html), `${file}: rendered logo.png reference must be removed`);
+  });
+}
+
+function testSharedTextBrandIsPresent() {
+  const navJs = read('nav.js');
+  const brandMarkup = 'Endless Flow <em>Capital Group</em>';
+  const occurrences = (navJs.match(/Endless Flow <em>Capital Group<\/em>/g) || []).length;
+  assert(occurrences >= 2, 'nav.js: shared nav and footer must render visible text brand');
+  assert(navJs.includes('aria-label="Endless Flow Capital Group"'), 'nav.js: homepage navigation brand must have accessible label');
+  assert(navJs.includes(brandMarkup), 'nav.js: visible text brand markup missing');
+}
+
+function testManifestIconDeclarations() {
+  const manifest = JSON.parse(read('manifest.json'));
+  const icons = Array.isArray(manifest.icons) ? manifest.icons : [];
+  assert(icons.length === 0, 'manifest.json: icons must be empty until approved brand icon assets exist');
 }
 
 function testDuplicateIds() {
@@ -171,6 +197,9 @@ function run() {
     testCanonicalDomainInRobotsAndSitemap,
     testNoindexDirectives,
     testOgImageReferencesAreValid,
+    testNoRenderedLogoPngUsage,
+    testSharedTextBrandIsPresent,
+    testManifestIconDeclarations,
     testNoProhibitedCausalClaimsOnPublicPages,
     testDuplicateIds,
     testAuditLinkResolution
