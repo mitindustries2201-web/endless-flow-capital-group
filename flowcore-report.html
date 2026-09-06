@@ -8,8 +8,9 @@
   <meta property="og:title" content="FlowCore Diagnostic Report" />
   <meta property="og:description" content="Deterministic FlowScale report based on the information provided in your completed audit." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="logo.png" />
+  <meta property="og:url" content="https://www.endlessflowcapitalgroup.com/flowcore-report.html" />
+  <link rel="canonical" href="https://www.endlessflowcapitalgroup.com/flowcore-report.html" />
+  <meta name="robots" content="noindex, follow" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#040714" />
   <link rel="stylesheet" href="styles.css" />
@@ -235,7 +236,7 @@
 
   function renderChain(model) {
     var chain = model.chain;
-    var html = ['<h2>5. Constraint Chain</h2>'];
+    var html = ['<h2>5. Constraint Priority Sequence</h2>'];
     if (!chain.length) {
       html.push('<p class="fr-note">No reliable multi-step constraint chain is available from the current diagnostic.</p>');
     } else {
