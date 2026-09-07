@@ -108,7 +108,7 @@
     <div class="fr-card fr-section fr-optional-cta">
       <h2>Optional: Review This Diagnostic With Endless Flow</h2>
       <p class="fr-note">Diagnosis is separate from any implementation package selection.</p>
-      <a href="contact.html" class="ef-btn-primary">Discuss Your FlowPlan</a>
+      <a href="contact.html" id="frDiscussBtn" class="ef-btn-primary">Discuss Your FlowPlan</a>
     </div>
 
     <div class="fr-disclaimer" id="frFootDisclaimer"></div>
@@ -119,12 +119,14 @@
 
 <script src="flowcore-scoring.js"></script>
 <script src="flowcore-report.js"></script>
+<script src="flowcore-handoff.js"></script>
 <script src="nav.js"></script>
 <script>
 (function () {
   'use strict';
 
   function e(id){ return document.getElementById(id); }
+  var currentModel = null;
 
   function readResult() {
     try {
@@ -368,8 +370,23 @@
   }
 
   function init() {
+    var discussBtn = e('frDiscussBtn');
     e('frPrintBtn').addEventListener('click', function () { window.print(); });
     e('frClearBtn').addEventListener('click', clearData);
+    discussBtn.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      var fallback = 'contact.html';
+      if (!currentModel || !window.FlowcoreHandoff) {
+        window.location.href = fallback;
+        return;
+      }
+      var stored = FlowcoreHandoff.createAndStoreFromReportModel(currentModel);
+      if (stored && stored.ok) {
+        window.location.href = 'contact.html?source=flowcore-report';
+        return;
+      }
+      window.location.href = fallback;
+    });
 
     var payload = readResult();
     var model = FlowcoreReport.buildReportModel(payload);
@@ -382,6 +399,7 @@
 
     e('frEmpty').hidden = true;
     e('frReport').hidden = false;
+    currentModel = model;
     render(model);
   }
 

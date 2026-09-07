@@ -196,6 +196,77 @@ function testAuditLinkResolution() {
   assert(hasResolvableAuditLink, 'No resolvable public audit links found');
 }
 
+function testFlowcoreHandoffScriptsLoaded() {
+  const reportHtml = read('flowcore-report.html');
+  const contactHtml = read('contact.html');
+  assert(reportHtml.includes('src="flowcore-handoff.js"'), 'flowcore-report.html: flowcore-handoff.js must be loaded');
+  assert(contactHtml.includes('src="flowcore-handoff.js"'), 'contact.html: flowcore-handoff.js must be loaded');
+}
+
+function testNoDiagnosticDataInUrls() {
+  const blockedQueryKeys = ['score=', 'stage=', 'constraint=', 'next_step=', 'handoff=', 'diagnostic_'];
+  const files = HTML_FILES.concat(['nav.js']);
+  files.forEach((file) => {
+    const content = read(file).toLowerCase();
+    blockedQueryKeys.forEach((token) => {
+      assert(!content.includes('?' + token), `${file}: diagnostic data must not appear in URL query (${token})`);
+      assert(!content.includes('&' + token), `${file}: diagnostic data must not appear in URL query (${token})`);
+    });
+  });
+}
+
+function testNoUnsupportedOperationalClaims() {
+  const blocked = [
+    'all inquiries are routed through',
+    'automatically received',
+    'reviewed within 24 hours',
+    'guaranteed review',
+    'guaranteed delivery',
+    'automatic package recommendation'
+  ];
+  const files = HTML_FILES.concat(['nav.js']);
+  files.forEach((file) => {
+    const content = read(file).toLowerCase();
+    blocked.forEach((phrase) => {
+      assert(!content.includes(phrase), `${file}: unsupported claim found (${phrase})`);
+    });
+  });
+}
+
+function testPrivacyHandoffLanguageConsistency() {
+  const privacy = read('privacy.html');
+  const privacyPolicy = read('privacy-policy.html');
+  const requiredPhrases = [
+    'remain in browser storage on your device',
+    'limited summary',
+    'self-reported and non-authoritative'
+  ];
+
+  requiredPhrases.forEach((phrase) => {
+    assert(privacy.toLowerCase().includes(phrase), `privacy.html: missing phrase "${phrase}"`);
+    assert(privacyPolicy.toLowerCase().includes(phrase), `privacy-policy.html: missing phrase "${phrase}"`);
+  });
+}
+
+function testLegacyOfferAndLocationRegressionAbsent() {
+  const blocked = [
+    'starter flow bundle',
+    'growth automation bundle',
+    'full ecosystem bundle',
+    '$197 monthly',
+    '$397 monthly',
+    '$797 monthly',
+    'marietta'
+  ];
+  const files = HTML_FILES.concat(['nav.js']);
+  files.forEach((file) => {
+    const content = read(file).toLowerCase();
+    blocked.forEach((token) => {
+      assert(!content.includes(token), `${file}: blocked legacy token found (${token})`);
+    });
+  });
+}
+
 function run() {
   const tests = [
     testLocalReferencesExist,
@@ -208,7 +279,12 @@ function run() {
     testManifestIconDeclarations,
     testNoProhibitedCausalClaimsOnPublicPages,
     testDuplicateIds,
-    testAuditLinkResolution
+    testAuditLinkResolution,
+    testFlowcoreHandoffScriptsLoaded,
+    testNoDiagnosticDataInUrls,
+    testNoUnsupportedOperationalClaims,
+    testPrivacyHandoffLanguageConsistency,
+    testLegacyOfferAndLocationRegressionAbsent
   ];
 
   tests.forEach((fn) => fn());

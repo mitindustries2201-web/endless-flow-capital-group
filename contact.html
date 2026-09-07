@@ -25,6 +25,16 @@
     .ef-audit-nudge { background:rgba(119,215,255,0.05); border:1px solid rgba(119,215,255,0.14); border-radius:18px; padding:22px 22px; }
     .ef-audit-nudge-title { font-size:0.9rem; font-weight:800; color:#eef3ff; margin-bottom:8px; }
     .ef-audit-nudge-text  { font-size:0.84rem; color:#9aa9c9; line-height:1.6; margin-bottom:14px; }
+    .ef-handoff-panel { border:1px solid rgba(119,215,255,0.22); background:rgba(8,13,31,0.72); border-radius:18px; padding:18px; margin-bottom:20px; }
+    .ef-handoff-title { font-size:0.92rem; font-weight:800; color:#eef3ff; margin-bottom:8px; }
+    .ef-handoff-note { font-size:0.82rem; color:#9aa9c9; line-height:1.6; margin-bottom:10px; }
+    .ef-handoff-grid { display:grid; gap:8px; grid-template-columns:repeat(2,minmax(0,1fr)); margin-bottom:12px; }
+    .ef-handoff-kv { border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px; background:rgba(7,17,38,0.45); }
+    .ef-handoff-k { display:block; font-size:0.68rem; text-transform:uppercase; letter-spacing:.08em; color:#77d7ff; margin-bottom:2px; }
+    .ef-handoff-v { display:block; font-size:0.84rem; color:#eaf2ff; line-height:1.4; word-break:break-word; }
+    .ef-handoff-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    .ef-link-btn { background:none; border:none; padding:0; margin:0; color:#77d7ff; font-size:0.82rem; cursor:pointer; text-decoration:underline; }
+    @media(max-width:640px){ .ef-handoff-grid { grid-template-columns:1fr; } }
     .ef-ty-card { background:rgba(8,13,31,0.78); border:1px solid rgba(119,215,255,0.15); border-radius:32px; padding:52px 44px; text-align:center; position:relative; overflow:hidden; backdrop-filter:blur(24px); }
     .ef-ty-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,#77d7ff 35%,#8b5cf6 65%,transparent); }
     @media(max-width:900px){ .ef-contact-grid { grid-template-columns:1fr; } }
@@ -70,6 +80,26 @@
 
             <div style="font-size:1.1rem;font-weight:800;color:#eef3ff;margin-bottom:4px;">Send a Message</div>
             <p style="font-size:0.88rem;color:#9aa9c9;margin-bottom:28px;">Share your implementation question and we&rsquo;ll follow up. For diagnosis-first planning, <a href="audit.html" style="color:#77d7ff;">start with the audit</a>.</p>
+            <div id="efHandoffPanel" class="ef-handoff-panel" hidden>
+              <div class="ef-handoff-title">FlowCore Diagnostic Summary</div>
+              <p class="ef-handoff-note">This summary is self-reported from your on-device diagnostic and is not independently verified.</p>
+              <div class="ef-handoff-grid">
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">FlowScale Score</span><span class="ef-handoff-v" id="efHsScore"></span></div>
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">Maturity Stage</span><span class="ef-handoff-v" id="efHsStage"></span></div>
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">Decision Status</span><span class="ef-handoff-v" id="efHsDecision"></span></div>
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">Primary Constraint</span><span class="ef-handoff-v" id="efHsPrimary"></span></div>
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">Secondary Constraint</span><span class="ef-handoff-v" id="efHsSecondary"></span></div>
+                <div class="ef-handoff-kv"><span class="ef-handoff-k">Next Priority Constraint</span><span class="ef-handoff-v" id="efHsNext"></span></div>
+                <div class="ef-handoff-kv" style="grid-column:1/-1;"><span class="ef-handoff-k">Recommended Next Step</span><span class="ef-handoff-v" id="efHsStep"></span></div>
+              </div>
+              <div class="ef-handoff-actions">
+                <label style="font-size:0.84rem;color:#d8e5ff;display:inline-flex;align-items:center;gap:8px;">
+                  <input type="checkbox" id="efIncludeSummary" />
+                  Include this diagnostic summary with my inquiry.
+                </label>
+                <button type="button" id="efRemoveSummaryBtn" class="ef-link-btn">Remove diagnostic summary</button>
+              </div>
+            </div>
 
             <div class="ef-form-row">
               <div class="ef-field">
@@ -92,11 +122,22 @@
                 <input class="ef-input" type="tel" id="efCPhone" name="phone" placeholder="Optional phone number" />
               </div>
             </div>
+            <div class="ef-form-row">
+              <div class="ef-field">
+                <label class="ef-label" for="efCBusiness">Business Name</label>
+                <input class="ef-input" type="text" id="efCBusiness" name="businessName" placeholder="Optional business name" />
+              </div>
+              <div class="ef-field">
+                <label class="ef-label" for="efCWebsite">Website</label>
+                <input class="ef-input" type="url" id="efCWebsite" name="website" placeholder="https://yourbusiness.com" />
+              </div>
+            </div>
 
             <div class="ef-field">
               <label class="ef-label" for="efCSubject">What can we help with? <span class="ef-req">*</span></label>
               <select class="ef-select" id="efCSubject" name="subject" required>
                 <option value="" disabled selected>Select a topic...</option>
+                <option value="discuss-flowcore-report">Discuss my FlowCore report</option>
                 <option value="package-question">Question about a package</option>
                 <option value="alacarte-question">Question about a specific service</option>
                 <option value="existing-client">Existing client support</option>
@@ -113,6 +154,7 @@
             <button type="submit" class="ef-btn-submit" id="efCSubmitBtn">
               Send Message
             </button>
+            <div id="efDiagnosticHiddenFields"></div>
             <p id="efCError" style="display:none;margin-top:12px;color:#ff9aa2;font-size:0.82rem;line-height:1.5;">
               We couldn&rsquo;t submit your message right now. Please try again or email us using the details on this page.
             </p>
@@ -164,15 +206,85 @@
   <div id="ef-footer-mount"></div>
 </div>
 
+<script src="flowcore-handoff.js"></script>
 <script src="nav.js"></script>
 <script>
+  'use strict';
   var cform  = document.getElementById('efContactForm');
   var cBtn   = document.getElementById('efCSubmitBtn');
   var cState = document.getElementById('efContactFormState');
   var cTy    = document.getElementById('efContactTy');
   var cErr   = document.getElementById('efCError');
+  var cSubject = document.getElementById('efCSubject');
+  var handoffPanel = document.getElementById('efHandoffPanel');
+  var includeSummary = document.getElementById('efIncludeSummary');
+  var removeSummaryBtn = document.getElementById('efRemoveSummaryBtn');
+  var hiddenFieldsMount = document.getElementById('efDiagnosticHiddenFields');
+  var handoffValue = null;
+
+  function q(id){ return document.getElementById(id); }
+
+  function setText(id, value) {
+    var el = q(id);
+    if (el) el.textContent = value || '';
+  }
+
+  function clearDiagnosticHiddenFields() {
+    while (hiddenFieldsMount.firstChild) hiddenFieldsMount.removeChild(hiddenFieldsMount.firstChild);
+  }
+
+  function addHiddenField(name, value) {
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = String(value);
+    input.setAttribute('data-diagnostic-field', '1');
+    hiddenFieldsMount.appendChild(input);
+  }
+
+  function syncDiagnosticHiddenFields() {
+    clearDiagnosticHiddenFields();
+    if (!includeSummary || !includeSummary.checked || !handoffValue || !window.FlowcoreHandoff) return;
+    var fields = FlowcoreHandoff.toContactFieldMap(handoffValue);
+    if (!fields) return;
+    Object.keys(fields).forEach(function (name) {
+      if (fields[name] === '') return;
+      addHiddenField(name, fields[name]);
+    });
+  }
+
+  function removeSummary() {
+    if (window.FlowcoreHandoff) FlowcoreHandoff.clearHandoff();
+    handoffValue = null;
+    if (includeSummary) includeSummary.checked = false;
+    clearDiagnosticHiddenFields();
+    handoffPanel.hidden = true;
+    if (cSubject && cSubject.value === 'discuss-flowcore-report') {
+      cSubject.selectedIndex = 0;
+    }
+  }
+
+  function initHandoffSummary() {
+    if (!window.FlowcoreHandoff) return;
+    var read = FlowcoreHandoff.readValidHandoff();
+    if (!read.ok || !read.value) return;
+    handoffValue = read.value;
+
+    setText('efHsScore', String(handoffValue.flowscale_score) + ' / 100');
+    setText('efHsStage', handoffValue.maturity_stage);
+    setText('efHsDecision', handoffValue.decision_status);
+    setText('efHsPrimary', handoffValue.primary_constraint.code + ' — ' + handoffValue.primary_constraint.label);
+    setText('efHsSecondary', handoffValue.secondary_constraint.code + ' — ' + handoffValue.secondary_constraint.label);
+    setText('efHsNext', handoffValue.next_priority_constraint ? (handoffValue.next_priority_constraint.code + ' — ' + handoffValue.next_priority_constraint.label) : 'Not displayed in this diagnostic.');
+    setText('efHsStep', handoffValue.recommended_next_step.code + ' — ' + handoffValue.recommended_next_step.label);
+
+    handoffPanel.hidden = false;
+    if (cSubject) cSubject.value = 'discuss-flowcore-report';
+  }
 
   cform.addEventListener('input', function(e){ e.target.classList.remove('ef-error'); }, true);
+  includeSummary.addEventListener('change', syncDiagnosticHiddenFields);
+  removeSummaryBtn.addEventListener('click', removeSummary);
 
   cform.addEventListener('submit', function(e){
     e.preventDefault();
@@ -182,21 +294,29 @@
 
     cBtn.disabled = true; cBtn.textContent = 'Sending...';
     cErr.style.display = 'none';
+    syncDiagnosticHiddenFields();
 
     /* Netlify form submit */
     var body = new URLSearchParams(new FormData(cform)).toString();
     fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:body })
       .then(function(res){
         if(!res.ok) throw new Error('submit-failed');
+        if (window.FlowcoreHandoff && handoffValue) {
+          FlowcoreHandoff.clearHandoff();
+          handoffValue = null;
+        }
         cState.style.display = 'none';
         cTy.style.display = 'block';
       })
       .catch(function(){
+        syncDiagnosticHiddenFields();
         cBtn.disabled = false;
         cBtn.textContent = 'Send Message';
         cErr.style.display = 'block';
       });
   });
+
+  initHandoffSummary();
 </script>
 </body>
 </html>
