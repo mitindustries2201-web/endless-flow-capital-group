@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI YouTube Shorts Generator — Endless Flow Capital Group</title>
+  <meta name="description" content="Open-source AI video clipping workflow that turns any long-form YouTube video into ranked, vertical short-form clips with transcripts, scoring, and automatic cropping." />
+  <meta property="og:title" content="AI YouTube Shorts Generator — Endless Flow Capital Group" />
+  <meta property="og:description" content="Self-hosted AI clipping pipeline for creators, agencies, and product teams that want viral-ready shorts without subscription caps or watermarks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.endlessflowcapitalgroup.com/ai-youtube-shorts-generator.html" />
+  <meta property="og:image" content="https://www.endlessflowcapitalgroup.com/og-image.png" />
+  <meta name="theme-color" content="#040714" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-product-hero {
+      padding: 150px 24px 70px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .ef-product-hero-inner {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .ef-product-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      border: 1px solid rgba(119, 215, 255, 0.16);
+      border-radius: 999px;
+      background: rgba(119, 215, 255, 0.06);
+      color: #77d7ff;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+    .ef-product-kicker .ef-badge-dot {
+      width: 7px;
+      height: 7px;
+      min-width: 7px;
+    }
+    .ef-product-title {
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+    .ef-product-sub {
+      color: #9aa9c9;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 640px;
+      margin-bottom: 30px;
+    }
+    .ef-product-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .ef-mini-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: rgba(154, 169, 201, 0.8);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .ef-mini-proof span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ef-mini-proof span::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #77d7ff;
+      box-shadow: 0 0 10px rgba(119, 215, 255, 0.8);
+    }
+    .ef-product-visual {
+      background: rgba(8, 13, 31, 0.72);
+      border: 1px solid rgba(119, 215, 255, 0.14);
+      border-radius: 28px;
+      padding: 26px 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(119, 215, 255, 0.08), 0 0 120px rgba(139, 92, 246, 0.05);
+    }
+    .ef-product-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(119, 215, 255, 0.08) 0%, transparent 62%);
+      pointer-events: none;
+    }
+    .ef-product-screen {
+      position: relative;
+      z-index: 1;
+      background: rgba(4, 7, 20, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      padding: 18px;
+    }
+    .ef-product-screen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      font-size: 0.72rem;
+      color: #9aa9c9;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .ef-product-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .ef-product-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .ef-product-dots span:nth-child(1) { background: #f87171; }
+    .ef-product-dots span:nth-child(2) { background: #fbbf24; }
+    .ef-product-dots span:nth-child(3) { background: #4ade80; }
+    .ef-product-screen-body {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .ef-clip-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 12px;
+      min-height: 164px;
+    }
+    .ef-clip-visual {
+      height: 116px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(119,215,255,0.18), rgba(139,92,246,0.18), rgba(248,210,124,0.18));
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .ef-clip-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(4,7,20,0.1), rgba(4,7,20,0.7));
+    }
+    .ef-clip-visual::after {
+      content: "▶";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.1rem;
+      color: #eef3ff;
+      opacity: 0.9;
+    }
+    .ef-clip-score {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: #9aa9c9;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .ef-clip-score strong { color: #77d7ff; }
+    .ef-product-panel {
+      margin-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 0.72rem;
+      color: rgba(154,169,201,0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .ef-product-highlight {
+      background: rgba(8,13,31,0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 18px 20px;
+      color: #eef3ff;
+      margin-top: 12px;
+    }
+    .ef-product-highlight strong {
+      color: #77d7ff;
+    }
+    .ef-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 20px;
+    }
+    .ef-feature-box {
+      background: rgba(8,13,31,0.7);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 26px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ef-feature-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% -20%, rgba(119,215,255,0.06) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .ef-feature-icon {
+      font-size: 1.7rem;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    .ef-feature-box h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      color: #eef3ff;
+    }
+    .ef-feature-box p {
+      font-size: 0.86rem;
+      color: #9aa9c9;
+      line-height: 1.7;
+    }
+    .ef-code-block {
+      display: grid;
+      grid-template-columns: 1.45fr 0.55fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 8px;
+    }
+    .ef-code-shell {
+      background: rgba(4,7,20,0.9);
+      border: 1px solid rgba(119,215,255,0.12);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(119,215,255,0.06);
+    }
+    .ef-code-head {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ef-code-head span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .ef-code-head span:nth-child(1) { background:#f87171; }
+    .ef-code-head span:nth-child(2) { background:#fbbf24; }
+    .ef-code-head span:nth-child(3) { background:#4ade80; }
+    .ef-code-body {
+      padding: 22px 20px;
+      overflow-x: auto;
+      color: #dfeafc;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+    .ef-side-card {
+      background: rgba(8,13,31,0.65);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 24px 22px;
+    }
+    .ef-side-card h3 {
+      font-size: 1rem;
+      color: #77d7ff;
+      margin-bottom: 14px;
+    }
+    .ef-side-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      color: #9aa9c9;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .ef-side-card li::before {
+      content: "✓";
+      color: #77d7ff;
+      margin-right: 8px;
+    }
+    .ef-steps-wrap {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .ef-step-card {
+      background: rgba(8,13,31,0.72);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 22px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ef-step-card strong {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(119,215,255,0.08);
+      border: 1px solid rgba(119,215,255,0.18);
+      color: #77d7ff;
+      margin-bottom: 18px;
+    }
+    .ef-step-card h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #eef3ff;
+    }
+    .ef-step-card p {
+      font-size: 0.84rem;
+      color: #9aa9c9;
+      line-height: 1.7;
+    }
+    @media (max-width: 980px) {
+      .ef-product-hero-inner,
+      .ef-code-block,
+      .ef-feature-grid,
+      .ef-steps-wrap {
+        grid-template-columns: 1fr;
+      }
+      .ef-feature-grid {
+        display: grid;
+      }
+      .ef-steps-wrap {
+        display: grid;
+      }
+    }
+    @media (max-width: 640px) {
+      .ef-product-hero {
+        padding-top: 128px;
+      }
+      .ef-product-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .ef-mini-proof {
+        letter-spacing: 0.06em;
+      }
+    }
+  </style>
+</head>
+<body class="ef-body">
+  <canvas class="ef-canvas" id="efCanvas"></canvas>
+  <div class="ef-page">
+    <div id="ef-nav-mount"></div>
+
+    <section class="ef-product-hero">
+      <div class="ef-product-hero-inner ef-reveal">
+        <div>
+          <div class="ef-product-kicker"><span class="ef-badge-dot"></span> Open-source AI clipping</div>
+          <h1 class="ef-product-title">AI YouTube Shorts <span class="ef-cyan">Generator</span></h1>
+          <p class="ef-product-sub">
+            Drop in any long-form YouTube URL and get back viral-ready vertical clips in minutes. The workflow identifies the strongest hooks, ranks highlights by virality signals, and auto-crops each segment for TikTok, Reels, and Shorts — without monthly caps or watermarking.
+          </p>
+          <div class="ef-product-actions">
+            <a href="#workflow" class="ef-btn-primary">See the workflow</a>
+            <a href="audit.html" class="ef-btn-secondary">Build this into your stack</a>
+          </div>
+          <div class="ef-mini-proof">
+            <span>Unlimited clips</span>
+            <span>No watermark</span>
+            <span>API + local mode</span>
+          </div>
+        </div>
+
+        <div class="ef-product-visual ef-reveal ef-d1">
+          <div class="ef-product-screen">
+            <div class="ef-product-screen-header">
+              <div class="ef-product-dots"><span></span><span></span><span></span></div>
+              <div>viral pipeline</div>
+            </div>
+
+            <div class="ef-product-screen-body">
+              <div class="ef-clip-card">
+                <div class="ef-clip-visual"></div>
+                <div class="ef-clip-score"><span>Clip 01</span><strong>92</strong></div>
+              </div>
+              <div class="ef-clip-card">
+                <div class="ef-clip-visual"></div>
+                <div class="ef-clip-score"><span>Clip 02</span><strong>88</strong></div>
+              </div>
+              <div class="ef-clip-card">
+                <div class="ef-clip-visual"></div>
+                <div class="ef-clip-score"><span>Clip 03</span><strong>84</strong></div>
+              </div>
+            </div>
+
+            <div class="ef-product-panel">
+              <span>Download</span>
+              <span>Transcribe</span>
+              <span>Rank</span>
+              <span>Crop</span>
+            </div>
+          </div>
+          <div class="ef-product-highlight"><strong>Output:</strong> 9:16 shorts with title, score, hook line, clip URL, and one-sentence reason for why each highlight should perform.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ef-divider" />
+
+    <section class="ef-section">
+      <div class="ef-section-label ef-center">Why teams choose it</div>
+      <h2 class="ef-section-title ef-center ef-reveal">Built for creators, agencies, and developers who want <span class="ef-cyan">viral short-form output</span> without SaaS lock-in.</h2>
+      <p class="ef-section-sub ef-center ef-reveal">It is the open-source alternative to tools like Opus Clip, Klap, and SubMagic — designed to be transparent, full-control, and self-hostable.</p>
+
+      <div class="ef-feature-grid ef-reveal">
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">🎬</div>
+          <h3>YouTube In, Vertical Out</h3>
+          <p>Hand the tool any long-form video and it turns it into ranked 9:16 shorts for TikTok, Reels, and Shorts.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">💸</div>
+          <h3>Unlimited processing</h3>
+          <p>No per-clip credits, no fixed monthly minute caps, and no forced watermarking on the output.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">🧠</div>
+          <h3>Virality-aware ranking</h3>
+          <p>Highlights are scored for hooks, emotional peaks, revelation moments, conflict, and practical value — not just generic “interesting” content.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">⚙️</div>
+          <h3>API or local mode</h3>
+          <p>Use the cloud pipeline for speed, or run fully local with Whisper, ffmpeg, and an LLM provider of your choice.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ef-divider" />
+
+    <section class="ef-section" id="workflow">
+      <div class="ef-section-label">How it works</div>
+      <h2 class="ef-section-title ef-reveal">From long-form video to <span class="ef-cyan">ready-to-post shorts</span></h2>
+      <p class="ef-section-sub ef-reveal">The workflow combines captioning, highlight detection, deduplication, and crop logic into a single path that outputs top-scoring clips.</p>
+
+      <div class="ef-steps-wrap ef-reveal">
+        <div class="ef-step-card">
+          <strong>1</strong>
+          <h3>Download</h3>
+          <p>Pull the source video from YouTube or a local file path and prepare it for analysis.</p>
+        </div>
+        <div class="ef-step-card">
+          <strong>2</strong>
+          <h3>Transcribe</h3>
+          <p>Generate a timestamped transcript via Whisper so the system can identify the key moments.</p>
+        </div>
+        <div class="ef-step-card">
+          <strong>3</strong>
+          <h3>Rank</h3>
+          <p>Use an LLM to score hook strength, opinion spikes, emotional peaks, and practical value.</p>
+        </div>
+        <div class="ef-step-card">
+          <strong>4</strong>
+          <h3>Deduplicate</h3>
+          <p>Collapse overlapping highlights so you keep the strongest clip instead of near-duplicates.</p>
+        </div>
+        <div class="ef-step-card">
+          <strong>5</strong>
+          <h3>Crop</h3>
+          <p>Auto-generate 9:16 vertical shorts with face tracking and motion-aware framing.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ef-divider" />
+
+    <section class="ef-section">
+      <div class="ef-section-label ef-center">Quick start</div>
+      <h2 class="ef-section-title ef-center ef-reveal">Run it locally in a few commands</h2>
+      <div class="ef-code-block ef-reveal">
+        <div class="ef-code-shell">
+          <div class="ef-code-head"><span></span><span></span><span></span></div>
+          <div class="ef-code-body">git clone https://github.com/SamurAIGPT/AI-Youtube-Shorts-Generator.git
+cd AI-Youtube-Shorts-Generator
+python3.10 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python main.py "https://www.youtube.com/watch?v=VIDEO_ID" \
+  --mode api \
+  --num-clips 5 \
+  --aspect-ratio 9:16 \
+  --output-json result.json</div>
+        </div>
+        <div class="ef-side-card">
+          <h3>What you get</h3>
+          <ul>
+            <li>Top virality-ranked clips</li>
+            <li>JSON output for automation</li>
+            <li>CLI + Python library</li>
+            <li>Local or API execution mode</li>
+            <li>Custom aspect ratios</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ef-divider" />
+
+    <section class="ef-section">
+      <div class="ef-section-label ef-center">Why this matters</div>
+      <h2 class="ef-section-title ef-center ef-reveal">A clipper built for <span class="ef-gold">performance</span>, not just convenience.</h2>
+      <p class="ef-section-sub ef-center ef-reveal">The tool is designed around a transparent virality framework: it scores each candidate with a clear reason, keeps the strongest highlights, and produces short-form output that is easy to inspect and iterate on.</p>
+
+      <div class="ef-feature-grid ef-reveal">
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">📊</div>
+          <h3>Scored candidates</h3>
+          <p>Each highlight includes a score, title, hook sentence, and reason explaining why it should work.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">🧩</div>
+          <h3>Chunked long videos</h3>
+          <p>Long-form content is split into overlapping segments so important moments are not missed across boundaries.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">🔎</div>
+          <h3>Smart dedupe</h3>
+          <p>Near-duplicate clips are collapsed by score to keep the highest-performing highlights instead of repetitive output.</p>
+        </div>
+        <div class="ef-feature-box">
+          <div class="ef-feature-icon">🚀</div>
+          <h3>Automation-ready</h3>
+          <p>Outputs are structured for downstream automation, analytics, and custom content pipelines.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="ef-divider" />
+
+    <section class="ef-section" style="padding-bottom: 120px;">
+      <div class="ef-audit-banner ef-reveal">
+        <div class="ef-badge" style="margin: 0 auto 20px;"><span class="ef-badge-dot"></span>Product + automation</div>
+        <h3>Need this built as part of a custom AI content system?<br><span class="ef-cyan">We can turn it into your production workflow.</span></h3>
+        <p>Start with a strategy audit and we’ll map the right architecture for content generation, automation, distribution, and lead capture.</p>
+        <a href="audit.html" class="ef-btn-primary">Start the AI Business Audit</a>
+      </div>
+    </section>
+
+    <div id="ef-footer-mount"></div>
+  </div>
+
+  <script src="nav.js"></script>
+</body>
+</html>
