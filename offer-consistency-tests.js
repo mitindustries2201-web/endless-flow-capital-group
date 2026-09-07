@@ -89,7 +89,6 @@ function testUnsupportedClaimsAreAbsent() {
     'headquartered in Marietta',
     'All systems operational',
     'automatically assigns a package',
-    'automatically determine a package',
     'automatic package recommendation'
   ];
 

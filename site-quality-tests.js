@@ -76,13 +76,19 @@ function testCanonicalDomainInRobotsAndSitemap() {
   const robots = read('robots.txt');
   const sitemap = read('sitemap.xml');
 
-  assert(robots.includes(`${CANONICAL_DOMAIN}/sitemap.xml`), 'robots.txt: canonical sitemap URL is incorrect');
-  assert(!robots.includes('yourdomain.com'), 'robots.txt: placeholder domain found');
+  const robotsMatch = robots.match(/Sitemap:\s*(\S+)/i);
+  assert(robotsMatch, 'robots.txt: sitemap declaration missing');
+  assert(robotsMatch[1] === `${CANONICAL_DOMAIN}/sitemap.xml`, 'robots.txt: canonical sitemap URL is incorrect');
+  assert(!/\byourdomain\.com\b/i.test(robots), 'robots.txt: placeholder domain found');
 
-  assert(sitemap.includes(CANONICAL_DOMAIN), 'sitemap.xml: canonical domain missing');
-  assert(!sitemap.includes('yourdomain.com'), 'sitemap.xml: placeholder domain found');
-  assert(!sitemap.includes(`${CANONICAL_DOMAIN}/flowcore-report.html`), 'sitemap.xml: flowcore-report.html must not be indexed');
-  assert(!sitemap.includes(`${CANONICAL_DOMAIN}/thank-you.html`), 'sitemap.xml: thank-you.html must not be indexed');
+  const locMatches = Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/gi)).map((m) => m[1].trim());
+  assert(locMatches.length > 0, 'sitemap.xml: missing loc entries');
+  locMatches.forEach((loc) => {
+    assert(loc.startsWith(`${CANONICAL_DOMAIN}/`), `sitemap.xml: non-canonical location found ${loc}`);
+  });
+  assert(!/\byourdomain\.com\b/i.test(sitemap), 'sitemap.xml: placeholder domain found');
+  assert(!locMatches.includes(`${CANONICAL_DOMAIN}/flowcore-report.html`), 'sitemap.xml: flowcore-report.html must not be indexed');
+  assert(!locMatches.includes(`${CANONICAL_DOMAIN}/thank-you.html`), 'sitemap.xml: thank-you.html must not be indexed');
 }
 
 function testNoindexDirectives() {
