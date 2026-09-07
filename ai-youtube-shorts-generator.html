@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Video Clipping Application | Endless Flow Capital Group</title>
+  <meta name="description" content="Run a local-first AI Video Clipping Application workflow: upload or import authorized video, generate captioned vertical clips, and download MP4 outputs." />
+  <meta property="og:title" content="AI Video Clipping Application | Endless Flow Capital Group" />
+  <meta property="og:description" content="Process authorized videos into ranked short clips with deterministic selection and downloadable outputs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.endlessflowcapitalgroup.com/ai-youtube-shorts-generator.html" />
+  <link rel="canonical" href="https://www.endlessflowcapitalgroup.com/ai-youtube-shorts-generator.html" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#040714" />
+  <meta name="ef-api-base" content="http://localhost:8000" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ef-clipper-wrap { max-width:1120px; margin:0 auto; padding:132px 20px 80px; }
+    .ef-clipper-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; }
+    .ef-clipper-card { background:rgba(8,13,31,.78); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:20px; }
+    .ef-clipper-label { display:block; font-size:.78rem; color:#77d7ff; text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px; }
+    .ef-clipper-input, .ef-clipper-select { width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(7,17,38,.72); color:#eef3ff; padding:12px; }
+    .ef-clipper-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .ef-clipper-radio-row { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:12px; }
+    .ef-clipper-status { border:1px solid rgba(119,215,255,.18); border-radius:14px; background:rgba(7,17,38,.4); padding:12px; min-height:84px; }
+    .ef-clip-list { display:grid; gap:12px; margin-top:14px; }
+    .ef-clip-item { border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:12px; }
+    .ef-clip-item video { width:100%; border-radius:10px; margin-bottom:10px; }
+    .ef-disclosure { font-size:.82rem; color:#a8bbde; line-height:1.6; }
+    @media (max-width:980px){ .ef-clipper-grid { grid-template-columns:1fr; } .ef-clipper-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="ef-body">
+<canvas class="ef-canvas" id="efCanvas"></canvas>
+<div class="ef-page">
+  <div id="ef-nav-mount"></div>
+  <main class="ef-clipper-wrap">
+    <div class="ef-page-hero" style="padding-top:0;">
+      <div class="ef-badge"><span class="ef-badge-dot"></span>AI Video Clipping Application</div>
+      <h1 class="ef-page-hero-title">Create Vertical Clips From Authorized Video</h1>
+      <p class="ef-page-hero-sub">Upload media or import from supported authorized URLs, transcribe speech, rank candidate segments, and download captioned MP4 clips.</p>
+    </div>
+
+    <div class="ef-clipper-grid">
+      <section class="ef-clipper-card" aria-labelledby="clipperFormTitle">
+        <h2 id="clipperFormTitle" style="font-size:1.2rem;margin-bottom:12px;">Start a Clip Job</h2>
+        <form id="efClipperForm" novalidate>
+          <fieldset style="border:0;padding:0;margin:0 0 12px;">
+            <legend class="ef-clipper-label">Input Mode</legend>
+            <div class="ef-clipper-radio-row">
+              <label><input type="radio" name="sourceMode" value="upload" checked /> Upload File</label>
+              <label><input type="radio" name="sourceMode" value="url" /> Authorized URL</label>
+            </div>
+          </fieldset>
+
+          <div id="uploadModeGroup">
+            <label class="ef-clipper-label" for="efVideoFile">Video File</label>
+            <input class="ef-clipper-input" id="efVideoFile" name="videoFile" type="file" accept="video/mp4,video/quicktime,video/webm,video/x-matroska" />
+          </div>
+
+          <div id="urlModeGroup" hidden>
+            <label class="ef-clipper-label" for="efSourceUrl">Authorized Video URL (supported allowlist domains)</label>
+            <input class="ef-clipper-input" id="efSourceUrl" name="sourceUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." />
+          </div>
+
+          <div class="ef-clipper-row" style="margin-top:12px;">
+            <div>
+              <label class="ef-clipper-label" for="efClipCount">Number of Clips</label>
+              <input class="ef-clipper-input" id="efClipCount" name="clipCount" type="number" min="1" max="5" value="3" required />
+            </div>
+            <div>
+              <label class="ef-clipper-label" for="efClipLength">Clip Length (seconds)</label>
+              <input class="ef-clipper-input" id="efClipLength" name="clipLength" type="number" min="15" max="60" value="30" required />
+            </div>
+            <div>
+              <label class="ef-clipper-label" for="efCaptionStyle">Caption Style</label>
+              <select class="ef-clipper-select" id="efCaptionStyle" name="captionStyle" required>
+                <option value="clean-white">Clean White</option>
+                <option value="high-contrast-yellow">High Contrast Yellow</option>
+                <option value="subtle-cyan">Subtle Cyan</option>
+              </select>
+            </div>
+          </div>
+
+          <label style="display:flex;gap:8px;align-items:flex-start;margin:14px 0;font-size:.86rem;color:#d9e7ff;">
+            <input id="efRightsAffirmed" name="rightsAffirmed" type="checkbox" required />
+            I own this content or have permission to process and repurpose it.
+          </label>
+
+          <button class="ef-btn-primary" type="submit" id="efClipSubmitBtn">Create Clip Job</button>
+          <button class="ef-btn-secondary" type="button" id="efDeleteJobBtn" disabled>Delete Session</button>
+        </form>
+      </section>
+
+      <aside class="ef-clipper-card">
+        <h2 style="font-size:1.1rem;margin-bottom:10px;">Processing Status</h2>
+        <div id="efStatusRegion" class="ef-clipper-status" role="status" aria-live="polite">No job started yet.</div>
+        <div class="ef-disclosure" style="margin-top:12px;">
+          <p>Limits in this MVP are configured by server policy (file size, media duration, and clip ranges).</p>
+          <p>Retention target is up to 24 hours with cleanup and explicit deletion support.</p>
+          <p>Do not submit unauthorized or infringing media.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="ef-clipper-card" style="margin-top:16px;">
+      <h2 style="font-size:1.1rem;margin-bottom:10px;">Completed Clips</h2>
+      <div id="efClipResults" class="ef-clip-list" aria-live="polite"></div>
+    </section>
+  </main>
+  <div id="ef-footer-mount"></div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+(function(){
+  'use strict';
+  var API_BASE = window.EFCG_CLIPPER_API_BASE || (document.querySelector('meta[name="ef-api-base"]') ? document.querySelector('meta[name="ef-api-base"]').getAttribute('content') : 'http://localhost:8000');
+  var form = document.getElementById('efClipperForm');
+  var statusRegion = document.getElementById('efStatusRegion');
+  var results = document.getElementById('efClipResults');
+  var submitBtn = document.getElementById('efClipSubmitBtn');
+  var deleteBtn = document.getElementById('efDeleteJobBtn');
+  var sourceUrl = document.getElementById('efSourceUrl');
+  var videoFile = document.getElementById('efVideoFile');
+  var rights = document.getElementById('efRightsAffirmed');
+  var uploadGroup = document.getElementById('uploadModeGroup');
+  var urlGroup = document.getElementById('urlModeGroup');
+  var pollTimer = null;
+  var currentJobId = null;
+  var pollAttempts = 0;
+  var maxPollAttempts = 80;
+
+  function setStatus(text){ statusRegion.textContent = text; }
+
+  function mode(){ return form.querySelector('input[name="sourceMode"]:checked').value; }
+
+  function renderClips(clips){
+    while(results.firstChild) results.removeChild(results.firstChild);
+    clips.forEach(function(clip){
+      var wrap = document.createElement('article');
+      wrap.className = 'ef-clip-item';
+      var video = document.createElement('video');
+      video.controls = true;
+      video.preload = 'metadata';
+      video.src = API_BASE + '/api/v1/jobs/' + encodeURIComponent(currentJobId) + '/clips/' + encodeURIComponent(clip.clip_id) + '/download';
+      var meta = document.createElement('p');
+      meta.textContent = 'Start: ' + clip.start_seconds + 's · End: ' + clip.end_seconds + 's · Score: ' + clip.ranking_score;
+      var why = document.createElement('p');
+      why.textContent = 'Selected because: ' + clip.rationale;
+      var dl = document.createElement('a');
+      dl.className = 'ef-btn-secondary';
+      dl.href = video.src;
+      dl.textContent = 'Download MP4';
+      dl.setAttribute('download', clip.clip_id + '.mp4');
+      wrap.appendChild(video); wrap.appendChild(meta); wrap.appendChild(why); wrap.appendChild(dl);
+      results.appendChild(wrap);
+    });
+  }
+
+  function stopPolling(){ if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; } }
+
+  function nextDelay(attempt){ return Math.min(8000, 1200 + (attempt * 250)); }
+
+  function pollJob(jobId){
+    if (!jobId) return;
+    pollAttempts += 1;
+    if (pollAttempts > maxPollAttempts) { setStatus('Polling stopped after timeout. Refresh to check job status.'); return; }
+
+    fetch(API_BASE + '/api/v1/jobs/' + encodeURIComponent(jobId))
+      .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+      .then(function(payload){
+        if (!payload.ok) {
+          setStatus('Unable to retrieve job status.');
+          stopPolling();
+          return;
+        }
+        var job = payload.data;
+        setStatus('Status: ' + job.status);
+        if (job.status === 'completed') {
+          fetch(API_BASE + '/api/v1/jobs/' + encodeURIComponent(jobId) + '/clips')
+            .then(function(res){ return res.json(); })
+            .then(function(data){ renderClips(data.clips || []); })
+            .catch(function(){ setStatus('Job completed, but clip metadata could not be loaded.'); });
+          stopPolling();
+          return;
+        }
+        if (job.status === 'failed' || job.status === 'deleted') { stopPolling(); return; }
+        pollTimer = setTimeout(function(){ pollJob(jobId); }, nextDelay(pollAttempts));
+      })
+      .catch(function(){
+        setStatus('Network error while checking job status.');
+        stopPolling();
+      });
+  }
+
+  form.querySelectorAll('input[name="sourceMode"]').forEach(function(radio){
+    radio.addEventListener('change', function(){
+      var m = mode();
+      uploadGroup.hidden = m !== 'upload';
+      urlGroup.hidden = m !== 'url';
+      if (m === 'upload') sourceUrl.value = '';
+      if (m === 'url') videoFile.value = '';
+    });
+  });
+
+  form.addEventListener('submit', function(evt){
+    evt.preventDefault();
+    if (!rights.checked) { setStatus('You must affirm content ownership or permission.'); rights.focus(); return; }
+
+    var m = mode();
+    var clipCount = Number(document.getElementById('efClipCount').value || 0);
+    var clipLength = Number(document.getElementById('efClipLength').value || 0);
+    var captionStyle = document.getElementById('efCaptionStyle').value;
+    if (clipCount < 1 || clipCount > 5 || clipLength < 15 || clipLength > 60) {
+      setStatus('Clip settings are outside allowed ranges.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    setStatus('Submitting job...');
+    stopPolling();
+    pollAttempts = 0;
+
+    var endpoint = m === 'upload' ? '/api/v1/jobs/upload' : '/api/v1/jobs/url';
+    var body = new FormData();
+    body.append('clip_count', String(clipCount));
+    body.append('clip_length_seconds', String(clipLength));
+    body.append('caption_style', captionStyle);
+    body.append('rights_affirmed', 'true');
+
+    if (m === 'upload') {
+      if (!videoFile.files || !videoFile.files[0]) { setStatus('Choose a video file first.'); submitBtn.disabled = false; return; }
+      body.append('file', videoFile.files[0]);
+    } else {
+      if (!sourceUrl.value.trim()) { setStatus('Provide an authorized URL first.'); submitBtn.disabled = false; return; }
+      body.append('source_url', sourceUrl.value.trim());
+    }
+
+    fetch(API_BASE + endpoint, { method: 'POST', body: body })
+      .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+      .then(function(payload){
+        submitBtn.disabled = false;
+        if (!payload.ok) {
+          var msg = payload.data && payload.data.error && payload.data.error.message ? payload.data.error.message : 'Job creation failed.';
+          setStatus(msg);
+          return;
+        }
+        currentJobId = payload.data.job_id;
+        deleteBtn.disabled = false;
+        setStatus('Status: ' + payload.data.status);
+        pollJob(currentJobId);
+      })
+      .catch(function(){ submitBtn.disabled = false; setStatus('Network error while creating job.'); });
+  });
+
+  deleteBtn.addEventListener('click', function(){
+    if (!currentJobId) return;
+    fetch(API_BASE + '/api/v1/jobs/' + encodeURIComponent(currentJobId), { method: 'DELETE' })
+      .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+      .then(function(payload){
+        stopPolling();
+        setStatus(payload.ok ? 'Status: deleted' : 'Unable to delete job.');
+        deleteBtn.disabled = true;
+      })
+      .catch(function(){ setStatus('Network error while deleting job.'); });
+  });
+
+  window.addEventListener('beforeunload', stopPolling);
+})();
+</script>
+</body>
+</html>

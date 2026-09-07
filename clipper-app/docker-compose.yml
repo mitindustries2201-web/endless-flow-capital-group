@@ -1,0 +1,37 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ..
+      dockerfile: clipper-app/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/clipper-app
+      - REDIS_URL=redis://redis:6379/0
+    ports:
+      - "8000:8000"
+    volumes:
+      - /tmp/efcg-clipper-storage:/tmp/efcg-clipper-storage
+    depends_on:
+      - redis
+    command: ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  worker:
+    build:
+      context: ..
+      dockerfile: clipper-app/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/clipper-app
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - /tmp/efcg-clipper-storage:/tmp/efcg-clipper-storage
+    depends_on:
+      - redis
+    command: ["python", "worker/worker.py"]

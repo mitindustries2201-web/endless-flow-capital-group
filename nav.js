@@ -28,6 +28,7 @@
       '  <ul class="ef-nav-links">',
       '    <li><a href="index.html#flowcore-intro">FlowCore</a></li>',
       '    <li><a href="services.html"' + lc('services') + '>Solutions</a></li>',
+      '    <li><a href="ai-youtube-shorts-generator.html"' + lc('ai-youtube-shorts-generator') + '>Clipper App</a></li>',
       '    <li><a href="contact.html"' + lc('contact') + '>Contact</a></li>',
       '    <li><a href="audit.html"' + lc('audit') + '>Audit</a></li>',
       '  </ul>',
@@ -42,6 +43,7 @@
       '  <a href="index.html">Home</a>',
       '  <a href="index.html#flowcore-intro">FlowCore</a>',
       '  <a href="services.html">Solutions</a>',
+      '  <a href="ai-youtube-shorts-generator.html">Clipper App</a>',
       '  <a href="contact.html">Contact</a>',
       '  <a href="audit.html" class="ef-mobile-nav-cta">&#9889; Take the Free AI Business Audit</a>',
       '</nav>'
@@ -64,6 +66,7 @@
       '        <li><a href="services.html#diagnosis-first">Diagnosis-First Path</a></li>',
       '        <li><a href="services.html#implementation-paths">Implementation Options</a></li>',
       '        <li><a href="services.html#focused-services">Focused Services</a></li>',
+      '        <li><a href="services.html#ai-video-clipping-application">AI Video Clipping Application</a></li>',
       '        <li><a href="audit.html">AI Business Audit</a></li>',
       '      </ul></div>',
       '      <div class="ef-footer-col"><h4>Implementation Paths</h4><ul>',

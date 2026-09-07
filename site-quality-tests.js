@@ -267,6 +267,18 @@ function testLegacyOfferAndLocationRegressionAbsent() {
   });
 }
 
+function testClipperPageIntegration() {
+  const page = read('ai-youtube-shorts-generator.html');
+  assert(page.includes('src="nav.js"'), 'ai-youtube-shorts-generator.html: must load nav.js');
+  assert(page.includes('/api/v1/jobs/upload'), 'ai-youtube-shorts-generator.html: upload endpoint missing');
+  assert(page.includes('/api/v1/jobs/url'), 'ai-youtube-shorts-generator.html: url endpoint missing');
+  assert(page.includes('/api/v1/jobs/') && page.includes('/download'), 'ai-youtube-shorts-generator.html: job polling/download endpoints missing');
+  assert(page.includes('id="efRightsAffirmed"'), 'ai-youtube-shorts-generator.html: rights checkbox missing');
+  assert(page.includes('aria-live="polite"') && page.includes('role="status"'), 'ai-youtube-shorts-generator.html: accessible status region missing');
+  assert(page.includes('maxPollAttempts'), 'ai-youtube-shorts-generator.html: bounded polling missing');
+  assert(!page.includes('innerHTML'), 'ai-youtube-shorts-generator.html: untrusted innerHTML usage is not allowed');
+}
+
 function run() {
   const tests = [
     testLocalReferencesExist,
@@ -284,7 +296,8 @@ function run() {
     testNoDiagnosticDataInUrls,
     testNoUnsupportedOperationalClaims,
     testPrivacyHandoffLanguageConsistency,
-    testLegacyOfferAndLocationRegressionAbsent
+    testLegacyOfferAndLocationRegressionAbsent,
+    testClipperPageIntegration
   ];
 
   tests.forEach((fn) => fn());
