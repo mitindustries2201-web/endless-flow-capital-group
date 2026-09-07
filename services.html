@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Services &amp; Packages — Endless Flow Capital Group</title>
-  <meta name="description" content="Three precision-built AI automation packages plus 18+ à la carte services. From starter landing pages to full ecosystem builds powered by FlowCore AI." />
-  <meta property="og:title" content="Services &amp; Packages — Endless Flow Capital Group" />
-  <meta property="og:description" content="Choose your growth system. Starter Flow, Growth Automation, or Full Ecosystem Bundle. Every service starts with the AI Business Audit." />
+  <title>Implementation Paths | Endless Flow Capital Group</title>
+  <meta name="description" content="Explore FlowLaunch, FlowGrow, FlowElite, and Custom Architecture implementation paths. Start with the AI Business Audit, then align scope to your FlowCore diagnostic findings." />
+  <meta property="og:title" content="Implementation Paths | Endless Flow Capital Group" />
+  <meta property="og:description" content="Diagnosis-first implementation paths: FlowLaunch, FlowGrow, FlowElite, and Custom Architecture, plus standalone Flow Sites development." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.endlessflowcapitalgroup.com/services.html" />
   <link rel="canonical" href="https://www.endlessflowcapitalgroup.com/services.html" />
@@ -14,20 +14,26 @@
   <meta name="theme-color" content="#040714" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .ef-pkg-includes { margin-top: 18px; }
-    .ef-pkg-includes-title { font-size: 0.7rem; font-weight: 700; color: #77d7ff; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
-    .ef-ac-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 14px; }
-    .ef-ac-card { background: rgba(8,13,31,0.55); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 18px 20px; transition: all 0.25s ease; text-decoration: none; display: block; }
-    .ef-ac-card:hover { border-color: rgba(119,215,255,0.2); background: rgba(8,13,31,0.75); transform: translateY(-3px); }
-    .ef-ac-name { font-size: 0.9rem; font-weight: 600; color: #eef3ff; margin-bottom: 5px; }
-    .ef-ac-note { font-size: 0.77rem; color: rgba(119,215,255,0.6); }
-    .ef-compare-strip { background: rgba(8,13,31,0.55); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 28px 32px; text-align: center; margin-bottom: 56px; }
-    .ef-compare-strip p { font-size: 0.97rem; color: #9aa9c9; line-height: 1.7; }
-    .ef-compare-strip strong { color: #eef3ff; }
-    .ef-audit-banner { background: rgba(8,13,31,0.72); border: 1px solid rgba(119,215,255,0.15); border-radius: 24px; padding: 40px 32px; text-align: center; position: relative; overflow: hidden; }
-    .ef-audit-banner::before { content:''; position:absolute; top:0;left:0;right:0; height:1px; background:linear-gradient(90deg,transparent,#77d7ff,#8b5cf6,transparent); }
-    .ef-audit-banner h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.01em; }
-    .ef-audit-banner p { font-size: 0.95rem; color: #9aa9c9; line-height: 1.7; max-width: 480px; margin: 0 auto 24px; }
+    .ef-path-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .ef-path-card { background:rgba(8,13,31,.74); border:1px solid rgba(255,255,255,.1); border-radius:22px; padding:22px; }
+    .ef-path-kicker { font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:#77d7ff; margin-bottom:8px; }
+    .ef-path-title { font-size:1.2rem; margin-bottom:6px; }
+    .ef-path-price { color:#77d7ff; font-weight:900; font-size:1.1rem; margin-bottom:2px; }
+    .ef-path-setup { color:#a6b7dc; font-size:.84rem; margin-bottom:12px; }
+    .ef-path-copy { color:#b9c9eb; font-size:.9rem; line-height:1.65; margin-bottom:14px; }
+    .ef-path-fit { color:#dce8ff; font-size:.86rem; line-height:1.6; border-top:1px dashed rgba(255,255,255,.1); padding-top:10px; }
+    .ef-path-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+
+    .ef-focused-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .ef-focused-item { border:1px solid rgba(255,255,255,.1); border-radius:14px; background:rgba(7,17,38,.62); padding:12px; color:#bfd0f2; font-size:.86rem; line-height:1.55; }
+
+    @media (max-width:960px){
+      .ef-path-grid { grid-template-columns:1fr; }
+      .ef-focused-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media (max-width:680px){
+      .ef-focused-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body class="ef-body">
@@ -36,124 +42,121 @@
 
   <div id="ef-nav-mount"></div>
 
-  <!-- PAGE HERO -->
-  <div class="ef-page-hero">
-    <div class="ef-badge ef-reveal"><span class="ef-badge-dot"></span>Endless Flow Systems</div>
+  <div class="ef-page-hero" id="diagnosis-first">
+    <div class="ef-badge ef-reveal"><span class="ef-badge-dot"></span>Diagnosis-First Implementation</div>
     <h1 class="ef-page-hero-title ef-reveal ef-d1">
-      Every Service We Offer.<br>
-      <span class="ef-cyan">One Audit to Find the Right One.</span>
+      Implementation Paths Built<br>
+      <span class="ef-cyan">After FlowScale Diagnosis</span>
     </h1>
     <p class="ef-page-hero-sub ef-reveal ef-d2">
-      Three core ecosystem bundles built for where your business is now &mdash; plus 18+ focused services for founders who need one specific piece. All routes start with the AI Business Audit.
+      Start with the AI Business Audit, review the FlowCore diagnostic report generated on your device, then align implementation path and scope to your actual constraints, systems, complexity, urgency, and requirements.
     </p>
+    <div class="ef-hero-btns ef-reveal ef-d3" style="justify-content:center;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="audit.html" class="ef-btn-primary">Start With the AI Business Audit</a>
+      <a href="flowcore-report.html" class="ef-btn-secondary">See What FlowCore Identifies</a>
+    </div>
   </div>
 
   <hr class="ef-divider" />
 
-  <!-- PACKAGES -->
-  <section class="ef-section" id="packages">
-    <div class="ef-section-label ef-center">Core Packages</div>
-    <h2 class="ef-section-title ef-center ef-reveal">Choose Your <span class="ef-cyan">Growth System</span></h2>
-    <p class="ef-section-sub ef-center ef-reveal">Three precision-built packages designed for your business stage. Every CTA routes through the AI Business Audit to confirm the right fit before we build.</p>
+  <section class="ef-section" id="implementation-paths">
+    <div class="ef-section-label ef-center">Implementation Paths</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Current Public Implementation Structure</h2>
+    <p class="ef-section-sub ef-center ef-reveal">FlowScale does not automatically assign a package. Final scope depends on diagnostic findings.</p>
 
-    <div class="ef-compare-strip ef-reveal">
-      <p><strong>Not sure which package fits?</strong> Start with the AI Business Audit &mdash; we&rsquo;ll review your stage, your bottlenecks, and your goals, then recommend the exact right package or service. No guesswork, no sales pressure.</p>
+    <div class="ef-path-grid">
+      <article class="ef-path-card ef-reveal" id="flowlaunch">
+        <div class="ef-path-kicker">FlowLaunch</div>
+        <h3 class="ef-path-title">Foundational Implementation</h3>
+        <div class="ef-path-price">$299 per month</div>
+        <div class="ef-path-setup">+ $500 setup</div>
+        <p class="ef-path-copy">Designed for early-stage flow stabilization when core operating systems need foundational structure before additional volume.</p>
+        <p class="ef-path-fit"><strong>Appropriate for:</strong> businesses addressing initial process stability and basic execution reliability. <br><strong>Scope note:</strong> implementation details are finalized after diagnostic findings.</p>
+        <div class="ef-path-actions"><a href="audit.html" class="ef-btn-glass">Explore This Implementation Path</a></div>
+      </article>
+
+      <article class="ef-path-card ef-reveal ef-d1" id="flowgrow">
+        <div class="ef-path-kicker">FlowGrow</div>
+        <h3 class="ef-path-title">Interconnected Revenue Implementation</h3>
+        <div class="ef-path-price">$549 per month</div>
+        <div class="ef-path-setup">+ $750 setup</div>
+        <p class="ef-path-copy">Interconnected revenue automation, stronger workflows, and reporting visibility for operators moving beyond foundational execution.</p>
+        <p class="ef-path-fit"><strong>Appropriate for:</strong> businesses needing stronger operating coordination across acquisition, conversion, and delivery. <br><strong>Scope note:</strong> implementation depth is tailored after diagnostic review.</p>
+        <div class="ef-path-actions"><a href="audit.html" class="ef-btn-glass">Explore This Implementation Path</a></div>
+      </article>
+
+      <article class="ef-path-card ef-reveal ef-d2" id="flowelite">
+        <div class="ef-path-kicker">FlowElite</div>
+        <h3 class="ef-path-title">Advanced Orchestration Implementation</h3>
+        <div class="ef-path-price">$899 per month</div>
+        <div class="ef-path-setup">+ $1,000 setup</div>
+        <p class="ef-path-copy">Advanced AI, orchestration, and system architecture for complex operations and scale readiness where broader coordination is required.</p>
+        <p class="ef-path-fit"><strong>Appropriate for:</strong> organizations with higher operating complexity and cross-system requirements. <br><strong>Scope note:</strong> final implementation scope depends on diagnosed constraints and requirements.</p>
+        <div class="ef-path-actions"><a href="audit.html" class="ef-btn-grad">Discuss My FlowPlan</a></div>
+      </article>
+
+      <article class="ef-path-card ef-reveal ef-d3" id="custom-architecture">
+        <div class="ef-path-kicker">Custom Architecture</div>
+        <h3 class="ef-path-title">Scoped Implementation</h3>
+        <div class="ef-path-price">Scoped after diagnosis</div>
+        <div class="ef-path-setup">For nonstandard implementation requirements</div>
+        <p class="ef-path-copy">Built for nonstandard complexity, specialized integrations, or expanded implementation requirements that need custom sequencing.</p>
+        <p class="ef-path-fit"><strong>Appropriate for:</strong> businesses with unique operational structures or requirements outside standard implementation paths. <br><strong>Scope note:</strong> timeline and pricing are set from diagnostic findings.</p>
+        <div class="ef-path-actions"><a href="audit.html" class="ef-btn-glass">Explore This Implementation Path</a></div>
+      </article>
     </div>
 
-    <div class="ef-pkg-grid">
-
-      <div class="ef-pkg-card ef-reveal">
-        <div class="ef-pkg-pill ef-pill-cyan">Starter</div>
-        <div class="ef-pkg-name">Starter Flow Bundle</div>
-        <div class="ef-pkg-price">$497 <span style="font-size:1rem;font-weight:600;">setup</span></div>
-        <div class="ef-pkg-price-note">+ $197 / month management</div>
-        <p class="ef-pkg-desc">For businesses that need a starter website or landing page, lead capture, basic CRM pipeline, booking connection, and basic follow-up automation.</p>
-        <div class="ef-pkg-includes">
-          <div class="ef-pkg-includes-title">What&rsquo;s Included</div>
-          <ul class="ef-pkg-list">
-            <li>Starter website or landing page (up to 5 sections)</li>
-            <li>Lead capture form connected to CRM</li>
-            <li>CRM pipeline setup (up to 5 stages)</li>
-            <li>Booking calendar connection</li>
-            <li>3 follow-up automation messages (email or SMS)</li>
-            <li>Contact tagging &amp; organization</li>
-            <li>Basic reporting dashboard setup</li>
-          </ul>
-        </div>
-        <a href="audit.html" class="ef-pkg-btn ef-btn-glass">Start My Starter Flow &rarr;</a>
-      </div>
-
-      <div class="ef-pkg-card ef-featured ef-reveal ef-d1">
-        <div class="ef-pkg-pill ef-pill-gold">&#11088; Best Value</div>
-        <div class="ef-pkg-name">Growth Automation Bundle</div>
-        <div class="ef-pkg-price">$997 <span style="font-size:1rem;font-weight:600;">setup</span></div>
-        <div class="ef-pkg-price-note">+ $397 / month management</div>
-        <p class="ef-pkg-desc">For businesses ready to automate lead follow-up, booking, CRM, customer journeys, missed-call/text-back, AI chat routing, onboarding, and review requests.</p>
-        <div class="ef-pkg-includes">
-          <div class="ef-pkg-includes-title">Everything in Starter, plus</div>
-          <ul class="ef-pkg-list">
-            <li>Full CRM buildout (multiple pipelines)</li>
-            <li>Missed-call text-back automation</li>
-            <li>AI chat routing widget</li>
-            <li>Booking system + confirmation &amp; reminder flows</li>
-            <li>Customer journey automation (7+ step sequences)</li>
-            <li>Review request automation</li>
-            <li>Client onboarding workflow</li>
-            <li>Monthly management support</li>
-          </ul>
-        </div>
-        <a href="audit.html" class="ef-pkg-btn ef-btn-grad">Build My Growth System &rarr;</a>
-      </div>
-
-      <div class="ef-pkg-card ef-reveal ef-d2">
-        <div class="ef-pkg-pill ef-pill-violet">&#128293; Most Powerful</div>
-        <div class="ef-pkg-name">Full Ecosystem Bundle</div>
-        <div class="ef-pkg-price">$1,997 <span style="font-size:1rem;font-weight:600;">setup</span></div>
-        <div class="ef-pkg-price-note">+ $797 / month management</div>
-        <p class="ef-pkg-desc">The complete business operating system: website/funnel ecosystem, FlowCore AI routing, CRM, forms, surveys, booking calendars, email/SMS automation, sales pipeline, onboarding, review generation, and more.</p>
-        <div class="ef-pkg-includes">
-          <div class="ef-pkg-includes-title">Everything in Growth, plus</div>
-          <ul class="ef-pkg-list">
-            <li>Full website + funnel ecosystem (5+ pages)</li>
-            <li>FlowCore AI routing integration</li>
-            <li>Forms &amp; surveys buildout</li>
-            <li>Email + SMS automation (15+ step sequences)</li>
-            <li>Sales pipeline management</li>
-            <li>Review generation + reputation dashboard</li>
-            <li>Inbound message routing (all channels)</li>
-            <li>Documentation + video walkthrough</li>
-            <li>Priority support + monthly strategy check-in</li>
-          </ul>
-        </div>
-        <a href="audit.html" class="ef-pkg-btn ef-btn-glass">Build My Full Ecosystem &rarr;</a>
-      </div>
-
+    <div class="ef-card ef-reveal" style="margin-top:16px;">
+      <p style="color:#c9d8f7;line-height:1.8;margin:0;">AI Business Audit → FlowScale Diagnosis → FlowCore Diagnostic Report → FlowPlan → Optional Endless Flow Implementation. Implementation fit considers diagnosed constraint, current systems, complexity, scope, urgency, and implementation requirements.</p>
     </div>
   </section>
 
   <hr class="ef-divider" />
 
-  <!-- A LA CARTE -->
-  <section class="ef-section">
-    <div class="ef-section-label ef-center">&Agrave; La Carte Services</div>
-    <h2 class="ef-section-title ef-center ef-reveal">Need One <span class="ef-gold">Specific Piece?</span></h2>
-    <p class="ef-section-sub ef-center ef-reveal">Already have a partial system and need a precision fix? Choose a focused service. Every route starts with the audit so we know exactly what you have and what you need.</p>
-    <div class="ef-ac-grid" id="efAcGrid"></div>
-    <div style="text-align:center;margin-top:48px;" class="ef-reveal">
-      <p style="color:#9aa9c9;font-size:0.93rem;margin-bottom:18px;">Not sure which service fits? The audit will map it for you.</p>
-      <a href="audit.html" class="ef-btn-primary">&#9889; Take the Free AI Business Audit</a>
+  <section class="ef-section" id="flow-sites">
+    <div class="ef-section-label ef-center">Flow Sites</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Flow Sites — Custom Website Development</h2>
+    <p class="ef-section-sub ef-center ef-reveal">Starting at approximately $2,500</p>
+
+    <div class="ef-card ef-reveal ef-d1" style="max-width:900px;margin:0 auto;">
+      <p style="color:#bfd0f2;line-height:1.8;margin-bottom:12px;">Flow Sites is for clients primarily seeking standalone custom website development. It is distinct from FlowLaunch, which is a managed foundational business-system implementation path.</p>
+      <p style="color:#bfd0f2;line-height:1.8;margin:0;">Final website scope depends on project complexity, required functionality, and implementation requirements.</p>
+      <div class="ef-path-actions" style="margin-top:16px;"><a href="audit.html" class="ef-btn-primary">Start With the AI Business Audit</a></div>
     </div>
   </section>
 
   <hr class="ef-divider" />
 
-  <!-- FINAL CTA BANNER -->
-  <section class="ef-section">
-    <div class="ef-audit-banner ef-reveal">
-      <div class="ef-badge" style="margin:0 auto 20px;"><span class="ef-badge-dot"></span>Free &middot; No Obligation &middot; 24-Hour Review</div>
-      <h3>Not Sure Where to Start?<br><span class="ef-cyan">That&rsquo;s Exactly What the Audit Is For.</span></h3>
-      <p>Tell us your business stage, your bottlenecks, and your goals. We&rsquo;ll review everything and send you a precise recommendation — package, service, or both.</p>
-      <a href="audit.html" class="ef-btn-primary">&#9889; Take the Free AI Business Audit</a>
+  <section class="ef-section" id="focused-services">
+    <div class="ef-section-label ef-center">Focused Services</div>
+    <h2 class="ef-section-title ef-center ef-reveal">Targeted System Improvements</h2>
+    <p class="ef-section-sub ef-center ef-reveal">If you need focused support in a specific area, we align scope after diagnosis rather than forcing fixed-template bundles.</p>
+
+    <div class="ef-focused-grid ef-reveal ef-d1">
+      <div class="ef-focused-item">Lead capture and intake workflow improvements</div>
+      <div class="ef-focused-item">Follow-up and conversion workflow stabilization</div>
+      <div class="ef-focused-item">Delivery consistency and quality-control process work</div>
+      <div class="ef-focused-item">Centralized data and process documentation implementation</div>
+      <div class="ef-focused-item">Operational reporting and KPI visibility support</div>
+      <div class="ef-focused-item">Constraint-repair sequencing for 30/60/90 FlowPlan execution</div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;" class="ef-reveal">
+      <a href="audit.html" class="ef-btn-secondary">See What FlowCore Identifies</a>
+    </div>
+  </section>
+
+  <hr class="ef-divider" />
+
+  <section class="ef-section" id="final-cta">
+    <div class="ef-card ef-reveal" style="max-width:920px;margin:0 auto;text-align:center;">
+      <div class="ef-badge" style="margin:0 auto 18px;"><span class="ef-badge-dot"></span>Diagnosis Before Implementation</div>
+      <h3 style="font-size:1.6rem;margin-bottom:12px;">Choose the Right Path After the Diagnostic</h3>
+      <p style="color:#bfd0f2;line-height:1.8;margin-bottom:20px;">Start with the AI Business Audit, review your on-device FlowCore report, and then discuss the implementation path that matches your actual operating needs.</p>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+        <a href="audit.html" class="ef-btn-primary">Start With the AI Business Audit</a>
+        <a href="contact.html" class="ef-btn-secondary">Discuss My FlowPlan</a>
+      </div>
     </div>
   </section>
 
@@ -161,36 +164,5 @@
 </div>
 
 <script src="nav.js"></script>
-<script>
-  var svcs = [
-    {n:'Business Foundation Setup',  t:'One-time setup'},
-    {n:'LLC / EIN Guidance',          t:'One-time consult'},
-    {n:'Influencer Link Hub',         t:'Setup + optional management'},
-    {n:'Landing Page Build',          t:'One-time build'},
-    {n:'CRM Pipeline Setup',          t:'One-time setup'},
-    {n:'Booking Calendar Setup',      t:'One-time setup'},
-    {n:'Lead Capture Form / Survey',  t:'One-time build'},
-    {n:'AI Chat / Widget Setup',      t:'Setup + optional monthly'},
-    {n:'Email / SMS Follow-Up',       t:'Setup + optional monthly'},
-    {n:'Missed-Call Text-Back',       t:'One-time setup'},
-    {n:'Review Request Automation',   t:'Setup + optional monthly'},
-    {n:'Product / Checkout Setup',    t:'One-time build'},
-    {n:'Store / Product Page Setup',  t:'One-time build'},
-    {n:'Reactivation Campaign',       t:'One-time campaign'},
-    {n:'Workflow Repair / Audit',     t:'One-time session'},
-    {n:'Client Onboarding System',    t:'One-time build'},
-    {n:'Mini Course / Resource Hub',  t:'Custom quote'},
-    {n:'Social Media Lead Routing',   t:'Setup + optional monthly'}
-  ];
-  var g = document.getElementById('efAcGrid');
-  svcs.forEach(function(s){
-    var a = document.createElement('a');
-    a.className='ef-ac-card'; a.href='audit.html';
-    a.innerHTML='<div class="ef-ac-name">'+s.n+'</div><div class="ef-ac-note">'+s.t+' &nbsp;&middot;&nbsp; Start with audit &rarr;</div>';
-    g.appendChild(a);
-  });
-</script>
 </body>
 </html>
-
-    

@@ -206,7 +206,7 @@ F. `EXPANSION PLANNING`
 - only when Expansion Ready eligibility is true.
 
 Clarification-level issues are displayed separately and do not override REPAIR FIRST when a critical operating blocker exists, unless rule A applies.
-  
+
 Self-reported evidence alone does not trigger `VALIDATE DATA` in rule C.
 Fully completed self-reported audits can still produce FlowScale diagnosis, SCALE/HOLD decision, and FlowPlan while decision status remains `PROVISIONAL`.
 
